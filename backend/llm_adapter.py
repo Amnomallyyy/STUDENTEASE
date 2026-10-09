@@ -11,13 +11,18 @@ Provider switch (env vars, all optional):
     OPENAI_API_KEY / OPENAI_MODEL / OPENAI_EMBED_MODEL
     OLLAMA_HOST / OLLAMA_MODEL
     EMBED_MODEL      local model name (default all-MiniLM-L6-v2, 384-dim)
+    LLM_CACHE_PATH   JSON file of recorded complete_json replies, {"llm": {sha256(schema + prompt): result}};
+                     a hit is returned without calling a provider (offline demo insurance)
+    LLM_CACHE_RECORD set to 1 to add every successful complete_json reply to LLM_CACHE_PATH
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
 from functools import lru_cache
+from pathlib import Path
 from typing import Any, Callable, TypeVar
 
 from pydantic import BaseModel, Field, ValidationError
@@ -56,6 +61,11 @@ def complete_json(
     if call is None:
         raise LLMError(f"Unknown LLM_PROVIDER '{provider}'. Use one of: {', '.join(_PROVIDERS)}.")
 
+    cache_key = hashlib.sha256(f"{schema.__name__}\n{prompt}".encode("utf-8")).hexdigest()
+    cached = _cache_read(cache_key)
+    if cached is not None:
+        return schema.model_validate(cached)
+
     json_schema = schema.model_json_schema()
     feedback = ""
     last_error: Exception | None = None
@@ -63,11 +73,43 @@ def complete_json(
         raw = call(prompt + feedback, json_schema, schema.__name__, system, temperature, max_tokens)
         try:
             data = raw if isinstance(raw, dict) else json.loads(raw)
-            return schema.model_validate(data)
+            result = schema.model_validate(data)
         except (ValidationError, json.JSONDecodeError) as exc:
             last_error = exc
             feedback = f"\n\nYour previous reply was invalid ({exc}). Reply again with JSON that matches the schema exactly."
+            continue
+        _cache_write(cache_key, result)
+        return result
     raise LLMError(f"No schema-valid reply from {provider} after {retries + 1} attempts: {last_error}") from last_error
+
+
+def _cache_read(key: str) -> dict[str, Any] | None:
+    """A recorded reply from LLM_CACHE_PATH, or None (unset, missing file, bad JSON, or unknown key)."""
+    path = os.getenv("LLM_CACHE_PATH")
+    if not path or not Path(path).is_file():
+        return None
+    try:
+        entry = json.loads(Path(path).read_text(encoding="utf-8")).get("llm", {}).get(key)
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return None
+    return entry if isinstance(entry, dict) else None
+
+
+def _cache_write(key: str, result: BaseModel) -> None:
+    """With LLM_CACHE_RECORD=1, store the reply under llm[key], keeping the file's other top-level keys."""
+    path = os.getenv("LLM_CACHE_PATH")
+    if not path or os.getenv("LLM_CACHE_RECORD") != "1":
+        return
+    file = Path(path)
+    store: dict[str, Any] = {}
+    if file.is_file():
+        try:
+            store = json.loads(file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            store = {}
+    store.setdefault("llm", {})[key] = result.model_dump(mode="json")
+    file.parent.mkdir(parents=True, exist_ok=True)
+    file.write_text(json.dumps(store, indent=1), encoding="utf-8")
 
 
 def _anthropic(prompt, json_schema, name, system, temperature, max_tokens) -> dict[str, Any]:

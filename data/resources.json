@@ -1,0 +1,2080 @@
+{
+  "Python": [
+    {
+      "title": "CS50's Introduction to Programming with Python",
+      "url": "https://cs50.harvard.edu/python/",
+      "hours": 60
+    },
+    {
+      "title": "Kaggle Learn: Python",
+      "url": "https://www.kaggle.com/learn/python",
+      "hours": 5
+    },
+    {
+      "title": "The Python Tutorial (official docs)",
+      "url": "https://docs.python.org/3/tutorial/",
+      "hours": 10
+    }
+  ],
+  "SQL": [
+    {
+      "title": "Kaggle Learn: Intro to SQL",
+      "url": "https://www.kaggle.com/learn/intro-to-sql",
+      "hours": 4
+    },
+    {
+      "title": "CS50's Introduction to Databases with SQL",
+      "url": "https://cs50.harvard.edu/sql/",
+      "hours": 40
+    },
+    {
+      "title": "Khan Academy: Intro to SQL",
+      "url": "https://www.khanacademy.org/computing/computer-programming/sql",
+      "hours": 6
+    }
+  ],
+  "JavaScript": [
+    {
+      "title": "freeCodeCamp: JavaScript Algorithms and Data Structures",
+      "url": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/",
+      "hours": 60
+    },
+    {
+      "title": "The Odin Project: JavaScript",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript",
+      "hours": 80
+    }
+  ],
+  "TypeScript": [
+    {
+      "title": "The TypeScript Handbook (official docs)",
+      "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+      "hours": 8
+    }
+  ],
+  "Java": [
+    {
+      "title": "The Java Tutorials (official docs)",
+      "url": "https://docs.oracle.com/javase/tutorial/",
+      "hours": 30
+    },
+    {
+      "title": "MIT OCW 6.092 Introduction to Programming in Java",
+      "url": "https://ocw.mit.edu/courses/6-092-introduction-to-programming-in-java-january-iap-2010/",
+      "hours": 20
+    }
+  ],
+  "C": [
+    {
+      "title": "CS50x: Introduction to Computer Science (weeks 1-5 are in C)",
+      "url": "https://cs50.harvard.edu/x/",
+      "hours": 60
+    }
+  ],
+  "C++": [
+    {
+      "title": "MIT OCW 6.096 Introduction to C++",
+      "url": "https://ocw.mit.edu/courses/6-096-introduction-to-c-january-iap-2011/",
+      "hours": 20
+    },
+    {
+      "title": "Standard C++ Foundation: Get Started",
+      "url": "https://isocpp.org/get-started",
+      "hours": 4
+    }
+  ],
+  "C#": [
+    {
+      "title": "freeCodeCamp: Foundational C# with Microsoft",
+      "url": "https://www.freecodecamp.org/learn/foundational-c-sharp-with-microsoft/",
+      "hours": 35
+    },
+    {
+      "title": "C# documentation (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/",
+      "hours": 10
+    }
+  ],
+  "Go": [
+    {
+      "title": "A Tour of Go (official)",
+      "url": "https://go.dev/tour/",
+      "hours": 6
+    },
+    {
+      "title": "Go documentation",
+      "url": "https://go.dev/doc/",
+      "hours": 8
+    }
+  ],
+  "Kotlin": [
+    {
+      "title": "Kotlin documentation (official)",
+      "url": "https://kotlinlang.org/docs/home.html",
+      "hours": 10
+    },
+    {
+      "title": "Android Basics with Compose (official course)",
+      "url": "https://developer.android.com/courses/android-basics-compose/course",
+      "hours": 40
+    }
+  ],
+  "Swift": [
+    {
+      "title": "The Swift Programming Language (official book)",
+      "url": "https://docs.swift.org/swift-book/",
+      "hours": 15
+    },
+    {
+      "title": "SwiftUI Tutorials (official)",
+      "url": "https://developer.apple.com/tutorials/swiftui",
+      "hours": 10
+    }
+  ],
+  "Dart": [
+    {
+      "title": "Dart language documentation (official)",
+      "url": "https://dart.dev/guides",
+      "hours": 8
+    }
+  ],
+  "R": [
+    {
+      "title": "CS50's Introduction to Programming with R",
+      "url": "https://cs50.harvard.edu/r/",
+      "hours": 40
+    },
+    {
+      "title": "An Introduction to R (official manual)",
+      "url": "https://cran.r-project.org/doc/manuals/r-release/R-intro.html",
+      "hours": 8
+    }
+  ],
+  "Bash": [
+    {
+      "title": "freeCodeCamp: Relational Database (Bash and Linux labs)",
+      "url": "https://www.freecodecamp.org/learn/relational-database/",
+      "hours": 30
+    },
+    {
+      "title": "GNU Bash Reference Manual",
+      "url": "https://www.gnu.org/software/bash/manual/",
+      "hours": 8
+    }
+  ],
+  "HTML": [
+    {
+      "title": "freeCodeCamp: Responsive Web Design",
+      "url": "https://www.freecodecamp.org/learn/responsive-web-design/",
+      "hours": 50
+    },
+    {
+      "title": "The Odin Project: Foundations",
+      "url": "https://www.theodinproject.com/paths/foundations/courses/foundations",
+      "hours": 40
+    }
+  ],
+  "CSS": [
+    {
+      "title": "freeCodeCamp: Responsive Web Design",
+      "url": "https://www.freecodecamp.org/learn/responsive-web-design/",
+      "hours": 50
+    },
+    {
+      "title": "The Odin Project: Intermediate HTML and CSS",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/intermediate-html-and-css",
+      "hours": 25
+    }
+  ],
+  "PowerShell": [
+    {
+      "title": "PowerShell documentation (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/powershell/",
+      "hours": 8
+    }
+  ],
+  "DAX": [
+    {
+      "title": "DAX reference (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/dax/",
+      "hours": 8
+    }
+  ],
+  "Excel": [
+    {
+      "title": "Excel video training (Microsoft Support)",
+      "url": "https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb",
+      "hours": 8
+    },
+    {
+      "title": "Microsoft Learn training",
+      "url": "https://learn.microsoft.com/en-us/training/",
+      "hours": 6
+    }
+  ],
+  "Tableau": [
+    {
+      "title": "Tableau free training videos (official)",
+      "url": "https://www.tableau.com/learn/training",
+      "hours": 10
+    },
+    {
+      "title": "Tableau Desktop help (official docs)",
+      "url": "https://help.tableau.com/current/pro/desktop/en-us/default.htm",
+      "hours": 6
+    }
+  ],
+  "Power BI": [
+    {
+      "title": "Power BI learning paths (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi",
+      "hours": 20
+    }
+  ],
+  "Looker Studio": [
+    {
+      "title": "Looker Studio Help (official)",
+      "url": "https://support.google.com/looker-studio/",
+      "hours": 4
+    }
+  ],
+  "Git": [
+    {
+      "title": "Pro Git book (official)",
+      "url": "https://git-scm.com/book/en/v2",
+      "hours": 12
+    },
+    {
+      "title": "Introduction to Git (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+      "hours": 1
+    }
+  ],
+  "Docker": [
+    {
+      "title": "Docker: Get started (official docs)",
+      "url": "https://docs.docker.com/get-started/",
+      "hours": 6
+    },
+    {
+      "title": "Introduction to Docker containers (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-docker-containers/",
+      "hours": 1
+    }
+  ],
+  "Kubernetes": [
+    {
+      "title": "Kubernetes Basics tutorial (official docs)",
+      "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/",
+      "hours": 6
+    },
+    {
+      "title": "Introduction to Kubernetes (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-kubernetes/",
+      "hours": 1
+    }
+  ],
+  "AWS": [
+    {
+      "title": "AWS Cloud Practitioner Essentials (AWS Skill Builder, free)",
+      "url": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials",
+      "hours": 6
+    },
+    {
+      "title": "AWS Skill Builder",
+      "url": "https://skillbuilder.aws/",
+      "hours": 10
+    }
+  ],
+  "Azure": [
+    {
+      "title": "Azure Fundamentals: Describe cloud concepts (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/paths/az-900-describe-cloud-concepts/",
+      "hours": 2
+    },
+    {
+      "title": "Azure training (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/azure/",
+      "hours": 10
+    }
+  ],
+  "Google Cloud": [
+    {
+      "title": "Google Cloud documentation",
+      "url": "https://cloud.google.com/docs",
+      "hours": 8
+    }
+  ],
+  "Jupyter": [
+    {
+      "title": "Project Jupyter documentation (official)",
+      "url": "https://docs.jupyter.org/en/latest/",
+      "hours": 3
+    },
+    {
+      "title": "freeCodeCamp: Data Analysis with Python",
+      "url": "https://www.freecodecamp.org/learn/data-analysis-with-python/",
+      "hours": 30
+    }
+  ],
+  "Jira": [
+    {
+      "title": "Jira Software guides (official)",
+      "url": "https://www.atlassian.com/software/jira/guides",
+      "hours": 3
+    }
+  ],
+  "Confluence": [
+    {
+      "title": "Confluence Cloud documentation (official)",
+      "url": "https://support.atlassian.com/confluence-cloud/",
+      "hours": 3
+    }
+  ],
+  "Trello": [
+    {
+      "title": "Trello guide (official)",
+      "url": "https://trello.com/guide",
+      "hours": 2
+    }
+  ],
+  "Linux": [
+    {
+      "title": "The Linux command line for beginners (Ubuntu docs)",
+      "url": "https://ubuntu.com/tutorials/command-line-for-beginners",
+      "hours": 3
+    },
+    {
+      "title": "freeCodeCamp: Relational Database (Bash and Linux labs)",
+      "url": "https://www.freecodecamp.org/learn/relational-database/",
+      "hours": 30
+    }
+  ],
+  "Terraform": [
+    {
+      "title": "Terraform tutorials (official)",
+      "url": "https://developer.hashicorp.com/terraform/tutorials",
+      "hours": 10
+    }
+  ],
+  "Ansible": [
+    {
+      "title": "Getting started with Ansible (official docs)",
+      "url": "https://docs.ansible.com/ansible/latest/getting_started/index.html",
+      "hours": 4
+    }
+  ],
+  "Jenkins": [
+    {
+      "title": "Jenkins tutorials (official docs)",
+      "url": "https://www.jenkins.io/doc/tutorials/",
+      "hours": 6
+    }
+  ],
+  "GitHub Actions": [
+    {
+      "title": "GitHub Actions documentation",
+      "url": "https://docs.github.com/en/actions",
+      "hours": 6
+    }
+  ],
+  "Postman": [
+    {
+      "title": "Postman Learning Center (official docs)",
+      "url": "https://learning.postman.com/docs/",
+      "hours": 5
+    }
+  ],
+  "Selenium": [
+    {
+      "title": "Selenium documentation (official)",
+      "url": "https://www.selenium.dev/documentation/",
+      "hours": 8
+    }
+  ],
+  "Figma": [
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "Adobe XD": [
+    {
+      "title": "Adobe XD help and tutorials (official)",
+      "url": "https://helpx.adobe.com/xd/",
+      "hours": 4
+    }
+  ],
+  "Adobe Photoshop": [
+    {
+      "title": "Photoshop tutorials (official)",
+      "url": "https://helpx.adobe.com/photoshop/tutorials.html",
+      "hours": 8
+    }
+  ],
+  "Canva": [
+    {
+      "title": "Canva Design School (official)",
+      "url": "https://www.canva.com/designschool/",
+      "hours": 4
+    }
+  ],
+  "Google Analytics": [
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    },
+    {
+      "title": "Google Analytics Help (official)",
+      "url": "https://support.google.com/analytics/",
+      "hours": 4
+    }
+  ],
+  "Google Ads": [
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 8
+    },
+    {
+      "title": "Google Ads Help (official)",
+      "url": "https://support.google.com/google-ads/",
+      "hours": 4
+    }
+  ],
+  "Google Search Console": [
+    {
+      "title": "Search Console Help (official)",
+      "url": "https://support.google.com/webmasters/",
+      "hours": 3
+    }
+  ],
+  "WordPress": [
+    {
+      "title": "Learn WordPress (official)",
+      "url": "https://learn.wordpress.org/",
+      "hours": 8
+    }
+  ],
+  "Mailchimp": [
+    {
+      "title": "Mailchimp Help Center (official)",
+      "url": "https://mailchimp.com/help/",
+      "hours": 3
+    }
+  ],
+  "Wireshark": [
+    {
+      "title": "Wireshark documentation (official)",
+      "url": "https://www.wireshark.org/docs/",
+      "hours": 6
+    }
+  ],
+  "Nmap": [
+    {
+      "title": "Nmap Reference Guide (official)",
+      "url": "https://nmap.org/book/",
+      "hours": 6
+    }
+  ],
+  "Burp Suite": [
+    {
+      "title": "PortSwigger Web Security Academy (official, free)",
+      "url": "https://portswigger.net/web-security",
+      "hours": 40
+    }
+  ],
+  "Metasploit": [
+    {
+      "title": "Metasploit documentation (official)",
+      "url": "https://docs.metasploit.com/",
+      "hours": 6
+    }
+  ],
+  "Splunk": [
+    {
+      "title": "Splunk documentation (official)",
+      "url": "https://docs.splunk.com/Documentation",
+      "hours": 6
+    }
+  ],
+  "Kali Linux": [
+    {
+      "title": "Kali Linux documentation (official)",
+      "url": "https://www.kali.org/docs/",
+      "hours": 5
+    }
+  ],
+  "MATLAB": [
+    {
+      "title": "MATLAB Onramp (official, free)",
+      "url": "https://matlabacademy.mathworks.com/details/matlab-onramp/gettingstarted",
+      "hours": 2
+    },
+    {
+      "title": "MATLAB documentation",
+      "url": "https://www.mathworks.com/help/matlab/",
+      "hours": 6
+    }
+  ],
+  "Android Studio": [
+    {
+      "title": "Android Basics with Compose (official course)",
+      "url": "https://developer.android.com/courses/android-basics-compose/course",
+      "hours": 40
+    }
+  ],
+  "Xcode": [
+    {
+      "title": "Xcode documentation (official)",
+      "url": "https://developer.apple.com/documentation/xcode",
+      "hours": 4
+    }
+  ],
+  "Apache Airflow": [
+    {
+      "title": "Apache Airflow documentation (official)",
+      "url": "https://airflow.apache.org/docs/apache-airflow/stable/",
+      "hours": 8
+    }
+  ],
+  "Apache Spark": [
+    {
+      "title": "Apache Spark documentation (official)",
+      "url": "https://spark.apache.org/docs/latest/",
+      "hours": 10
+    }
+  ],
+  "Apache Kafka": [
+    {
+      "title": "Apache Kafka documentation (official)",
+      "url": "https://kafka.apache.org/documentation/",
+      "hours": 8
+    }
+  ],
+  "Redis": [
+    {
+      "title": "Redis documentation (official)",
+      "url": "https://redis.io/docs/latest/",
+      "hours": 4
+    }
+  ],
+  "MongoDB": [
+    {
+      "title": "MongoDB Manual (official)",
+      "url": "https://www.mongodb.com/docs/manual/",
+      "hours": 8
+    },
+    {
+      "title": "freeCodeCamp: Back End Development and APIs",
+      "url": "https://www.freecodecamp.org/learn/back-end-development-and-apis/",
+      "hours": 30
+    }
+  ],
+  "PostgreSQL": [
+    {
+      "title": "PostgreSQL tutorial (official docs)",
+      "url": "https://www.postgresql.org/docs/current/tutorial.html",
+      "hours": 6
+    },
+    {
+      "title": "freeCodeCamp: Relational Database",
+      "url": "https://www.freecodecamp.org/learn/relational-database/",
+      "hours": 30
+    }
+  ],
+  "MySQL": [
+    {
+      "title": "Getting Started with MySQL (official docs)",
+      "url": "https://dev.mysql.com/doc/mysql-getting-started/en/",
+      "hours": 4
+    }
+  ],
+  "SQL Server": [
+    {
+      "title": "Get started querying with Transact-SQL (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/paths/get-started-querying-with-transact-sql/",
+      "hours": 6
+    },
+    {
+      "title": "SQL Server documentation (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/sql/sql-server/",
+      "hours": 8
+    }
+  ],
+  "Oracle Database": [
+    {
+      "title": "Oracle Database documentation (official)",
+      "url": "https://docs.oracle.com/en/database/",
+      "hours": 8
+    }
+  ],
+  "Firebase": [
+    {
+      "title": "Firebase documentation (official)",
+      "url": "https://firebase.google.com/docs",
+      "hours": 6
+    }
+  ],
+  "Nginx": [
+    {
+      "title": "nginx documentation (official)",
+      "url": "https://nginx.org/en/docs/",
+      "hours": 4
+    }
+  ],
+  "Prometheus": [
+    {
+      "title": "Prometheus overview (official docs)",
+      "url": "https://prometheus.io/docs/introduction/overview/",
+      "hours": 4
+    }
+  ],
+  "Grafana": [
+    {
+      "title": "Grafana documentation (official)",
+      "url": "https://grafana.com/docs/grafana/latest/",
+      "hours": 5
+    }
+  ],
+  "Active Directory": [
+    {
+      "title": "Active Directory Domain Services overview (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview",
+      "hours": 4
+    }
+  ],
+  "Windows Server": [
+    {
+      "title": "Windows Server documentation (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/",
+      "hours": 8
+    }
+  ],
+  "Microsoft Office": [
+    {
+      "title": "Microsoft 365 training (Microsoft Support)",
+      "url": "https://support.microsoft.com/en-us/training",
+      "hours": 6
+    }
+  ],
+  "Microsoft Project": [
+    {
+      "title": "Microsoft Project help and learning (official)",
+      "url": "https://support.microsoft.com/en-us/project",
+      "hours": 4
+    }
+  ],
+  "Hugging Face": [
+    {
+      "title": "Hugging Face Learn (official courses)",
+      "url": "https://huggingface.co/learn",
+      "hours": 20
+    }
+  ],
+  "MLflow": [
+    {
+      "title": "MLflow documentation (official)",
+      "url": "https://mlflow.org/docs/latest/index.html",
+      "hours": 4
+    }
+  ],
+  "Arduino": [
+    {
+      "title": "Arduino documentation (official)",
+      "url": "https://docs.arduino.cc/",
+      "hours": 6
+    }
+  ],
+  "Raspberry Pi": [
+    {
+      "title": "Raspberry Pi documentation (official)",
+      "url": "https://www.raspberrypi.com/documentation/",
+      "hours": 5
+    }
+  ],
+  "KiCad": [
+    {
+      "title": "KiCad documentation (official)",
+      "url": "https://docs.kicad.org/",
+      "hours": 8
+    }
+  ],
+  "dbt": [
+    {
+      "title": "dbt documentation (official)",
+      "url": "https://docs.getdbt.com/",
+      "hours": 6
+    }
+  ],
+  "Snowflake": [
+    {
+      "title": "Snowflake documentation (official)",
+      "url": "https://docs.snowflake.com/",
+      "hours": 6
+    }
+  ],
+  "BigQuery": [
+    {
+      "title": "BigQuery documentation (official)",
+      "url": "https://cloud.google.com/bigquery/docs",
+      "hours": 6
+    }
+  ],
+  "Elasticsearch": [
+    {
+      "title": "Elasticsearch Guide (official docs)",
+      "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html",
+      "hours": 8
+    }
+  ],
+  "Cisco IOS": [
+    {
+      "title": "Networking basics (Cisco)",
+      "url": "https://www.cisco.com/c/en/us/solutions/small-business/resource-center/networking/networking-basics.html",
+      "hours": 3
+    }
+  ],
+  "Markdown": [
+    {
+      "title": "Basic writing and formatting syntax (GitHub Docs)",
+      "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+      "hours": 1
+    }
+  ],
+  "React": [
+    {
+      "title": "The Odin Project: React",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/react",
+      "hours": 40
+    },
+    {
+      "title": "freeCodeCamp: Front End Development Libraries",
+      "url": "https://www.freecodecamp.org/learn/front-end-development-libraries/",
+      "hours": 40
+    }
+  ],
+  "Angular": [
+    {
+      "title": "Angular documentation (official)",
+      "url": "https://angular.dev/overview",
+      "hours": 12
+    }
+  ],
+  "Vue.js": [
+    {
+      "title": "Vue.js guide (official docs)",
+      "url": "https://vuejs.org/guide/introduction.html",
+      "hours": 10
+    }
+  ],
+  "Node.js": [
+    {
+      "title": "The Odin Project: NodeJS",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs",
+      "hours": 50
+    },
+    {
+      "title": "freeCodeCamp: Back End Development and APIs",
+      "url": "https://www.freecodecamp.org/learn/back-end-development-and-apis/",
+      "hours": 30
+    }
+  ],
+  "Express.js": [
+    {
+      "title": "Express getting started (official docs)",
+      "url": "https://expressjs.com/en/starter/installing.html",
+      "hours": 4
+    },
+    {
+      "title": "freeCodeCamp: Back End Development and APIs",
+      "url": "https://www.freecodecamp.org/learn/back-end-development-and-apis/",
+      "hours": 30
+    }
+  ],
+  "Next.js": [
+    {
+      "title": "Learn Next.js (official)",
+      "url": "https://nextjs.org/learn",
+      "hours": 10
+    }
+  ],
+  "Django": [
+    {
+      "title": "Django tutorial (official docs)",
+      "url": "https://docs.djangoproject.com/en/stable/intro/tutorial01/",
+      "hours": 8
+    },
+    {
+      "title": "CS50's Web Programming with Python and JavaScript",
+      "url": "https://cs50.harvard.edu/web/",
+      "hours": 60
+    }
+  ],
+  "Flask": [
+    {
+      "title": "Flask tutorial (official docs)",
+      "url": "https://flask.palletsprojects.com/en/stable/tutorial/",
+      "hours": 6
+    }
+  ],
+  "FastAPI": [
+    {
+      "title": "FastAPI tutorial (official docs)",
+      "url": "https://fastapi.tiangolo.com/tutorial/",
+      "hours": 8
+    }
+  ],
+  "Spring Boot": [
+    {
+      "title": "Spring Boot guides (official)",
+      "url": "https://spring.io/guides",
+      "hours": 10
+    }
+  ],
+  ".NET": [
+    {
+      "title": "Learn .NET (official)",
+      "url": "https://dotnet.microsoft.com/en-us/learn",
+      "hours": 10
+    }
+  ],
+  "Flutter": [
+    {
+      "title": "Flutter documentation (official)",
+      "url": "https://docs.flutter.dev/",
+      "hours": 15
+    }
+  ],
+  "React Native": [
+    {
+      "title": "React Native documentation (official)",
+      "url": "https://reactnative.dev/docs/getting-started",
+      "hours": 10
+    }
+  ],
+  "Tailwind CSS": [
+    {
+      "title": "Tailwind CSS documentation (official)",
+      "url": "https://tailwindcss.com/docs",
+      "hours": 4
+    }
+  ],
+  "Bootstrap": [
+    {
+      "title": "Bootstrap documentation (official)",
+      "url": "https://getbootstrap.com/docs/",
+      "hours": 4
+    },
+    {
+      "title": "freeCodeCamp: Front End Development Libraries",
+      "url": "https://www.freecodecamp.org/learn/front-end-development-libraries/",
+      "hours": 40
+    }
+  ],
+  "Pandas": [
+    {
+      "title": "Kaggle Learn: Pandas",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "hours": 4
+    },
+    {
+      "title": "10 minutes to pandas (official docs)",
+      "url": "https://pandas.pydata.org/docs/user_guide/10min.html",
+      "hours": 2
+    }
+  ],
+  "NumPy": [
+    {
+      "title": "NumPy: the absolute basics for beginners (official docs)",
+      "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+      "hours": 3
+    },
+    {
+      "title": "freeCodeCamp: Data Analysis with Python",
+      "url": "https://www.freecodecamp.org/learn/data-analysis-with-python/",
+      "hours": 30
+    }
+  ],
+  "Matplotlib": [
+    {
+      "title": "Matplotlib tutorials (official docs)",
+      "url": "https://matplotlib.org/stable/tutorials/index.html",
+      "hours": 4
+    },
+    {
+      "title": "Kaggle Learn: Data Visualization",
+      "url": "https://www.kaggle.com/learn/data-visualization",
+      "hours": 4
+    }
+  ],
+  "Seaborn": [
+    {
+      "title": "Seaborn tutorial (official docs)",
+      "url": "https://seaborn.pydata.org/tutorial.html",
+      "hours": 3
+    }
+  ],
+  "scikit-learn": [
+    {
+      "title": "scikit-learn: Getting Started (official docs)",
+      "url": "https://scikit-learn.org/stable/getting_started.html",
+      "hours": 3
+    },
+    {
+      "title": "Kaggle Learn: Intro to Machine Learning",
+      "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+      "hours": 3
+    }
+  ],
+  "TensorFlow": [
+    {
+      "title": "TensorFlow tutorials (official)",
+      "url": "https://www.tensorflow.org/tutorials",
+      "hours": 10
+    },
+    {
+      "title": "freeCodeCamp: Machine Learning with Python",
+      "url": "https://www.freecodecamp.org/learn/machine-learning-with-python/",
+      "hours": 30
+    }
+  ],
+  "PyTorch": [
+    {
+      "title": "PyTorch tutorials (official)",
+      "url": "https://pytorch.org/tutorials/",
+      "hours": 10
+    }
+  ],
+  "Keras": [
+    {
+      "title": "Keras: Getting started (official docs)",
+      "url": "https://keras.io/getting_started/",
+      "hours": 3
+    }
+  ],
+  "OpenCV": [
+    {
+      "title": "OpenCV-Python tutorials (official docs)",
+      "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html",
+      "hours": 10
+    }
+  ],
+  "LangChain": [
+    {
+      "title": "LangChain documentation (official)",
+      "url": "https://python.langchain.com/docs/introduction/",
+      "hours": 6
+    }
+  ],
+  "Jest": [
+    {
+      "title": "Jest: Getting Started (official docs)",
+      "url": "https://jestjs.io/docs/getting-started",
+      "hours": 3
+    }
+  ],
+  "pytest": [
+    {
+      "title": "pytest documentation (official)",
+      "url": "https://docs.pytest.org/en/stable/",
+      "hours": 4
+    }
+  ],
+  "JUnit": [
+    {
+      "title": "JUnit 5 User Guide (official)",
+      "url": "https://junit.org/junit5/docs/current/user-guide/",
+      "hours": 4
+    }
+  ],
+  "Cypress": [
+    {
+      "title": "Cypress documentation (official)",
+      "url": "https://docs.cypress.io/",
+      "hours": 6
+    }
+  ],
+  "Playwright": [
+    {
+      "title": "Playwright: Getting started (official docs)",
+      "url": "https://playwright.dev/docs/intro",
+      "hours": 4
+    }
+  ],
+  "FreeRTOS": [
+    {
+      "title": "FreeRTOS documentation (official)",
+      "url": "https://www.freertos.org/",
+      "hours": 8
+    }
+  ],
+  "Communication": [
+    {
+      "title": "MIT OCW 15.279 Management Communication for Undergraduates",
+      "url": "https://ocw.mit.edu/courses/15-279-management-communication-for-undergraduates-fall-2012/",
+      "hours": 20
+    },
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 4
+    }
+  ],
+  "Problem Solving": [
+    {
+      "title": "MIT OCW 6.0001 Introduction to Computer Science and Programming in Python",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+      "hours": 40
+    },
+    {
+      "title": "Khan Academy: Algorithms",
+      "url": "https://www.khanacademy.org/computing/computer-science/algorithms",
+      "hours": 10
+    }
+  ],
+  "Teamwork": [
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    },
+    {
+      "title": "The Odin Project: Getting Hired",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/getting-hired",
+      "hours": 6
+    }
+  ],
+  "Critical Thinking": [
+    {
+      "title": "Khan Academy: Statistics and probability",
+      "url": "https://www.khanacademy.org/math/statistics-probability",
+      "hours": 20
+    },
+    {
+      "title": "MIT OpenCourseWare",
+      "url": "https://ocw.mit.edu/",
+      "hours": 10
+    }
+  ],
+  "Time Management": [
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    }
+  ],
+  "Presentation Skills": [
+    {
+      "title": "MIT OCW 15.279 Management Communication for Undergraduates",
+      "url": "https://ocw.mit.edu/courses/15-279-management-communication-for-undergraduates-fall-2012/",
+      "hours": 20
+    }
+  ],
+  "Leadership": [
+    {
+      "title": "MIT OpenCourseWare (Sloan School of Management courses)",
+      "url": "https://ocw.mit.edu/",
+      "hours": 15
+    },
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    }
+  ],
+  "Attention to Detail": [
+    {
+      "title": "Kaggle Learn: Data Cleaning",
+      "url": "https://www.kaggle.com/learn/data-cleaning",
+      "hours": 4
+    },
+    {
+      "title": "freeCodeCamp: Quality Assurance",
+      "url": "https://www.freecodecamp.org/learn/quality-assurance/",
+      "hours": 30
+    }
+  ],
+  "Adaptability": [
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    }
+  ],
+  "Negotiation": [
+    {
+      "title": "MIT OpenCourseWare (negotiation and management communication courses)",
+      "url": "https://ocw.mit.edu/",
+      "hours": 15
+    },
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    }
+  ],
+  "Creativity": [
+    {
+      "title": "Canva Design School (official)",
+      "url": "https://www.canva.com/designschool/",
+      "hours": 4
+    },
+    {
+      "title": "Khan Academy: Computer programming",
+      "url": "https://www.khanacademy.org/computing/computer-programming",
+      "hours": 10
+    }
+  ],
+  "Empathy": [
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    },
+    {
+      "title": "Figma Help Center: design basics (official)",
+      "url": "https://help.figma.com/",
+      "hours": 4
+    }
+  ],
+  "Writing": [
+    {
+      "title": "Khan Academy: Grammar",
+      "url": "https://www.khanacademy.org/humanities/grammar",
+      "hours": 10
+    },
+    {
+      "title": "Microsoft Writing Style Guide",
+      "url": "https://learn.microsoft.com/en-us/style-guide/welcome/",
+      "hours": 4
+    }
+  ],
+  "Statistics": [
+    {
+      "title": "Khan Academy: Statistics and probability",
+      "url": "https://www.khanacademy.org/math/statistics-probability",
+      "hours": 30
+    },
+    {
+      "title": "MIT OCW 18.05 Introduction to Probability and Statistics",
+      "url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2014/",
+      "hours": 40
+    }
+  ],
+  "Data Visualization": [
+    {
+      "title": "Kaggle Learn: Data Visualization",
+      "url": "https://www.kaggle.com/learn/data-visualization",
+      "hours": 4
+    },
+    {
+      "title": "freeCodeCamp: Data Visualization",
+      "url": "https://www.freecodecamp.org/learn/data-visualization/",
+      "hours": 30
+    }
+  ],
+  "Data Cleaning": [
+    {
+      "title": "Kaggle Learn: Data Cleaning",
+      "url": "https://www.kaggle.com/learn/data-cleaning",
+      "hours": 4
+    },
+    {
+      "title": "Kaggle Learn: Pandas",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "hours": 4
+    }
+  ],
+  "A/B Testing": [
+    {
+      "title": "Khan Academy: Statistics and probability",
+      "url": "https://www.khanacademy.org/math/statistics-probability",
+      "hours": 30
+    },
+    {
+      "title": "MIT OCW 15.071 The Analytics Edge",
+      "url": "https://ocw.mit.edu/courses/15-071-the-analytics-edge-spring-2017/",
+      "hours": 40
+    }
+  ],
+  "Machine Learning": [
+    {
+      "title": "Kaggle Learn: Intro to Machine Learning",
+      "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+      "hours": 3
+    },
+    {
+      "title": "Kaggle Learn: Intermediate Machine Learning",
+      "url": "https://www.kaggle.com/learn/intermediate-machine-learning",
+      "hours": 4
+    },
+    {
+      "title": "MIT OCW 6.036 Introduction to Machine Learning",
+      "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+      "hours": 60
+    }
+  ],
+  "Deep Learning": [
+    {
+      "title": "Kaggle Learn: Intro to Deep Learning",
+      "url": "https://www.kaggle.com/learn/intro-to-deep-learning",
+      "hours": 4
+    },
+    {
+      "title": "freeCodeCamp: Machine Learning with Python",
+      "url": "https://www.freecodecamp.org/learn/machine-learning-with-python/",
+      "hours": 30
+    }
+  ],
+  "Natural Language Processing": [
+    {
+      "title": "Hugging Face Learn: NLP course (official)",
+      "url": "https://huggingface.co/learn/nlp-course/chapter1/1",
+      "hours": 20
+    },
+    {
+      "title": "CS50's Introduction to Artificial Intelligence with Python",
+      "url": "https://cs50.harvard.edu/ai/",
+      "hours": 60
+    }
+  ],
+  "Computer Vision": [
+    {
+      "title": "Kaggle Learn: Computer Vision",
+      "url": "https://www.kaggle.com/learn/computer-vision",
+      "hours": 4
+    },
+    {
+      "title": "OpenCV-Python tutorials (official docs)",
+      "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html",
+      "hours": 10
+    }
+  ],
+  "Data Modeling": [
+    {
+      "title": "Design a data model in Power BI (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/design-a-data-model-in-power-bi/",
+      "hours": 2
+    },
+    {
+      "title": "PostgreSQL tutorial (official docs)",
+      "url": "https://www.postgresql.org/docs/current/tutorial.html",
+      "hours": 6
+    }
+  ],
+  "ETL": [
+    {
+      "title": "Extract, transform, and load (Microsoft Learn architecture guide)",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/relational-data/etl",
+      "hours": 1
+    },
+    {
+      "title": "Apache Airflow documentation (official)",
+      "url": "https://airflow.apache.org/docs/apache-airflow/stable/",
+      "hours": 8
+    }
+  ],
+  "Data Warehousing": [
+    {
+      "title": "Data warehousing (Microsoft Learn architecture guide)",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/relational-data/data-warehousing",
+      "hours": 1
+    },
+    {
+      "title": "Kaggle Learn: Advanced SQL",
+      "url": "https://www.kaggle.com/learn/advanced-sql",
+      "hours": 4
+    }
+  ],
+  "Big Data": [
+    {
+      "title": "Apache Spark documentation (official)",
+      "url": "https://spark.apache.org/docs/latest/",
+      "hours": 10
+    },
+    {
+      "title": "Apache Hadoop documentation (official)",
+      "url": "https://hadoop.apache.org/docs/stable/",
+      "hours": 8
+    }
+  ],
+  "Feature Engineering": [
+    {
+      "title": "Kaggle Learn: Feature Engineering",
+      "url": "https://www.kaggle.com/learn/feature-engineering",
+      "hours": 5
+    }
+  ],
+  "MLOps": [
+    {
+      "title": "MLflow documentation (official)",
+      "url": "https://mlflow.org/docs/latest/index.html",
+      "hours": 4
+    },
+    {
+      "title": "Docker: Get started (official docs)",
+      "url": "https://docs.docker.com/get-started/",
+      "hours": 6
+    }
+  ],
+  "Large Language Models": [
+    {
+      "title": "Hugging Face Learn (official courses)",
+      "url": "https://huggingface.co/learn",
+      "hours": 20
+    },
+    {
+      "title": "CS50's Introduction to Artificial Intelligence with Python",
+      "url": "https://cs50.harvard.edu/ai/",
+      "hours": 60
+    }
+  ],
+  "Prompt Engineering": [
+    {
+      "title": "Hugging Face Learn (official courses)",
+      "url": "https://huggingface.co/learn",
+      "hours": 20
+    },
+    {
+      "title": "LangChain documentation (official)",
+      "url": "https://python.langchain.com/docs/introduction/",
+      "hours": 6
+    }
+  ],
+  "Generative AI": [
+    {
+      "title": "Hugging Face Learn (official courses)",
+      "url": "https://huggingface.co/learn",
+      "hours": 20
+    },
+    {
+      "title": "Microsoft Learn training",
+      "url": "https://learn.microsoft.com/en-us/training/",
+      "hours": 8
+    }
+  ],
+  "Linear Algebra": [
+    {
+      "title": "Khan Academy: Linear algebra",
+      "url": "https://www.khanacademy.org/math/linear-algebra",
+      "hours": 30
+    },
+    {
+      "title": "MIT OCW 18.06 Linear Algebra",
+      "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/",
+      "hours": 60
+    }
+  ],
+  "Business Analysis": [
+    {
+      "title": "MIT OCW 15.071 The Analytics Edge",
+      "url": "https://ocw.mit.edu/courses/15-071-the-analytics-edge-spring-2017/",
+      "hours": 40
+    },
+    {
+      "title": "Get started with data analytics (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/",
+      "hours": 1
+    }
+  ],
+  "Requirements Gathering": [
+    {
+      "title": "What is Agile? (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/devops/plan/what-is-agile",
+      "hours": 1
+    },
+    {
+      "title": "Jira Software guides (official)",
+      "url": "https://www.atlassian.com/software/jira/guides",
+      "hours": 3
+    }
+  ],
+  "Agile": [
+    {
+      "title": "What is Agile? (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/devops/plan/what-is-agile",
+      "hours": 1
+    },
+    {
+      "title": "Agile guides (Atlassian)",
+      "url": "https://www.atlassian.com/agile",
+      "hours": 4
+    }
+  ],
+  "Scrum": [
+    {
+      "title": "What is Scrum? (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/devops/plan/what-is-scrum",
+      "hours": 1
+    },
+    {
+      "title": "The Scrum Guide (official)",
+      "url": "https://scrumguides.org/",
+      "hours": 2
+    }
+  ],
+  "Software Testing": [
+    {
+      "title": "freeCodeCamp: Quality Assurance",
+      "url": "https://www.freecodecamp.org/learn/quality-assurance/",
+      "hours": 30
+    },
+    {
+      "title": "pytest documentation (official)",
+      "url": "https://docs.pytest.org/en/stable/",
+      "hours": 4
+    }
+  ],
+  "Test Automation": [
+    {
+      "title": "Selenium documentation (official)",
+      "url": "https://www.selenium.dev/documentation/",
+      "hours": 8
+    },
+    {
+      "title": "Playwright: Getting started (official docs)",
+      "url": "https://playwright.dev/docs/intro",
+      "hours": 4
+    }
+  ],
+  "REST APIs": [
+    {
+      "title": "freeCodeCamp: Back End Development and APIs",
+      "url": "https://www.freecodecamp.org/learn/back-end-development-and-apis/",
+      "hours": 30
+    },
+    {
+      "title": "Postman Learning Center (official docs)",
+      "url": "https://learning.postman.com/docs/",
+      "hours": 5
+    }
+  ],
+  "System Design": [
+    {
+      "title": "MIT OCW 6.033 Computer System Engineering",
+      "url": "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/",
+      "hours": 60
+    },
+    {
+      "title": "AWS Architecture Center (official docs)",
+      "url": "https://aws.amazon.com/architecture/",
+      "hours": 8
+    }
+  ],
+  "Data Structures and Algorithms": [
+    {
+      "title": "MIT OCW 6.006 Introduction to Algorithms",
+      "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+      "hours": 60
+    },
+    {
+      "title": "Khan Academy: Algorithms",
+      "url": "https://www.khanacademy.org/computing/computer-science/algorithms",
+      "hours": 10
+    },
+    {
+      "title": "freeCodeCamp: JavaScript Algorithms and Data Structures",
+      "url": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/",
+      "hours": 60
+    }
+  ],
+  "Object-Oriented Programming": [
+    {
+      "title": "MIT OCW 6.0001 Introduction to Computer Science and Programming in Python",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+      "hours": 40
+    },
+    {
+      "title": "The Java Tutorials (official docs)",
+      "url": "https://docs.oracle.com/javase/tutorial/",
+      "hours": 30
+    }
+  ],
+  "Microservices": [
+    {
+      "title": "Microservices architecture (Microsoft Learn architecture guide)",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices",
+      "hours": 2
+    },
+    {
+      "title": "Docker: Get started (official docs)",
+      "url": "https://docs.docker.com/get-started/",
+      "hours": 6
+    }
+  ],
+  "Networking": [
+    {
+      "title": "Khan Academy: Computers and the Internet",
+      "url": "https://www.khanacademy.org/computing/computers-and-internet",
+      "hours": 8
+    },
+    {
+      "title": "Network fundamentals (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/",
+      "hours": 1
+    }
+  ],
+  "Routing and Switching": [
+    {
+      "title": "Networking basics (Cisco)",
+      "url": "https://www.cisco.com/c/en/us/solutions/small-business/resource-center/networking/networking-basics.html",
+      "hours": 3
+    },
+    {
+      "title": "Khan Academy: Computers and the Internet",
+      "url": "https://www.khanacademy.org/computing/computers-and-internet",
+      "hours": 8
+    }
+  ],
+  "Firewalls": [
+    {
+      "title": "Network fundamentals (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/",
+      "hours": 1
+    },
+    {
+      "title": "AWS Skill Builder",
+      "url": "https://skillbuilder.aws/",
+      "hours": 6
+    }
+  ],
+  "Network Security": [
+    {
+      "title": "MIT OCW 6.858 Computer Systems Security",
+      "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/",
+      "hours": 60
+    },
+    {
+      "title": "CS50's Introduction to Cybersecurity",
+      "url": "https://cs50.harvard.edu/cybersecurity/",
+      "hours": 20
+    }
+  ],
+  "Penetration Testing": [
+    {
+      "title": "PortSwigger Web Security Academy (official, free)",
+      "url": "https://portswigger.net/web-security",
+      "hours": 40
+    },
+    {
+      "title": "freeCodeCamp: Information Security",
+      "url": "https://www.freecodecamp.org/learn/information-security/",
+      "hours": 30
+    }
+  ],
+  "Vulnerability Assessment": [
+    {
+      "title": "Nmap Reference Guide (official)",
+      "url": "https://nmap.org/book/",
+      "hours": 6
+    },
+    {
+      "title": "PortSwigger Web Security Academy (official, free)",
+      "url": "https://portswigger.net/web-security",
+      "hours": 40
+    }
+  ],
+  "Incident Response": [
+    {
+      "title": "CS50's Introduction to Cybersecurity",
+      "url": "https://cs50.harvard.edu/cybersecurity/",
+      "hours": 20
+    },
+    {
+      "title": "Splunk documentation (official)",
+      "url": "https://docs.splunk.com/Documentation",
+      "hours": 6
+    }
+  ],
+  "Cryptography": [
+    {
+      "title": "Khan Academy: Cryptography",
+      "url": "https://www.khanacademy.org/computing/computer-science/cryptography",
+      "hours": 6
+    },
+    {
+      "title": "MIT OCW 6.858 Computer Systems Security",
+      "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/",
+      "hours": 60
+    }
+  ],
+  "Cloud Computing": [
+    {
+      "title": "AWS Cloud Practitioner Essentials (AWS Skill Builder, free)",
+      "url": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/134/aws-cloud-practitioner-essentials",
+      "hours": 6
+    },
+    {
+      "title": "Azure Fundamentals: Describe cloud concepts (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/paths/az-900-describe-cloud-concepts/",
+      "hours": 2
+    }
+  ],
+  "CI/CD": [
+    {
+      "title": "What is continuous integration? (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/devops/develop/what-is-continuous-integration",
+      "hours": 1
+    },
+    {
+      "title": "GitHub Actions documentation",
+      "url": "https://docs.github.com/en/actions",
+      "hours": 6
+    }
+  ],
+  "Infrastructure as Code": [
+    {
+      "title": "What is infrastructure as code? (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/devops/deliver/what-is-infrastructure-as-code",
+      "hours": 1
+    },
+    {
+      "title": "Terraform tutorials (official)",
+      "url": "https://developer.hashicorp.com/terraform/tutorials",
+      "hours": 10
+    }
+  ],
+  "Monitoring": [
+    {
+      "title": "Prometheus overview (official docs)",
+      "url": "https://prometheus.io/docs/introduction/overview/",
+      "hours": 4
+    },
+    {
+      "title": "Grafana documentation (official)",
+      "url": "https://grafana.com/docs/grafana/latest/",
+      "hours": 5
+    }
+  ],
+  "Responsive Design": [
+    {
+      "title": "freeCodeCamp: Responsive Web Design",
+      "url": "https://www.freecodecamp.org/learn/responsive-web-design/",
+      "hours": 50
+    },
+    {
+      "title": "The Odin Project: Advanced HTML and CSS",
+      "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/advanced-html-and-css",
+      "hours": 25
+    }
+  ],
+  "Web Accessibility": [
+    {
+      "title": "freeCodeCamp: Responsive Web Design (accessibility module)",
+      "url": "https://www.freecodecamp.org/learn/responsive-web-design/",
+      "hours": 50
+    },
+    {
+      "title": "Accessibility fundamentals (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/training/paths/accessibility-fundamentals/",
+      "hours": 3
+    }
+  ],
+  "User Research": [
+    {
+      "title": "MIT OCW 6.831 User Interface Design and Implementation",
+      "url": "https://ocw.mit.edu/courses/6-831-user-interface-design-and-implementation-spring-2011/",
+      "hours": 40
+    },
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "Wireframing": [
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "Prototyping": [
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "Usability Testing": [
+    {
+      "title": "MIT OCW 6.831 User Interface Design and Implementation",
+      "url": "https://ocw.mit.edu/courses/6-831-user-interface-design-and-implementation-spring-2011/",
+      "hours": 40
+    }
+  ],
+  "Visual Design": [
+    {
+      "title": "Canva Design School (official)",
+      "url": "https://www.canva.com/designschool/",
+      "hours": 4
+    },
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "Design Systems": [
+    {
+      "title": "Figma Help Center (official)",
+      "url": "https://help.figma.com/",
+      "hours": 6
+    }
+  ],
+  "SEO": [
+    {
+      "title": "SEO Starter Guide (Google Search Central, official)",
+      "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+      "hours": 3
+    },
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    }
+  ],
+  "Content Marketing": [
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    },
+    {
+      "title": "Learn WordPress (official)",
+      "url": "https://learn.wordpress.org/",
+      "hours": 8
+    }
+  ],
+  "Social Media Marketing": [
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    },
+    {
+      "title": "Canva Design School (official)",
+      "url": "https://www.canva.com/designschool/",
+      "hours": 4
+    }
+  ],
+  "Email Marketing": [
+    {
+      "title": "Mailchimp Help Center (official)",
+      "url": "https://mailchimp.com/help/",
+      "hours": 3
+    }
+  ],
+  "Copywriting": [
+    {
+      "title": "Khan Academy: Grammar",
+      "url": "https://www.khanacademy.org/humanities/grammar",
+      "hours": 10
+    },
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    }
+  ],
+  "Market Research": [
+    {
+      "title": "Google Skillshop",
+      "url": "https://skillshop.withgoogle.com/",
+      "hours": 6
+    },
+    {
+      "title": "Khan Academy: Statistics and probability",
+      "url": "https://www.khanacademy.org/math/statistics-probability",
+      "hours": 30
+    }
+  ],
+  "Technical Documentation": [
+    {
+      "title": "Microsoft Writing Style Guide",
+      "url": "https://learn.microsoft.com/en-us/style-guide/welcome/",
+      "hours": 4
+    },
+    {
+      "title": "Google developer documentation style guide (official)",
+      "url": "https://developers.google.com/style",
+      "hours": 4
+    }
+  ],
+  "API Documentation": [
+    {
+      "title": "Google developer documentation style guide (official)",
+      "url": "https://developers.google.com/style",
+      "hours": 4
+    },
+    {
+      "title": "Postman Learning Center (official docs)",
+      "url": "https://learning.postman.com/docs/",
+      "hours": 5
+    }
+  ],
+  "Financial Modeling": [
+    {
+      "title": "Khan Academy: Finance and capital markets",
+      "url": "https://www.khanacademy.org/economics-finance-domain/core-finance",
+      "hours": 20
+    },
+    {
+      "title": "MIT OCW 15.401 Finance Theory I",
+      "url": "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/",
+      "hours": 50
+    }
+  ],
+  "Accounting": [
+    {
+      "title": "Khan Academy: Finance and capital markets (accounting unit)",
+      "url": "https://www.khanacademy.org/economics-finance-domain/core-finance",
+      "hours": 8
+    },
+    {
+      "title": "MIT OCW 15.501 Introduction to Financial and Managerial Accounting",
+      "url": "https://ocw.mit.edu/courses/15-501-introduction-to-financial-and-managerial-accounting-spring-2004/",
+      "hours": 40
+    }
+  ],
+  "Financial Analysis": [
+    {
+      "title": "Khan Academy: Finance and capital markets",
+      "url": "https://www.khanacademy.org/economics-finance-domain/core-finance",
+      "hours": 20
+    },
+    {
+      "title": "Excel video training (Microsoft Support)",
+      "url": "https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb",
+      "hours": 8
+    }
+  ],
+  "Valuation": [
+    {
+      "title": "MIT OCW 15.401 Finance Theory I",
+      "url": "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/",
+      "hours": 50
+    },
+    {
+      "title": "Khan Academy: Finance and capital markets",
+      "url": "https://www.khanacademy.org/economics-finance-domain/core-finance",
+      "hours": 20
+    }
+  ],
+  "Forecasting": [
+    {
+      "title": "Kaggle Learn: Time Series",
+      "url": "https://www.kaggle.com/learn/time-series",
+      "hours": 5
+    },
+    {
+      "title": "Khan Academy: Statistics and probability",
+      "url": "https://www.khanacademy.org/math/statistics-probability",
+      "hours": 30
+    }
+  ],
+  "Budgeting": [
+    {
+      "title": "Khan Academy: Personal finance",
+      "url": "https://www.khanacademy.org/college-careers-more/personal-finance",
+      "hours": 6
+    },
+    {
+      "title": "Excel video training (Microsoft Support)",
+      "url": "https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb",
+      "hours": 8
+    }
+  ],
+  "Microcontrollers": [
+    {
+      "title": "Arduino documentation (official)",
+      "url": "https://docs.arduino.cc/",
+      "hours": 6
+    },
+    {
+      "title": "MIT OCW 6.01SC Introduction to Electrical Engineering and Computer Science I",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/",
+      "hours": 50
+    }
+  ],
+  "RTOS": [
+    {
+      "title": "FreeRTOS documentation (official)",
+      "url": "https://www.freertos.org/",
+      "hours": 8
+    }
+  ],
+  "PCB Design": [
+    {
+      "title": "KiCad documentation (official)",
+      "url": "https://docs.kicad.org/",
+      "hours": 8
+    }
+  ],
+  "Signal Processing": [
+    {
+      "title": "MIT OCW 6.003 Signals and Systems",
+      "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/",
+      "hours": 60
+    },
+    {
+      "title": "MATLAB Onramp (official, free)",
+      "url": "https://matlabacademy.mathworks.com/details/matlab-onramp/gettingstarted",
+      "hours": 2
+    }
+  ],
+  "IoT": [
+    {
+      "title": "AWS IoT documentation (official)",
+      "url": "https://docs.aws.amazon.com/iot/",
+      "hours": 6
+    },
+    {
+      "title": "Raspberry Pi documentation (official)",
+      "url": "https://www.raspberrypi.com/documentation/",
+      "hours": 5
+    }
+  ],
+  "Circuit Design": [
+    {
+      "title": "Khan Academy: Electrical engineering",
+      "url": "https://www.khanacademy.org/science/electrical-engineering",
+      "hours": 20
+    },
+    {
+      "title": "MIT OCW 6.002 Circuits and Electronics",
+      "url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/",
+      "hours": 60
+    }
+  ],
+  "Product Strategy": [
+    {
+      "title": "CS50 for MBAs",
+      "url": "https://cs50.harvard.edu/business/",
+      "hours": 20
+    },
+    {
+      "title": "MIT OpenCourseWare: Sloan School of Management",
+      "url": "https://ocw.mit.edu/search/?d=Sloan%20School%20of%20Management",
+      "hours": 15
+    }
+  ],
+  "Product Roadmapping": [
+    {
+      "title": "Jira Software guides (official)",
+      "url": "https://www.atlassian.com/software/jira/guides",
+      "hours": 3
+    },
+    {
+      "title": "Agile guides (Atlassian)",
+      "url": "https://www.atlassian.com/agile",
+      "hours": 4
+    }
+  ],
+  "Stakeholder Management": [
+    {
+      "title": "MIT OCW 15.279 Management Communication for Undergraduates",
+      "url": "https://ocw.mit.edu/courses/15-279-management-communication-for-undergraduates-fall-2012/",
+      "hours": 20
+    },
+    {
+      "title": "Jira Software guides (official)",
+      "url": "https://www.atlassian.com/software/jira/guides",
+      "hours": 3
+    }
+  ],
+  "Project Planning": [
+    {
+      "title": "MIT OCW 1.040 Project Management",
+      "url": "https://ocw.mit.edu/courses/1-040-project-management-spring-2009/",
+      "hours": 40
+    },
+    {
+      "title": "Microsoft Project help and learning (official)",
+      "url": "https://support.microsoft.com/en-us/project",
+      "hours": 4
+    }
+  ],
+  "Risk Management": [
+    {
+      "title": "MIT OCW 1.040 Project Management",
+      "url": "https://ocw.mit.edu/courses/1-040-project-management-spring-2009/",
+      "hours": 40
+    }
+  ],
+  "Database Design": [
+    {
+      "title": "CS50's Introduction to Databases with SQL",
+      "url": "https://cs50.harvard.edu/sql/",
+      "hours": 40
+    },
+    {
+      "title": "PostgreSQL tutorial (official docs)",
+      "url": "https://www.postgresql.org/docs/current/tutorial.html",
+      "hours": 6
+    }
+  ],
+  "Backup and Recovery": [
+    {
+      "title": "PostgreSQL: Backup and Restore (official docs)",
+      "url": "https://www.postgresql.org/docs/current/backup.html",
+      "hours": 3
+    },
+    {
+      "title": "SQL Server documentation (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/sql/sql-server/",
+      "hours": 8
+    }
+  ],
+  "Performance Tuning": [
+    {
+      "title": "PostgreSQL: Performance Tips (official docs)",
+      "url": "https://www.postgresql.org/docs/current/performance-tips.html",
+      "hours": 3
+    },
+    {
+      "title": "MySQL: Optimization (official docs)",
+      "url": "https://dev.mysql.com/doc/refman/8.0/en/optimization.html",
+      "hours": 6
+    }
+  ],
+  "Troubleshooting": [
+    {
+      "title": "The Linux command line for beginners (Ubuntu docs)",
+      "url": "https://ubuntu.com/tutorials/command-line-for-beginners",
+      "hours": 3
+    },
+    {
+      "title": "Microsoft Learn training",
+      "url": "https://learn.microsoft.com/en-us/training/",
+      "hours": 6
+    }
+  ],
+  "Hardware Support": [
+    {
+      "title": "CS50's Understanding Technology",
+      "url": "https://cs50.harvard.edu/technology/",
+      "hours": 12
+    },
+    {
+      "title": "Raspberry Pi documentation (official)",
+      "url": "https://www.raspberrypi.com/documentation/",
+      "hours": 5
+    }
+  ],
+  "Customer Service": [
+    {
+      "title": "Khan Academy: College, careers, and more",
+      "url": "https://www.khanacademy.org/college-careers-more",
+      "hours": 3
+    },
+    {
+      "title": "Microsoft Learn training",
+      "url": "https://learn.microsoft.com/en-us/training/",
+      "hours": 6
+    }
+  ]
+}

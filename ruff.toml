@@ -1,0 +1,17 @@
+# Ruff configuration for `ruff check backend scripts` (CI runs the same command).
+line-length = 150
+target-version = "py311"
+exclude = [".venv", "node_modules", "frontend", "backend/cache"]
+
+[lint]
+# E/W pycodestyle, F pyflakes, I import sorting. Long lines are tolerated (E501) because prompt and
+# schema descriptions read better unwrapped.
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[lint.isort]
+known-first-party = ["backend", "scripts"]
+
+[lint.per-file-ignores]
+# M1's re-export list is hand-ordered (ExtractedCV before Experience); not worth a churn commit.
+"backend/schemas/__init__.py" = ["I"]

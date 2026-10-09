@@ -1,0 +1,13 @@
+# Runtime dependencies for the CareerLens backend (Python 3.11+).
+# Install with: pip install -r backend/requirements.txt
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+python-multipart>=0.0.9
+pdfplumber>=0.11
+python-docx>=1.1
+requests>=2.31
+anthropic>=0.30
+openai>=1.30
+# Local embeddings (EMBED_PROVIDER=local, the default). Pulls in torch; CI uses requirements-ci.txt without it.
+sentence-transformers>=2.7

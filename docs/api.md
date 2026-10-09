@@ -16,9 +16,12 @@ There are no accounts: the server keeps one in-memory `Profile` for the session 
 | `GET /career/roadmap` | M1 | query `role`, optional `pinned_job_id`, `radius_km` | `Roadmap` (4 weeks; pinning a job moves its missing skills first). Saved on the profile |
 | `GET /career/adjacent` | M1 | query `role`, `limit` (default 5) | `list[AdjacentRole]` |
 | `POST /chat` | M1 | `ChatRequest`: `{message, history[]}` | `text/event-stream`; see below |
-| `GET /jobs/nearby` | M5 | query `lat`, `lng`, `radius` | `list[JobMatch]` (use `services/geo.nearby_jobs` and `services/differential.score_job`) |
-| `POST /analyzer/run` | M5 | `{github_username, linkedin_export?}` | `{report_id}` |
-| `GET /analyzer/report` | M5 | query `report_id` | `list[Anomaly]` + integrity score |
+| `GET /jobs/nearby` | M5 | query `lat`, `lng` (default: the profile's location), `radius` (km, default 25), `limit` (default 50), `min_match` (default 0) | `list[JobNearby]` = `JobMatch` + `company`, `title`, `city`, `lat`, `lng`, `synthetic`, `source_url`; scored with `services/differential.score_job`. 409 no CV, 422 no location |
+| `GET /jobs/{job_id}` | M5 | path `job_id` | `Job` (full listing for the detail card); 404 unknown id |
+| `POST /analyzer/run` | M5 | multipart form: `github_username?`, `linkedin_text?`, `linkedin_export?` (PDF/TXT, max 5 MB); at least one source | `AnalyzerReport`: `report_id`, `anomalies[]` (`Anomaly`), `integrity_score` (0-100 or null), `clusters[]` (`{name, sources[], members[], mention_count}`), `sources` (skill count per source, e.g. `{cv: 12, github: 7, linkedin: 8}`; a key is absent when that source was not given), `github_username`. Also saved on the profile. 409 no CV, 422 no source, 404 unknown GitHub user, 502 GitHub or LLM failure |
+| `GET /analyzer/report` | M5 | query `report_id` (default: latest) | `AnalyzerReport`; 404 if none |
+| `GET /health` | M5 | none | `{status: "ok", llm_provider, embed_provider, data: {roles, jobs, resources}}` (counts, or null when a file is missing) |
+| `GET /built-with` | M5 | none | `list[{name, kind (model / api / dataset / library), licence, url}]` from `backend/built_with.py` |
 | `POST /interview/start` | M3 | `{role}` | `list[InterviewQuestion]` |
 | `POST /interview/answer` | M3 | audio + transcript + `list[NonVerbalSample]` | `AnswerResult` |
 | `GET /interview/report` | M3 | none | `InterviewReport` |
@@ -52,11 +55,16 @@ Action events (`open_*`) arrive before the text of the answer.
 ## Wiring (M5, `backend/main.py`)
 
 ```python
-from backend.api import career, chat, profile
+from backend.api import analyzer, career, chat, jobs, profile
 app.include_router(profile.router)
 app.include_router(career.router)
 app.include_router(chat.router)
+app.include_router(jobs.router)
+app.include_router(analyzer.router)
+# backend.api.interview (M3) is registered when the module exists.
 ```
+
+Run with `uvicorn backend.main:app --reload`. CORS origins come from `CORS_ORIGINS` (default: the Vite dev server).
 
 Python dependencies used by M1's code: `pydantic`, `fastapi`, `uvicorn`, `python-multipart`, `anthropic`, `openai`,
 `sentence-transformers`, `requests`, `pdfplumber`, `python-docx`. For tests also `pytest` and `httpx`.

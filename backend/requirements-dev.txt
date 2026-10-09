@@ -1,0 +1,6 @@
+# Everything in requirements.txt plus test, lint and demo-file tooling.
+-r requirements.txt
+pytest>=8.0
+httpx>=0.27
+ruff>=0.4
+reportlab>=4.0
