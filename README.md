@@ -1,1 +1,1 @@
-# studentease
+# student ease
