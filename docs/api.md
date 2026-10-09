@@ -1,19 +1,62 @@
 # REST API
 
-One row per endpoint. Everyone adds their own rows; M1 owns the format and the `/profile` and `/career` rows.
-Request and response bodies are the Pydantic models in `backend/schemas/`.
+One row per endpoint. Everyone adds their own rows; M1 owns the format and the `/profile`, `/career` and `/chat` rows.
+Request and response bodies are the Pydantic models in `backend/schemas/`; the TypeScript versions are generated into
+`frontend/src/types/profile.ts` with `python -m backend.schemas.generate_ts`.
+
+There are no accounts: the server keeps one in-memory `Profile` for the session (`backend/services/session.py`).
 
 | Route | Owner | Request | Response |
 |---|---|---|---|
-| `POST /profile/cv` | M1 | multipart CV file (PDF/DOCX), optional `target_role`, `mode` | `Profile` |
 | `GET /profile` | M1 | none | `Profile` |
-| `GET /career/gap` | M1 | query `role` | `MatchResult` + `list[MarketGap]` |
-| `GET /career/roadmap` | M1 | query `role`, optional `pinned_job_id` | `Roadmap` |
-| `GET /career/adjacent` | M1 | query `role` | `list[{role, match_pct}]` |
-| `POST /chat` | M1 | `{message, history[]}`, streamed response | server-sent events |
-| `GET /jobs/nearby` | M5 | query `lat`, `lng`, `radius` | `list[JobMatch]` |
+| `POST /profile/cv` | M1 | multipart: `file` (PDF/DOCX/TXT, max 5 MB); optional form fields `target_role`, `mode` (`student` or `job_seeker`), `lat`, `lng`, `city` | `Profile` (skills, projects, experience; plus gap and nearby jobs if `target_role` is given and the data files exist) |
+| `PATCH /profile` | M1 | `ProfilePatch`: any of `mode`, `target_role`, `location` | `Profile` |
+| `DELETE /profile` | M1 | none ("Delete my data") | 204 |
+| `GET /career/gap` | M1 | query `role` (default: profile's target role), `radius_km` (default 25), optional `lat`, `lng` | `GapResponse`: `match`, `market_gaps`, `jobs_nearby`. Also saved on the profile |
+| `GET /career/roadmap` | M1 | query `role`, optional `pinned_job_id`, `radius_km` | `Roadmap` (4 weeks; pinning a job moves its missing skills first). Saved on the profile |
+| `GET /career/adjacent` | M1 | query `role`, `limit` (default 5) | `list[AdjacentRole]` |
+| `POST /chat` | M1 | `ChatRequest`: `{message, history[]}` | `text/event-stream`; see below |
+| `GET /jobs/nearby` | M5 | query `lat`, `lng`, `radius` | `list[JobMatch]` (use `services/geo.nearby_jobs` and `services/differential.score_job`) |
 | `POST /analyzer/run` | M5 | `{github_username, linkedin_export?}` | `{report_id}` |
 | `GET /analyzer/report` | M5 | query `report_id` | `list[Anomaly]` + integrity score |
 | `POST /interview/start` | M3 | `{role}` | `list[InterviewQuestion]` |
 | `POST /interview/answer` | M3 | audio + transcript + `list[NonVerbalSample]` | `AnswerResult` |
 | `GET /interview/report` | M3 | none | `InterviewReport` |
+
+## Errors
+
+| Status | Meaning |
+|---|---|
+| 404 | Unknown role or job id |
+| 409 | `/career/*` called before a CV was uploaded |
+| 413 | CV file larger than 5 MB |
+| 422 | Unsupported or unreadable CV file, missing `role`, or invalid parameters |
+| 502 | The LLM provider failed or returned something invalid |
+| 503 | A dataset file (`data/roles.json` etc.) is missing or malformed; the message names it |
+
+## `POST /chat` events
+
+Each event is one line `data: <json>` followed by a blank line. The front end switches on `type`:
+
+| `type` | Fields | Meaning |
+|---|---|---|
+| `open_map` | `radius_km`, `keyword` (or null) | Show the job map with this filter |
+| `open_career_map` | `role` | Show the career map for the role |
+| `open_interview` | `role` | Start the mock interview |
+| `text` | `delta` | Next piece of the answer; append to the message |
+| `done` | none | End of the answer |
+| `error` | `message` | The answer failed; show the message |
+
+Action events (`open_*`) arrive before the text of the answer.
+
+## Wiring (M5, `backend/main.py`)
+
+```python
+from backend.api import career, chat, profile
+app.include_router(profile.router)
+app.include_router(career.router)
+app.include_router(chat.router)
+```
+
+Python dependencies used by M1's code: `pydantic`, `fastapi`, `uvicorn`, `python-multipart`, `anthropic`, `openai`,
+`sentence-transformers`, `requests`, `pdfplumber`, `python-docx`. For tests also `pytest` and `httpx`.

@@ -57,7 +57,7 @@ def match(
         vectors = embed_cached([s.name for s in user_skills] + [t.name for t in pending])
         user_vecs, target_vecs = vectors[: len(user_skills)], vectors[len(user_skills):]
         for target, t_vec in zip(pending, target_vecs):
-            scores = [_dot(u_vec, t_vec) for u_vec in user_vecs]
+            scores = [cosine(u_vec, t_vec) for u_vec in user_vecs]
             top = max(range(len(scores)), key=scores.__getitem__)
             best[target.name.lower()] = (user_skills[top], scores[top])
 
@@ -85,7 +85,7 @@ def _pair(found: tuple[Skill, float], target: Skill) -> SkillMatch:
     return SkillMatch(name=user_skill.name, matched_to=target.name, similarity=round(max(0.0, min(1.0, score)), 3))
 
 
-def _dot(a: list[float], b: list[float]) -> float:
+def cosine(a: list[float], b: list[float]) -> float:
     # embed() returns unit vectors, so the dot product is the cosine similarity.
     return sum(x * y for x, y in zip(a, b))
 

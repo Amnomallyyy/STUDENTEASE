@@ -1,6 +1,7 @@
-"""The only module that talks to an LLM or embedding model. Everything else calls these two functions:
+"""The only module that talks to an LLM or embedding model. Everything else calls these functions:
 
     complete_json(prompt, schema)  -> validated instance of a Pydantic model
+    chat(messages, tools=...)      -> one chat turn, with optional tool calls (used by the chatbot)
     embed(texts)                   -> list of unit-length vectors
 
 Provider switch (env vars, all optional):
@@ -19,7 +20,7 @@ import os
 from functools import lru_cache
 from typing import Any, Callable, TypeVar
 
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, Field, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -147,6 +148,166 @@ def _openai_client():
     import openai
 
     return openai.OpenAI()  # reads OPENAI_API_KEY
+
+
+# --------------------------------------------------------------------------- chat with tools
+
+class ToolCall(BaseModel):
+    id: str
+    name: str
+    arguments: dict[str, Any] = Field(default_factory=dict)
+
+
+class AssistantTurn(BaseModel):
+    text: str = ""
+    tool_calls: list[ToolCall] = Field(default_factory=list)
+
+
+def chat(
+    messages: list[dict[str, Any]],
+    *,
+    system: str | None = None,
+    tools: list[dict[str, Any]] | None = None,
+    max_tokens: int = 1024,
+    temperature: float = 0.3,
+) -> AssistantTurn:
+    """One chat turn, with optional tool calling, in a provider-neutral format.
+
+    messages: {"role": "user"|"assistant"|"tool", "content": str, ...}. An assistant message may carry
+    "tool_calls": [{"id", "name", "arguments"}]; a tool message carries "tool_call_id" and "name".
+    tools: [{"name", "description", "parameters": <JSON Schema>}].
+    The Ollama path ignores `tools` (small local models are unreliable at them): it only answers in text.
+    """
+    provider = os.getenv("LLM_PROVIDER", "anthropic").lower()
+    call = _CHAT_PROVIDERS.get(provider)
+    if call is None:
+        raise LLMError(f"Unknown LLM_PROVIDER '{provider}'. Use one of: {', '.join(_CHAT_PROVIDERS)}.")
+    return call(messages, system, tools, max_tokens, temperature)
+
+
+def _anthropic_messages(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for m in messages:
+        if m["role"] == "tool":
+            block = {"type": "tool_result", "tool_use_id": m["tool_call_id"], "content": m["content"]}
+            last = out[-1] if out else None
+            if last and last["role"] == "user" and isinstance(last["content"], list) and last["content"][0].get("type") == "tool_result":
+                last["content"].append(block)
+            else:
+                out.append({"role": "user", "content": [block]})
+        elif m["role"] == "assistant":
+            blocks: list[dict[str, Any]] = []
+            if m.get("content"):
+                blocks.append({"type": "text", "text": m["content"]})
+            for c in m.get("tool_calls") or []:
+                blocks.append({"type": "tool_use", "id": c["id"], "name": c["name"], "input": c.get("arguments") or {}})
+            out.append({"role": "assistant", "content": blocks or m.get("content", "")})
+        else:
+            out.append({"role": "user", "content": m["content"]})
+    return out
+
+
+def _anthropic_chat(messages, system, tools, max_tokens, temperature) -> AssistantTurn:
+    client = _anthropic_client()
+    kwargs: dict[str, Any] = {
+        "model": os.getenv("ANTHROPIC_MODEL", DEFAULT_ANTHROPIC_MODEL),
+        "max_tokens": max_tokens,
+        "messages": _anthropic_messages(messages),
+    }
+    if system:
+        kwargs["system"] = system
+    if tools:
+        kwargs["tools"] = [
+            {"name": t["name"], "description": t.get("description", ""), "input_schema": t["parameters"]} for t in tools
+        ]
+    try:
+        response = client.messages.create(**kwargs)
+    except Exception as exc:
+        raise LLMError(f"Anthropic call failed: {exc}") from exc
+    text = "".join(b.text for b in response.content if b.type == "text")
+    calls = [ToolCall(id=b.id, name=b.name, arguments=dict(b.input)) for b in response.content if b.type == "tool_use"]
+    return AssistantTurn(text=text, tool_calls=calls)
+
+
+def _openai_chat(messages, system, tools, max_tokens, temperature) -> AssistantTurn:
+    client = _openai_client()
+    msgs: list[dict[str, Any]] = [{"role": "system", "content": system}] if system else []
+    for m in messages:
+        if m["role"] == "assistant":
+            entry: dict[str, Any] = {"role": "assistant", "content": m.get("content") or None}
+            if m.get("tool_calls"):
+                entry["tool_calls"] = [
+                    {"id": c["id"], "type": "function", "function": {"name": c["name"], "arguments": json.dumps(c.get("arguments") or {})}}
+                    for c in m["tool_calls"]
+                ]
+            msgs.append(entry)
+        elif m["role"] == "tool":
+            msgs.append({"role": "tool", "tool_call_id": m["tool_call_id"], "content": m["content"]})
+        else:
+            msgs.append({"role": m["role"], "content": m["content"]})
+    kwargs: dict[str, Any] = {
+        "model": os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL),
+        "messages": msgs,
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+    }
+    if tools:
+        kwargs["tools"] = [
+            {"type": "function", "function": {"name": t["name"], "description": t.get("description", ""), "parameters": t["parameters"]}}
+            for t in tools
+        ]
+    try:
+        response = client.chat.completions.create(**kwargs)
+    except Exception as exc:
+        raise LLMError(f"OpenAI call failed: {exc}") from exc
+    message = response.choices[0].message
+    calls = [
+        ToolCall(id=c.id, name=c.function.name, arguments=_loads_object(c.function.arguments))
+        for c in (message.tool_calls or [])
+    ]
+    return AssistantTurn(text=message.content or "", tool_calls=calls)
+
+
+def _ollama_chat(messages, system, tools, max_tokens, temperature) -> AssistantTurn:
+    import requests
+
+    host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+    msgs: list[dict[str, Any]] = [{"role": "system", "content": system}] if system else []
+    for m in messages:
+        if m["role"] == "tool":
+            msgs.append({"role": "user", "content": f"[result of {m.get('name', 'tool')}] {m['content']}"})
+        elif m.get("content"):
+            msgs.append({"role": m["role"], "content": m["content"]})
+    try:
+        resp = requests.post(
+            f"{host}/api/chat",
+            json={
+                "model": os.getenv("OLLAMA_MODEL", DEFAULT_OLLAMA_MODEL),
+                "messages": msgs,
+                "stream": False,
+                "options": {"temperature": temperature, "num_predict": max_tokens},
+            },
+            timeout=120,
+        )
+        resp.raise_for_status()
+    except Exception as exc:
+        raise LLMError(f"Ollama call failed: {exc}") from exc
+    return AssistantTurn(text=resp.json()["message"]["content"])
+
+
+def _loads_object(raw: str | None) -> dict[str, Any]:
+    try:
+        value = json.loads(raw or "{}")
+    except json.JSONDecodeError:
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
+_CHAT_PROVIDERS: dict[str, Callable[..., AssistantTurn]] = {
+    "anthropic": _anthropic_chat,
+    "openai": _openai_chat,
+    "ollama": _ollama_chat,
+}
 
 
 # --------------------------------------------------------------------------- embeddings

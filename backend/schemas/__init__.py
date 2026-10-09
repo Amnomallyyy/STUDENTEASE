@@ -1,3 +1,4 @@
+from .api import AdjacentRole, ChatMessage, ChatRequest, GapResponse, ProfilePatch
 from .interview import (
     AnswerResult,
     InterviewQuestion,
@@ -21,11 +22,13 @@ from .profile import (
     SkillMatch,
     UserMode,
 )
+from .role import Resource, Role
 from .skill import ExtractedCV, Experience, Project, Skill, SkillCategory
 
 __all__ = [
-    "AnswerResult", "Anomaly", "ExtractedCV", "Experience", "InterviewQuestion", "InterviewReport",
-    "Job", "JobMatch", "Location", "MarketGap", "MatchResult", "NonVerbalMetrics", "NonVerbalSample",
-    "Profile", "Project", "Roadmap", "RoadmapTask", "RoadmapWeek", "Skill", "SkillCategory",
-    "SkillMatch", "StarElement", "StarScore", "UserMode", "VerbalMetrics",
+    "AdjacentRole", "AnswerResult", "Anomaly", "ChatMessage", "ChatRequest", "ExtractedCV", "Experience",
+    "GapResponse", "InterviewQuestion", "InterviewReport", "Job", "JobMatch", "Location", "MarketGap",
+    "MatchResult", "NonVerbalMetrics", "NonVerbalSample", "Profile", "ProfilePatch", "Project", "Resource",
+    "Roadmap", "RoadmapTask", "RoadmapWeek", "Role", "Skill", "SkillCategory", "SkillMatch", "StarElement",
+    "StarScore", "UserMode", "VerbalMetrics",
 ]
