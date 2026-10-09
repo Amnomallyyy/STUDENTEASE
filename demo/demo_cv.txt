@@ -1,0 +1,36 @@
+SARA AHMED
+Karachi, Pakistan
+Email: sara.ahmed@example.com
+Phone: +92 300 0000000
+GitHub: github.com/careerlens-demo
+
+SUMMARY
+Final-year Computer Science student with hands-on experience in data analysis and reporting.
+Comfortable turning raw spreadsheets into clear dashboards and short written findings.
+Looking for a Data Analyst role in Karachi.
+
+EDUCATION
+BS Computer Science, Example University, Karachi
+Expected graduation: June 2027 (final year)
+
+SKILLS
+Programming: Python, Pandas, NumPy, Matplotlib, Jupyter
+Data and analysis: Excel, Statistics
+Tools: Git, Kubernetes
+Soft skills: Communication, Teamwork
+Expert in Docker.
+
+PROJECTS
+Sales Dashboard
+Built an interactive sales reporting dashboard for a retail dataset using Python, Pandas and Matplotlib.
+Cleaned and aggregated monthly sales data and visualised trends by region and product line.
+github.com/careerlens-demo/sales-dashboard
+
+Student Grades Analysis
+Analysed anonymised student grade distributions in Jupyter notebooks and applied basic Statistics
+(descriptive measures, correlation) to identify subjects with the widest performance spread.
+github.com/careerlens-demo/grades-analysis
+
+EXPERIENCE
+Data Intern, Example Analytics (Pvt) Ltd, Jun 2025 - Aug 2025
+Prepared weekly reports for the operations team by cleaning data in Python and building summary tables in Excel.

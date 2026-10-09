@@ -1,0 +1,383 @@
+{
+  "JavaScript": [
+    "JS",
+    "Java Script",
+    "ECMAScript",
+    "ES6"
+  ],
+  "TypeScript": [
+    "TS"
+  ],
+  "Python": [
+    "Python3",
+    "Python 3",
+    "Py"
+  ],
+  "React": [
+    "ReactJS",
+    "React.js",
+    "React JS"
+  ],
+  "Node.js": [
+    "Node",
+    "NodeJS",
+    "Node JS"
+  ],
+  "Express.js": [
+    "Express",
+    "ExpressJS"
+  ],
+  "Next.js": [
+    "NextJS",
+    "Next JS"
+  ],
+  "Vue.js": [
+    "Vue",
+    "VueJS"
+  ],
+  "Angular": [
+    "AngularJS",
+    "Angular JS"
+  ],
+  "PostgreSQL": [
+    "Postgres",
+    "Postgre SQL"
+  ],
+  "MySQL": [
+    "My SQL"
+  ],
+  "SQL Server": [
+    "MS SQL Server",
+    "MSSQL",
+    "Microsoft SQL Server",
+    "T-SQL"
+  ],
+  "SQL": [
+    "Structured Query Language",
+    "SQL Queries"
+  ],
+  "MongoDB": [
+    "Mongo",
+    "Mongo DB"
+  ],
+  "Jupyter": [
+    "Jupyter Notebook",
+    "Jupyter Notebooks",
+    "JupyterLab",
+    "Jupyter Lab",
+    "IPython Notebook"
+  ],
+  "Excel": [
+    "MS Excel",
+    "Microsoft Excel",
+    "Advanced Excel",
+    "Excel Spreadsheets"
+  ],
+  "Power BI": [
+    "PowerBI",
+    "MS Power BI",
+    "Microsoft Power BI"
+  ],
+  "Tableau": [
+    "Tableau Desktop",
+    "Tableau Public"
+  ],
+  "Looker Studio": [
+    "Google Data Studio",
+    "Data Studio"
+  ],
+  "scikit-learn": [
+    "Sklearn",
+    "Scikit Learn",
+    "Sci-kit Learn"
+  ],
+  "TensorFlow": [
+    "TF",
+    "Tensor Flow"
+  ],
+  "PyTorch": [
+    "Torch"
+  ],
+  "Hugging Face": [
+    "HuggingFace",
+    "Hugging Face Transformers"
+  ],
+  "AWS": [
+    "AWS Cloud",
+    "Amazon Web Services",
+    "Amazon AWS"
+  ],
+  "Azure": [
+    "Microsoft Azure",
+    "MS Azure",
+    "Azure Cloud"
+  ],
+  "Google Cloud": [
+    "GCP",
+    "Google Cloud Platform"
+  ],
+  "Kubernetes": [
+    "K8s"
+  ],
+  "Go": [
+    "Golang",
+    "Go Lang"
+  ],
+  "C#": [
+    "C sharp",
+    "CSharp",
+    "C-Sharp"
+  ],
+  "C++": [
+    "CPP",
+    "C plus plus"
+  ],
+  ".NET": [
+    "Dot Net",
+    "DotNet",
+    ".NET Core",
+    "ASP.NET"
+  ],
+  "HTML": [
+    "HTML5"
+  ],
+  "CSS": [
+    "CSS3"
+  ],
+  "Bash": [
+    "Shell Scripting",
+    "Bash Scripting",
+    "Shell"
+  ],
+  "Linux": [
+    "Ubuntu",
+    "GNU/Linux"
+  ],
+  "PowerShell": [
+    "Power Shell"
+  ],
+  "Machine Learning": [
+    "ML"
+  ],
+  "Deep Learning": [
+    "DL",
+    "Neural Networks"
+  ],
+  "Natural Language Processing": [
+    "NLP"
+  ],
+  "Large Language Models": [
+    "LLM",
+    "LLMs"
+  ],
+  "Generative AI": [
+    "GenAI",
+    "Gen AI"
+  ],
+  "Data Visualization": [
+    "Data Visualisation",
+    "Data Viz",
+    "Dashboards"
+  ],
+  "Statistics": [
+    "Statistical Analysis",
+    "Stats"
+  ],
+  "Data Cleaning": [
+    "Data Wrangling",
+    "Data Cleansing"
+  ],
+  "A/B Testing": [
+    "AB Testing",
+    "Split Testing"
+  ],
+  "ETL": [
+    "ETL Pipelines",
+    "Extract Transform Load",
+    "ELT"
+  ],
+  "Data Warehousing": [
+    "Data Warehouse"
+  ],
+  "Data Modeling": [
+    "Data Modelling"
+  ],
+  "REST APIs": [
+    "REST",
+    "RESTful APIs",
+    "REST API",
+    "RESTful"
+  ],
+  "CI/CD": [
+    "CICD",
+    "CI CD",
+    "Continuous Integration",
+    "Continuous Delivery"
+  ],
+  "Infrastructure as Code": [
+    "IaC"
+  ],
+  "Object-Oriented Programming": [
+    "OOP",
+    "Object Oriented Programming"
+  ],
+  "Data Structures and Algorithms": [
+    "DSA",
+    "Data Structures",
+    "Algorithms",
+    "Data Structures & Algorithms"
+  ],
+  "Apache Spark": [
+    "Spark",
+    "PySpark"
+  ],
+  "Apache Airflow": [
+    "Airflow"
+  ],
+  "Apache Kafka": [
+    "Kafka"
+  ],
+  "BigQuery": [
+    "Google BigQuery"
+  ],
+  "Elasticsearch": [
+    "Elastic Search"
+  ],
+  "Adobe Photoshop": [
+    "Photoshop"
+  ],
+  "Adobe XD": [
+    "Adobe Experience Design"
+  ],
+  "Google Analytics": [
+    "GA4",
+    "Google Analytics 4"
+  ],
+  "SEO": [
+    "Search Engine Optimization",
+    "Search Engine Optimisation"
+  ],
+  "Microsoft Office": [
+    "MS Office",
+    "Office 365",
+    "Microsoft 365"
+  ],
+  "Microsoft Project": [
+    "MS Project"
+  ],
+  "Active Directory": [
+    "Microsoft Active Directory"
+  ],
+  "Selenium": [
+    "Selenium WebDriver"
+  ],
+  "Software Testing": [
+    "QA Testing",
+    "Manual Testing",
+    "Quality Assurance"
+  ],
+  "Test Automation": [
+    "Automation Testing",
+    "Automated Testing"
+  ],
+  "Penetration Testing": [
+    "Pen Testing",
+    "Pentesting",
+    "Ethical Hacking"
+  ],
+  "Networking": [
+    "Computer Networking",
+    "Computer Networks",
+    "TCP/IP"
+  ],
+  "Cloud Computing": [
+    "Cloud"
+  ],
+  "Monitoring": [
+    "Observability"
+  ],
+  "Communication": [
+    "Communication Skills",
+    "Verbal Communication",
+    "Written Communication"
+  ],
+  "Teamwork": [
+    "Team Player",
+    "Collaboration",
+    "Team Work"
+  ],
+  "Problem Solving": [
+    "Problem-Solving"
+  ],
+  "Presentation Skills": [
+    "Presentations",
+    "Public Speaking"
+  ],
+  "Leadership": [
+    "Team Leadership"
+  ],
+  "Financial Modeling": [
+    "Financial Modelling"
+  ],
+  "Product Roadmapping": [
+    "Roadmapping",
+    "Product Roadmap"
+  ],
+  "Technical Documentation": [
+    "Technical Writing",
+    "Documentation"
+  ],
+  "Microcontrollers": [
+    "MCU",
+    "Microcontroller"
+  ],
+  "RTOS": [
+    "Real-Time Operating Systems",
+    "Real Time Operating System"
+  ],
+  "IoT": [
+    "Internet of Things"
+  ],
+  "Tailwind CSS": [
+    "Tailwind",
+    "TailwindCSS"
+  ],
+  "FastAPI": [
+    "Fast API"
+  ],
+  "Spring Boot": [
+    "Spring",
+    "SpringBoot"
+  ],
+  "Jira": [
+    "Atlassian Jira"
+  ],
+  "Agile": [
+    "Agile Methodologies",
+    "Agile Methodology"
+  ],
+  "Firebase": [
+    "Google Firebase"
+  ],
+  "Customer Service": [
+    "Customer Support"
+  ],
+  "Web Accessibility": [
+    "Accessibility",
+    "a11y",
+    "WCAG"
+  ],
+  "Responsive Design": [
+    "Responsive Web Design",
+    "Mobile-First Design"
+  ],
+  "Usability Testing": [
+    "User Testing"
+  ],
+  "User Research": [
+    "UX Research"
+  ],
+  "Wireframing": [
+    "Wireframes"
+  ]
+}

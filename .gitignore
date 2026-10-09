@@ -1,0 +1,28 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+backend/cache/
+
+# Secrets and local config
+.env
+.env.local
+.env.*.local
+
+# Node / frontend
+node_modules/
+dist/
+frontend/dist/
+frontend/.vite/
+
+# Build-time caches owned by scripts/
+data/geocode_cache.json
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

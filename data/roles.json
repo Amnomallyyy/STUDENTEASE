@@ -1,0 +1,2774 @@
+[
+  {
+    "id": "data-analyst",
+    "name": "Data Analyst",
+    "skills": [
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Statistics",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Visualization",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Pandas",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Tableau",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Power BI",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "NumPy",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jupyter",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Data Cleaning",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Presentation Skills",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "A/B Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "data-scientist",
+    "name": "Data Scientist",
+    "skills": [
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Statistics",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Machine Learning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Pandas",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "scikit-learn",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Visualization",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "NumPy",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jupyter",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Feature Engineering",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Deep Learning",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "TensorFlow",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "A/B Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Linear Algebra",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Matplotlib",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Seaborn",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "R",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "data-engineer",
+    "name": "Data Engineer",
+    "skills": [
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "ETL",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Warehousing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Apache Spark",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Apache Airflow",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Modeling",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "AWS",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Apache Kafka",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "dbt",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Big Data",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Snowflake",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "BigQuery",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "machine-learning-engineer",
+    "name": "Machine Learning Engineer",
+    "skills": [
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Machine Learning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Deep Learning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "PyTorch",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "scikit-learn",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "MLOps",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "TensorFlow",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Feature Engineering",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "NumPy",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Pandas",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "AWS",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Linear Algebra",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Kubernetes",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "MLflow",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Keras",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "ai-engineer",
+    "name": "AI Engineer",
+    "skills": [
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Large Language Models",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Prompt Engineering",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Deep Learning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "PyTorch",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Natural Language Processing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Hugging Face",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "LangChain",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "FastAPI",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Generative AI",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Computer Vision",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Machine Learning",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Flask",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "business-analyst",
+    "name": "Business Analyst",
+    "skills": [
+      {
+        "name": "Business Analysis",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Requirements Gathering",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Visualization",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Stakeholder Management",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Power BI",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Presentation Skills",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Critical Thinking",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Tableau",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Microsoft Office",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "business-intelligence-developer",
+    "name": "Business Intelligence Developer",
+    "skills": [
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Power BI",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Modeling",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Warehousing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "ETL",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Data Visualization",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Tableau",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "SQL Server",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "DAX",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Looker Studio",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Statistics",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Business Analysis",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "software-engineer",
+    "name": "Software Engineer",
+    "skills": [
+      {
+        "name": "Data Structures and Algorithms",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Object-Oriented Programming",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Java",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "System Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "JavaScript",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Software Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "C++",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Teamwork",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "C#",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": ".NET",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Spring Boot",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "frontend-developer",
+    "name": "Frontend Developer",
+    "skills": [
+      {
+        "name": "HTML",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "CSS",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "JavaScript",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "React",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Responsive Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "TypeScript",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Tailwind CSS",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Next.js",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Web Accessibility",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Figma",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jest",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bootstrap",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Angular",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Vue.js",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "backend-developer",
+    "name": "Backend Developer",
+    "skills": [
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Node.js",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "System Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Django",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "FastAPI",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Express.js",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Redis",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "MongoDB",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Software Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Microservices",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "AWS",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Java",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Go",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Elasticsearch",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "full-stack-developer",
+    "name": "Full Stack Developer",
+    "skills": [
+      {
+        "name": "HTML",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "CSS",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "JavaScript",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "React",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Node.js",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "TypeScript",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Express.js",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "MongoDB",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Next.js",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Responsive Design",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Software Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "mobile-app-developer",
+    "name": "Mobile App Developer",
+    "skills": [
+      {
+        "name": "Flutter",
+        "category": "framework",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Dart",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Kotlin",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Android Studio",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Firebase",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "React Native",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "JavaScript",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Swift",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Xcode",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Java",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Software Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "devops-engineer",
+    "name": "DevOps Engineer",
+    "skills": [
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Kubernetes",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "CI/CD",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "AWS",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Terraform",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Jenkins",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "GitHub Actions",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Ansible",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Monitoring",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Prometheus",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Grafana",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Nginx",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Infrastructure as Code",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Networking",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "cloud-engineer",
+    "name": "Cloud Engineer",
+    "skills": [
+      {
+        "name": "AWS",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Cloud Computing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Networking",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Terraform",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Docker",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Infrastructure as Code",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Azure",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Google Cloud",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Kubernetes",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "CI/CD",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Monitoring",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Network Security",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "qa-engineer",
+    "name": "QA Engineer",
+    "skills": [
+      {
+        "name": "Software Testing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Test Automation",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Selenium",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Postman",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Attention to Detail",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "JavaScript",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Cypress",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Playwright",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "pytest",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "JUnit",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "cybersecurity-analyst",
+    "name": "Cybersecurity Analyst",
+    "skills": [
+      {
+        "name": "Network Security",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Networking",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Incident Response",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Penetration Testing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Wireshark",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Cryptography",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Nmap",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Burp Suite",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Metasploit",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Splunk",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Kali Linux",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Vulnerability Assessment",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Active Directory",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "database-administrator",
+    "name": "Database Administrator",
+    "skills": [
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "MySQL",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Database Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Backup and Recovery",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Performance Tuning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL Server",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Oracle Database",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "MongoDB",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Monitoring",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Data Modeling",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Troubleshooting",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Attention to Detail",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "network-engineer",
+    "name": "Network Engineer",
+    "skills": [
+      {
+        "name": "Networking",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Routing and Switching",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Cisco IOS",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Network Security",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Troubleshooting",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Wireshark",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Firewalls",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Bash",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Cloud Computing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Monitoring",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Windows Server",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Active Directory",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "it-support-specialist",
+    "name": "IT Support Specialist",
+    "skills": [
+      {
+        "name": "Troubleshooting",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Customer Service",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Windows Server",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Active Directory",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Networking",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Hardware Support",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Microsoft Office",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "PowerShell",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Time Management",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Cloud Computing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "product-manager",
+    "name": "Product Manager",
+    "skills": [
+      {
+        "name": "Product Strategy",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Product Roadmapping",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Stakeholder Management",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "User Research",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Scrum",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "A/B Testing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Presentation Skills",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Leadership",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Critical Thinking",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Market Research",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Figma",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Negotiation",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "project-manager",
+    "name": "Project Manager",
+    "skills": [
+      {
+        "name": "Project Planning",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Risk Management",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Stakeholder Management",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Scrum",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Budgeting",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Leadership",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Microsoft Project",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Time Management",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Negotiation",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Presentation Skills",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Trello",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Confluence",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "ui-ux-designer",
+    "name": "UI/UX Designer",
+    "skills": [
+      {
+        "name": "Figma",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "User Research",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Wireframing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Prototyping",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Usability Testing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Visual Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Adobe XD",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Adobe Photoshop",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "HTML",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "CSS",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Web Accessibility",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Responsive Design",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Creativity",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Empathy",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Canva",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Design Systems",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "digital-marketing-specialist",
+    "name": "Digital Marketing Specialist",
+    "skills": [
+      {
+        "name": "SEO",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Google Ads",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Google Analytics",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Social Media Marketing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Content Marketing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Email Marketing",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Copywriting",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Canva",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "WordPress",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Mailchimp",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Google Search Console",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Creativity",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Data Visualization",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Market Research",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "technical-writer",
+    "name": "Technical Writer",
+    "skills": [
+      {
+        "name": "Technical Documentation",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Writing",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "API Documentation",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Markdown",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Attention to Detail",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "REST APIs",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "HTML",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Confluence",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Microsoft Office",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Agile",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Jira",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "financial-analyst",
+    "name": "Financial Analyst",
+    "skills": [
+      {
+        "name": "Excel",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Financial Modeling",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Financial Analysis",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Accounting",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Valuation",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Statistics",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Communication",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Presentation Skills",
+        "category": "soft_skill",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "SQL",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Power BI",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Forecasting",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Budgeting",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Attention to Detail",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Microsoft Office",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Critical Thinking",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  },
+  {
+    "id": "embedded-systems-engineer",
+    "name": "Embedded Systems Engineer",
+    "skills": [
+      {
+        "name": "C",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "C++",
+        "category": "language",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Microcontrollers",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "RTOS",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Circuit Design",
+        "category": "domain",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Git",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Linux",
+        "category": "tool",
+        "weight": 3,
+        "requirement": "core"
+      },
+      {
+        "name": "Python",
+        "category": "language",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "FreeRTOS",
+        "category": "framework",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Arduino",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Raspberry Pi",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "PCB Design",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Signal Processing",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "IoT",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "KiCad",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "MATLAB",
+        "category": "tool",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Troubleshooting",
+        "category": "domain",
+        "weight": 1,
+        "requirement": "preferred"
+      },
+      {
+        "name": "Problem Solving",
+        "category": "soft_skill",
+        "weight": 1,
+        "requirement": "preferred"
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+# Render blueprint for the CareerLens backend (https://render.com/docs/blueprint-spec).
+# Frontend is deployed separately on Vercel (frontend/vercel.json, M2). Set the secret values in the Render
+# dashboard: every `sync: false` var is prompted for on first deploy and never stored in git.
+services:
+  - type: web
+    name: careerlens-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true          # every merge to main redeploys
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: LLM_PROVIDER
+        value: anthropic      # anthropic | openai | ollama
+      - key: EMBED_PROVIDER
+        value: local          # local (MiniLM baked into the image) | openai
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        sync: false
+      - key: OPENAI_EMBED_MODEL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false           # optional: raises the GitHub API limit from 60 to 5000 req/h
+      - key: CORS_ORIGINS
+        sync: false           # e.g. https://careerlens.vercel.app,http://localhost:5173
+      - key: LLM_CACHE_PATH
+        value: demo/cached_responses.json   # replay recorded demo answers when the LLM is unreachable
+      - key: GITHUB_CACHE_PATH
+        value: demo/cached_responses.json

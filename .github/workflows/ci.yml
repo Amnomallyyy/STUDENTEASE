@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend (ruff + pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements-ci.txt
+      - name: Install (light set, no sentence-transformers / torch)
+        run: pip install -r backend/requirements-ci.txt
+      - name: Lint
+        run: ruff check backend scripts
+      - name: Test
+        env:
+          # Tests never call a provider; these only make the defaults explicit.
+          LLM_PROVIDER: anthropic
+          EMBED_PROVIDER: local
+        run: pytest backend/tests -q
+
+  frontend:
+    name: Frontend (vitest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # hashFiles() is evaluated against the checked-out workspace, so the guard lives on the steps.
+      - uses: actions/setup-node@v4
+        if: hashFiles('frontend/package.json') != ''
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        if: hashFiles('frontend/package.json') != ''
+        working-directory: frontend
+        run: npm ci
+      - name: Test
+        if: hashFiles('frontend/package.json') != ''
+        working-directory: frontend
+        run: npm test -- --run
+      - name: Skipped
+        if: hashFiles('frontend/package.json') == ''
+        run: echo "frontend/package.json not present yet; skipping frontend job"

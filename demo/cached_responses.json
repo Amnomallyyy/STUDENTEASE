@@ -1,0 +1,47 @@
+{
+  "github": {
+    "careerlens-demo": {
+      "username": "careerlens-demo",
+      "repos": [
+        {
+          "name": "sales-dashboard",
+          "description": "Interactive sales reporting dashboard for a retail dataset (Python, Pandas, Matplotlib).",
+          "url": "https://github.com/careerlens-demo/sales-dashboard",
+          "languages": {"Python": 52000},
+          "topics": ["pandas", "numpy", "matplotlib"],
+          "readme": "# Sales Dashboard\n\nAn interactive dashboard that cleans and aggregates monthly retail sales data and plots trends by region and product line.\n\n## Stack\n\n- Python 3.11\n- Pandas and NumPy for cleaning and aggregation\n- Matplotlib for the charts\n\n## Run\n\n```\npip install -r requirements.txt\npython dashboard.py --input data/sales.csv\n```\n\n## Features\n\n- Monthly revenue by region\n- Top 10 products by units sold\n- Year-over-year comparison\n",
+          "commit_count": 12,
+          "pushed_at": "2026-08-21T14:12:09Z"
+        },
+        {
+          "name": "weather-dashboard",
+          "description": "Browser weather dashboard that calls a public weather API and renders a 5-day forecast.",
+          "url": "https://github.com/careerlens-demo/weather-dashboard",
+          "languages": {"JavaScript": 41000, "HTML": 6000, "CSS": 4000},
+          "topics": ["weather", "api"],
+          "readme": "# Weather Dashboard\n\nA small single-page app written in vanilla JavaScript. It fetches a 5-day forecast from a public weather API and renders the cards with plain HTML and CSS.\n\n## Run\n\nOpen `index.html` in a browser, or serve the folder with any static server.\n\n## Notes\n\n- Uses `fetch` and async/await\n- No build step, no framework\n",
+          "commit_count": 8,
+          "pushed_at": "2026-05-03T09:40:51Z"
+        },
+        {
+          "name": "grades-analysis",
+          "description": "Jupyter notebooks analysing anonymised student grade distributions with descriptive statistics.",
+          "url": "https://github.com/careerlens-demo/grades-analysis",
+          "languages": {"Jupyter Notebook": 15000},
+          "topics": ["statistics"],
+          "readme": "# Student Grades Analysis\n\nNotebooks that explore anonymised student grade data: descriptive statistics, correlation between subjects and the subjects with the widest performance spread.\n\n## Contents\n\n- `01_clean.ipynb` - load and clean the CSV\n- `02_describe.ipynb` - descriptive statistics per subject\n- `03_correlation.ipynb` - correlation matrix and plots\n",
+          "commit_count": 5,
+          "pushed_at": "2026-03-14T18:05:27Z"
+        }
+      ],
+      "language_share": {
+        "Python": 0.441,
+        "JavaScript": 0.347,
+        "Jupyter Notebook": 0.127,
+        "HTML": 0.051,
+        "CSS": 0.034
+      }
+    }
+  },
+  "llm": {}
+}

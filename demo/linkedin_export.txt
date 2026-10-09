@@ -1,0 +1,36 @@
+LinkedIn Data Export
+Downloaded: 2026-10-09
+
+Profile
+First Name: Sara
+Last Name: Ahmed
+Headline: Final-year BS Computer Science student | Aspiring Data Analyst
+Geo Location: Karachi, Sindh, Pakistan
+Industry: Information Technology
+Summary: Final-year Computer Science student who enjoys turning spreadsheets into clear dashboards and short written findings. Open to Data Analyst roles in Karachi.
+
+Experience
+Title: Data Intern
+Company Name: Example Analytics (Pvt) Ltd
+Location: Karachi, Pakistan
+Started On: Jun 2025
+Finished On: Aug 2025
+Description: Prepared weekly reports for the operations team by cleaning data in Python and building summary tables in Excel.
+
+Education
+School Name: Example University
+Degree Name: Bachelor of Science - BS
+Field of Study: Computer Science
+Start Date: 2023
+End Date: 2027
+Notes: Final year
+
+Skills
+Python
+Pandas
+Matplotlib
+Excel
+Statistics
+Git
+Communication
+Teamwork
