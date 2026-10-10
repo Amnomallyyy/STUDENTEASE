@@ -142,13 +142,15 @@ from the repo root (the image bakes in the MiniLM model so a cold start is fast)
 
 ### Environment variables
 
-All optional; `.env.example` documents each one. The important ones:
+All optional; `.env.example` documents each one. The backend loads `<repo root>/.env` on startup (blank values keep the defaults; variables already set in the shell win). The important ones:
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `LLM_PROVIDER` | `anthropic` | `anthropic`, `openai` or `ollama` (local fallback) |
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | | Provider key |
+| `OPENAI_BASE_URL` | OpenAI | Any OpenAI-compatible host, e.g. Groq `https://api.groq.com/openai/v1` with `LLM_PROVIDER=openai` and `OPENAI_MODEL=openai/gpt-oss-120b` |
 | `ANTHROPIC_MODEL` / `OPENAI_MODEL` / `OLLAMA_MODEL` | `claude-sonnet-5-5` / `gpt-4o-mini` / `llama3.2` | Model ids |
+| `OPENAI_FALLBACK_MODEL` / `OPENAI_REASONING_EFFORT` | `openai/gpt-oss-20b` for gpt-oss-120b / `low` for gpt-oss | Second model tried on a 429 rate limit; reasoning budget for reasoning models |
 | `EMBED_PROVIDER` / `EMBED_MODEL` | `local` / `sentence-transformers/all-MiniLM-L6-v2` | Embeddings; `openai` uses `OPENAI_EMBED_MODEL` |
 | `GITHUB_TOKEN` | | Optional; 5000 req/h instead of 60 |
 | `LLM_CACHE_PATH`, `LLM_CACHE_RECORD`, `GITHUB_CACHE_PATH` | | Offline replay of the demo (see `demo/README.md`) |

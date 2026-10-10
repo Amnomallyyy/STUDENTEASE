@@ -1,47 +1,463 @@
 {
-  "github": {
-    "careerlens-demo": {
-      "username": "careerlens-demo",
-      "repos": [
-        {
-          "name": "sales-dashboard",
-          "description": "Interactive sales reporting dashboard for a retail dataset (Python, Pandas, Matplotlib).",
-          "url": "https://github.com/careerlens-demo/sales-dashboard",
-          "languages": {"Python": 52000},
-          "topics": ["pandas", "numpy", "matplotlib"],
-          "readme": "# Sales Dashboard\n\nAn interactive dashboard that cleans and aggregates monthly retail sales data and plots trends by region and product line.\n\n## Stack\n\n- Python 3.11\n- Pandas and NumPy for cleaning and aggregation\n- Matplotlib for the charts\n\n## Run\n\n```\npip install -r requirements.txt\npython dashboard.py --input data/sales.csv\n```\n\n## Features\n\n- Monthly revenue by region\n- Top 10 products by units sold\n- Year-over-year comparison\n",
-          "commit_count": 12,
-          "pushed_at": "2026-08-21T14:12:09Z"
-        },
-        {
-          "name": "weather-dashboard",
-          "description": "Browser weather dashboard that calls a public weather API and renders a 5-day forecast.",
-          "url": "https://github.com/careerlens-demo/weather-dashboard",
-          "languages": {"JavaScript": 41000, "HTML": 6000, "CSS": 4000},
-          "topics": ["weather", "api"],
-          "readme": "# Weather Dashboard\n\nA small single-page app written in vanilla JavaScript. It fetches a 5-day forecast from a public weather API and renders the cards with plain HTML and CSS.\n\n## Run\n\nOpen `index.html` in a browser, or serve the folder with any static server.\n\n## Notes\n\n- Uses `fetch` and async/await\n- No build step, no framework\n",
-          "commit_count": 8,
-          "pushed_at": "2026-05-03T09:40:51Z"
-        },
-        {
-          "name": "grades-analysis",
-          "description": "Jupyter notebooks analysing anonymised student grade distributions with descriptive statistics.",
-          "url": "https://github.com/careerlens-demo/grades-analysis",
-          "languages": {"Jupyter Notebook": 15000},
-          "topics": ["statistics"],
-          "readme": "# Student Grades Analysis\n\nNotebooks that explore anonymised student grade data: descriptive statistics, correlation between subjects and the subjects with the widest performance spread.\n\n## Contents\n\n- `01_clean.ipynb` - load and clean the CSV\n- `02_describe.ipynb` - descriptive statistics per subject\n- `03_correlation.ipynb` - correlation matrix and plots\n",
-          "commit_count": 5,
-          "pushed_at": "2026-03-14T18:05:27Z"
-        }
-      ],
-      "language_share": {
-        "Python": 0.441,
-        "JavaScript": 0.347,
-        "Jupyter Notebook": 0.127,
-        "HTML": 0.051,
-        "CSS": 0.034
-      }
+ "github": {
+  "careerlens-demo": {
+   "username": "careerlens-demo",
+   "repos": [
+    {
+     "name": "sales-dashboard",
+     "description": "Interactive sales reporting dashboard for a retail dataset (Python, Pandas, Matplotlib).",
+     "url": "https://github.com/careerlens-demo/sales-dashboard",
+     "languages": {
+      "Python": 52000
+     },
+     "topics": [
+      "pandas",
+      "numpy",
+      "matplotlib"
+     ],
+     "readme": "# Sales Dashboard\n\nAn interactive dashboard that cleans and aggregates monthly retail sales data and plots trends by region and product line.\n\n## Stack\n\n- Python 3.11\n- Pandas and NumPy for cleaning and aggregation\n- Matplotlib for the charts\n\n## Run\n\n```\npip install -r requirements.txt\npython dashboard.py --input data/sales.csv\n```\n\n## Features\n\n- Monthly revenue by region\n- Top 10 products by units sold\n- Year-over-year comparison\n",
+     "commit_count": 12,
+     "pushed_at": "2026-08-21T14:12:09Z"
+    },
+    {
+     "name": "weather-dashboard",
+     "description": "Browser weather dashboard that calls a public weather API and renders a 5-day forecast.",
+     "url": "https://github.com/careerlens-demo/weather-dashboard",
+     "languages": {
+      "JavaScript": 41000,
+      "HTML": 6000,
+      "CSS": 4000
+     },
+     "topics": [
+      "weather",
+      "api"
+     ],
+     "readme": "# Weather Dashboard\n\nA small single-page app written in vanilla JavaScript. It fetches a 5-day forecast from a public weather API and renders the cards with plain HTML and CSS.\n\n## Run\n\nOpen `index.html` in a browser, or serve the folder with any static server.\n\n## Notes\n\n- Uses `fetch` and async/await\n- No build step, no framework\n",
+     "commit_count": 8,
+     "pushed_at": "2026-05-03T09:40:51Z"
+    },
+    {
+     "name": "grades-analysis",
+     "description": "Jupyter notebooks analysing anonymised student grade distributions with descriptive statistics.",
+     "url": "https://github.com/careerlens-demo/grades-analysis",
+     "languages": {
+      "Jupyter Notebook": 15000
+     },
+     "topics": [
+      "statistics"
+     ],
+     "readme": "# Student Grades Analysis\n\nNotebooks that explore anonymised student grade data: descriptive statistics, correlation between subjects and the subjects with the widest performance spread.\n\n## Contents\n\n- `01_clean.ipynb` - load and clean the CSV\n- `02_describe.ipynb` - descriptive statistics per subject\n- `03_correlation.ipynb` - correlation matrix and plots\n",
+     "commit_count": 5,
+     "pushed_at": "2026-03-14T18:05:27Z"
     }
+   ],
+   "language_share": {
+    "Python": 0.441,
+    "JavaScript": 0.347,
+    "Jupyter Notebook": 0.127,
+    "HTML": 0.051,
+    "CSS": 0.034
+   }
+  }
+ },
+ "llm": {
+  "835ed342578a0cd6aa45e1046a3f0a850489a82787670ac390d37d6c1fe2ce82": {
+   "skills": [
+    {
+     "name": "Python",
+     "category": "language",
+     "evidence": [
+      "Programming: Python, Pandas, NumPy, Matplotlib, Jupyter"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Pandas",
+     "category": "tool",
+     "evidence": [
+      "Programming: Python, Pandas, NumPy, Matplotlib, Jupyter"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "NumPy",
+     "category": "tool",
+     "evidence": [
+      "Programming: Python, Pandas, NumPy, Matplotlib, Jupyter"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Matplotlib",
+     "category": "tool",
+     "evidence": [
+      "Programming: Python, Pandas, NumPy, Matplotlib, Jupyter"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Jupyter",
+     "category": "tool",
+     "evidence": [
+      "Programming: Python, Pandas, NumPy, Matplotlib, Jupyter"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Excel",
+     "category": "tool",
+     "evidence": [
+      "Data and analysis: Excel, Statistics"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Statistics",
+     "category": "domain",
+     "evidence": [
+      "Data and analysis: Excel, Statistics"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Git",
+     "category": "tool",
+     "evidence": [
+      "Tools: Git, Kubernetes"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Kubernetes",
+     "category": "tool",
+     "evidence": [
+      "Tools: Git, Kubernetes"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Docker",
+     "category": "tool",
+     "evidence": [
+      "Expert in Docker."
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Communication",
+     "category": "soft_skill",
+     "evidence": [
+      "Soft skills: Communication, Teamwork"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Teamwork",
+     "category": "soft_skill",
+     "evidence": [
+      "Soft skills: Communication, Teamwork"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    }
+   ],
+   "projects": [
+    {
+     "name": "Sales Dashboard",
+     "description": "Built an interactive sales reporting dashboard for a retail dataset using Python, Pandas and Matplotlib.",
+     "skills": [
+      "Python",
+      "Pandas",
+      "Matplotlib"
+     ],
+     "url": "github.com/careerlens-demo/sales-dashboard"
+    },
+    {
+     "name": "Student Grades Analysis",
+     "description": "Analyzed anonymized student grade distributions in Jupyter notebooks applying basic statistics to identify subjects with the widest performance spread.",
+     "skills": [
+      "Jupyter",
+      "Statistics"
+     ],
+     "url": "github.com/careerlens-demo/grades-analysis"
+    }
+   ],
+   "experience": [
+    {
+     "title": "Data Intern",
+     "organisation": "Example Analytics (Pvt) Ltd",
+     "summary": "Prepared weekly reports for the operations team by cleaning data in Python and building summary tables in Excel.",
+     "years": 0.25,
+     "skills": [
+      "Python",
+      "Excel"
+     ]
+    }
+   ]
   },
-  "llm": {}
+  "a190599462c2cb59ae40a87144ba7fea97bfcaf0601f84034fe15052366853ae": {
+   "weeks": [
+    {
+     "week": 1,
+     "focus": "SQL Foundations",
+     "tasks": [
+      {
+       "title": "Complete Kaggle Learn: Intro to SQL tutorial",
+       "skill": "SQL",
+       "resource_url": "https://www.kaggle.com/learn/intro-to-sql",
+       "hours": 4.0,
+       "done": false
+      },
+      {
+       "title": "Practice SQL joins using Khan Academy exercises",
+       "skill": "SQL",
+       "resource_url": "https://www.khanacademy.org/computing/computer-programming/sql",
+       "hours": 2.0,
+       "done": false
+      }
+     ]
+    },
+    {
+     "week": 2,
+     "focus": "Data Visualization & Power BI",
+     "tasks": [
+      {
+       "title": "Finish Kaggle Learn: Data Visualization and create two charts",
+       "skill": "Data Visualization",
+       "resource_url": "https://www.kaggle.com/learn/data-visualization",
+       "hours": 4.0,
+       "done": false
+      },
+      {
+       "title": "Build a sample Power BI dashboard with Microsoft Learn dataset",
+       "skill": "Power BI",
+       "resource_url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi",
+       "hours": 4.0,
+       "done": false
+      }
+     ]
+    },
+    {
+     "week": 3,
+     "focus": "Problem Solving & Tableau",
+     "tasks": [
+      {
+       "title": "Complete MIT OCW 6.0001 Python intro assignments",
+       "skill": "Problem Solving",
+       "resource_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+       "hours": 4.0,
+       "done": false
+      },
+      {
+       "title": "Watch Tableau free training videos and build a sample report",
+       "skill": "Tableau",
+       "resource_url": "https://www.tableau.com/learn/training",
+       "hours": 4.0,
+       "done": false
+      }
+     ]
+    },
+    {
+     "week": 4,
+     "focus": "A/B Testing & Presentation",
+     "tasks": [
+      {
+       "title": "Study Khan Academy Statistics and design an A/B test plan",
+       "skill": "A/B Testing",
+       "resource_url": "https://www.khanacademy.org/math/statistics-probability",
+       "hours": 4.0,
+       "done": false
+      },
+      {
+       "title": "Watch MIT OCW Management Communication lectures and prepare a presentation",
+       "skill": "Presentation Skills",
+       "resource_url": "https://ocw.mit.edu/courses/15-279-management-communication-for-undergraduates-fall-2012/",
+       "hours": 4.0,
+       "done": false
+      }
+     ]
+    }
+   ],
+   "pinned_job_id": null
+  },
+  "78d7428d574a4b477f6eeb32ef638daaa9088605e5e4da5838bebf916a6db665": {
+   "skills": [
+    {
+     "name": "Python",
+     "category": "language",
+     "evidence": [
+      "cleaning data in Python"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Pandas",
+     "category": "tool",
+     "evidence": [
+      "Pandas"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Matplotlib",
+     "category": "tool",
+     "evidence": [
+      "Matplotlib"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Excel",
+     "category": "tool",
+     "evidence": [
+      "building summary tables in Excel"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Statistics",
+     "category": "domain",
+     "evidence": [
+      "Statistics"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Git",
+     "category": "tool",
+     "evidence": [
+      "Git"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Communication",
+     "category": "soft_skill",
+     "evidence": [
+      "Communication"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    },
+    {
+     "name": "Teamwork",
+     "category": "soft_skill",
+     "evidence": [
+      "Teamwork"
+     ],
+     "sources": [],
+     "years": null,
+     "confidence": 1.0,
+     "weight": 1.0,
+     "requirement": null
+    }
+   ],
+   "projects": [],
+   "experience": [
+    {
+     "title": "Data Intern",
+     "organisation": "Example Analytics (Pvt) Ltd",
+     "summary": "Prepared weekly operational reports by cleaning data with Python and creating summary tables in Excel.",
+     "years": 0.2,
+     "skills": [
+      "Python",
+      "Excel"
+     ]
+    }
+   ]
+  },
+  "daf2e78d5ca1e18416a69de4485757621614f9c2398f0e0df94a357599b3e6c6": {
+   "fixes": [
+    {
+     "id": "overclaim:docker",
+     "why_it_matters": "Recruiter doubts Docker expertise without any project evidence, fearing overstated skills.",
+     "fix": "Change \"Expert in Docker\" to \"Familiar with Docker\""
+    },
+    {
+     "id": "unsupported_claim:kubernetes",
+     "why_it_matters": "Recruiter expects proof of Kubernetes use; its absence suggests a false claim.",
+     "fix": "Remove \"Kubernetes\" from the skills section"
+    },
+    {
+     "id": "missed_strength:javascript",
+     "why_it_matters": "Recruiter sees JavaScript in a repo and expects it listed to reflect front\u2011end capability.",
+     "fix": "Add \"JavaScript\" to the skills list"
+    }
+   ]
+  }
+ }
 }

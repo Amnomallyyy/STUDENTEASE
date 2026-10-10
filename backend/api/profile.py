@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
+from backend.api import analyzer
 from backend.api.errors import HANDLED, http_error
 from backend.schemas import Location, Profile, ProfilePatch, UserMode
 from backend.services import career, session
@@ -42,6 +43,16 @@ def upload_cv(
         extracted = extract_from_text(text)
     except HANDLED as exc:
         raise http_error(exc) from exc
+    if not extracted.skills:
+        # The file had text but nothing in it survived extraction: usually a designed PDF whose text layer
+        # comes out scrambled (letter-spaced or glyph-mapped), so no skill name or quote can be verified.
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"No skills could be read from this file ({len(text.strip())} characters of text were found). "
+                "If the CV is a designed or exported PDF, upload the DOCX or a TXT copy instead."
+            ),
+        )
 
     profile = Profile(
         mode=mode,
@@ -60,6 +71,7 @@ def upload_cv(
         if gap:
             profile.target_role = gap.role
             profile.gap, profile.market_gaps, profile.jobs_nearby = gap.match, gap.market_gaps, gap.jobs_nearby
+    analyzer.clear_reports()
     session.set_profile(profile)
     return profile
 
@@ -72,5 +84,6 @@ def patch_profile(patch: ProfilePatch) -> Profile:
 
 @router.delete("", status_code=204)
 def delete_profile() -> None:
-    """'Delete my data': clears the server-side profile (the browser clears its own copy)."""
+    """'Delete my data': clears the server-side profile and reports (the browser clears its own copy)."""
+    analyzer.clear_reports()
     session.reset_profile()

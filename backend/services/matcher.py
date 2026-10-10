@@ -23,6 +23,7 @@ from backend.schemas import MatchResult, Skill, SkillMatch
 
 MATCH_THRESHOLD = 0.80
 PARTIAL_THRESHOLD = 0.65
+EXTERNAL_SOURCES = ("github", "linkedin")  # sources that count as evidence for evidenced_pct
 
 CACHE_PATH: Path | None = Path(__file__).resolve().parents[1] / "cache" / "embeddings.json"
 _memory: dict[str, list[float]] | None = None
@@ -34,8 +35,13 @@ def match(
     *,
     match_threshold: float = MATCH_THRESHOLD,
     partial_threshold: float = PARTIAL_THRESHOLD,
+    evidenced: bool = False,
 ) -> MatchResult:
-    """Score a user's skills against the skills a role or job requires."""
+    """Score a user's skills against the skills a role or job requires.
+
+    With `evidenced=True` (the Analyzer has run) `evidenced_pct` is also filled: the same weighted
+    percentage counting only matched user skills that carry a github or linkedin source.
+    """
     if partial_threshold > match_threshold:
         raise ValueError("partial_threshold must not exceed match_threshold")
     if not target_skills:
@@ -65,11 +71,14 @@ def match(
     partial: list[SkillMatch] = []
     missing: list[Skill] = []
     gained = 0.0
+    gained_evidenced = 0.0
     for target in target_skills:
         found = best.get(target.name.lower())
         if found is not None and found[1] >= match_threshold:
             matched.append(_pair(found, target))
             gained += target.weight
+            if any(source in EXTERNAL_SOURCES for source in found[0].sources):
+                gained_evidenced += target.weight
         elif found is not None and found[1] >= partial_threshold:
             partial.append(_pair(found, target))
         else:
@@ -77,12 +86,22 @@ def match(
 
     total = sum(t.weight for t in target_skills)
     pct = 100.0 * gained / total if total > 0 else 100.0 * len(matched) / len(target_skills)
-    return MatchResult(match_pct=round(pct, 1), matched=matched, partial=partial, missing=missing)
+    evidenced_pct = None
+    if evidenced:
+        evidenced_pct = round(100.0 * gained_evidenced / total, 1) if total > 0 else 0.0
+    return MatchResult(
+        match_pct=round(pct, 1), evidenced_pct=evidenced_pct, matched=matched, partial=partial, missing=missing
+    )
 
 
 def _pair(found: tuple[Skill, float], target: Skill) -> SkillMatch:
     user_skill, score = found
-    return SkillMatch(name=user_skill.name, matched_to=target.name, similarity=round(max(0.0, min(1.0, score)), 3))
+    return SkillMatch(
+        name=user_skill.name,
+        matched_to=target.name,
+        similarity=round(max(0.0, min(1.0, score)), 3),
+        sources=list(user_skill.sources),
+    )
 
 
 def cosine(a: list[float], b: list[float]) -> float:

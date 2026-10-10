@@ -133,22 +133,69 @@ def _anthropic(prompt, json_schema, name, system, temperature, max_tokens) -> di
     raise LLMError("Anthropic reply contained no tool_use block.")
 
 
+def _openai_extra(model: str) -> dict[str, Any]:
+    """Provider-specific knobs. Reasoning models on OpenAI-compatible hosts (Groq's gpt-oss) spend the token
+    budget on hidden reasoning before the JSON; `reasoning_effort=low` keeps the answer inside max_tokens."""
+    effort = os.getenv("OPENAI_REASONING_EFFORT") or ("low" if "gpt-oss" in model else None)
+    return {"extra_body": {"reasoning_effort": effort}} if effort else {}
+
+
+def _is_rate_limit(exc: Exception) -> bool:
+    """HTTP 429 from the host (Groq's free tier has per-minute and per-day token caps per model)."""
+    text = f"{getattr(exc, 'code', '')} {getattr(exc, 'status_code', '')} {exc}"
+    return "rate_limit" in text or "429" in text
+
+
+def _fallback_model(model: str) -> str | None:
+    """A second model to try when `model` is rate-limited: OPENAI_FALLBACK_MODEL, or Groq's smaller gpt-oss."""
+    fallback = os.getenv("OPENAI_FALLBACK_MODEL") or ("openai/gpt-oss-20b" if "gpt-oss-120b" in model else None)
+    return fallback if fallback and fallback != model else None
+
+
+def _create_with_fallback(client: Any, kwargs: dict[str, Any]) -> Any:
+    """chat.completions.create, retried once on the fallback model when the host answers 429."""
+    try:
+        return client.chat.completions.create(**kwargs)
+    except Exception as exc:
+        fallback = _fallback_model(kwargs["model"])
+        if fallback is None or not _is_rate_limit(exc):
+            raise
+        return client.chat.completions.create(**{**kwargs, "model": fallback, **_openai_extra(fallback)})
+
+
+def _is_json_mode_failure(exc: Exception) -> bool:
+    """Groq returns 400 `json_validate_failed` when the model's output is not valid JSON (often truncated)."""
+    text = f"{getattr(exc, 'code', '')} {exc}"
+    return "json_validate_failed" in text or "Failed to validate JSON" in text
+
+
+def _json_object(text: str) -> str:
+    """The first {...} block of a reply that may carry prose or a ```json fence around the object."""
+    start, end = text.find("{"), text.rfind("}")
+    return text[start : end + 1] if start >= 0 and end > start else text
+
+
 def _openai(prompt, json_schema, name, system, temperature, max_tokens) -> str:
     client = _openai_client()
+    model = os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL)
     sys_msg = (system + "\n\n" if system else "") + (
         "Reply with a single JSON object that matches this JSON Schema, and nothing else:\n"
         + json.dumps(json_schema)
     )
+    messages = [{"role": "system", "content": sys_msg}, {"role": "user", "content": prompt}]
+    kwargs: dict[str, Any] = {"model": model, "messages": messages, "temperature": temperature, **_openai_extra(model)}
     try:
-        response = client.chat.completions.create(
-            model=os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL),
-            messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": prompt}],
-            response_format={"type": "json_object"},
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
+        response = _create_with_fallback(client, {**kwargs, "response_format": {"type": "json_object"}, "max_tokens": max_tokens})
     except Exception as exc:
-        raise LLMError(f"OpenAI call failed: {exc}") from exc
+        if not _is_json_mode_failure(exc):
+            raise LLMError(f"OpenAI call failed: {exc}") from exc
+        # The host rejected the model's own JSON: ask again with twice the budget and no JSON mode, then
+        # cut the object out of the text ourselves (complete_json still validates it against the schema).
+        try:
+            response = _create_with_fallback(client, {**kwargs, "max_tokens": max_tokens * 2})
+        except Exception as retry_exc:
+            raise LLMError(f"OpenAI call failed: {retry_exc}") from retry_exc
+        return _json_object(response.choices[0].message.content or "")
     return response.choices[0].message.content or ""
 
 
@@ -287,11 +334,13 @@ def _openai_chat(messages, system, tools, max_tokens, temperature) -> AssistantT
             msgs.append({"role": "tool", "tool_call_id": m["tool_call_id"], "content": m["content"]})
         else:
             msgs.append({"role": m["role"], "content": m["content"]})
+    model = os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL)
     kwargs: dict[str, Any] = {
-        "model": os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL),
+        "model": model,
         "messages": msgs,
         "temperature": temperature,
         "max_tokens": max_tokens,
+        **_openai_extra(model),
     }
     if tools:
         kwargs["tools"] = [
@@ -299,7 +348,7 @@ def _openai_chat(messages, system, tools, max_tokens, temperature) -> AssistantT
             for t in tools
         ]
     try:
-        response = client.chat.completions.create(**kwargs)
+        response = _create_with_fallback(client, kwargs)
     except Exception as exc:
         raise LLMError(f"OpenAI call failed: {exc}") from exc
     message = response.choices[0].message

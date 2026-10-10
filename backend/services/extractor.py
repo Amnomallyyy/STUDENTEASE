@@ -1,7 +1,8 @@
 """CV text -> skills[], projects[], experience[] (Module 2 input; reused by jobs and the analyzer).
 
-Steps: strip personal details, ask the LLM for structured output, then check the answer against the
-CV text itself so a skill the CV never mentions cannot slip into the profile.
+Steps: strip personal details, ask the LLM for structured output, check the answer against the
+CV text itself so a skill the CV never mentions cannot slip into the profile, then add any known skill
+(role vocabulary + alias table) the CV names but the model skipped, so "DSA" on the CV is never "missing".
 """
 from __future__ import annotations
 
@@ -10,12 +11,15 @@ from functools import lru_cache
 from pathlib import Path
 
 from backend.llm_adapter import complete_json
-from backend.schemas import ExtractedCV
+from backend.schemas import ExtractedCV, Skill
+from backend.services.data import DataError, load_roles
 from backend.services.normalize import canonical, normalize_skills, variants
 
 PROMPT_PATH = Path(__file__).resolve().parents[1] / "prompts" / "extract_skills.md"
 MAX_CHARS = 15_000
 REDACTED = "[redacted]"
+LEXICON_CONFIDENCE = 0.8  # a skill the CV names literally but the model left out
+EVIDENCE_CHARS = 160
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE_OR_ID = re.compile(r"(?<![\w/])\+?\d[\d \t().-]{7,}\d(?![\w/])")
@@ -43,7 +47,7 @@ def extract_from_text(cv_text: str) -> ExtractedCV:
         return ExtractedCV()
     prompt = f"{_instructions()}\n\n<cv>\n{cleaned}\n</cv>"
     result = complete_json(prompt, ExtractedCV, max_tokens=3000)
-    return _verify(result, cleaned)
+    return _lexicon_pass(_verify(result, cleaned), cleaned)
 
 
 @lru_cache(maxsize=1)
@@ -57,11 +61,59 @@ def _squash(text: str) -> str:
 
 def _mentions(haystack: str, name: str) -> bool:
     """True if the skill (or any alias of it) appears in the squashed, lower-case CV text."""
-    for variant in variants(name):
-        pattern = r"(?<![a-z0-9])" + re.escape(variant.lower()) + r"(?![a-z0-9])"
-        if re.search(pattern, haystack):
-            return True
-    return False
+    return any(_pattern(variant).search(haystack) for variant in variants(name))
+
+
+@lru_cache(maxsize=4096)
+def _pattern(variant: str) -> re.Pattern[str]:
+    return re.compile(r"(?<![a-z0-9])" + re.escape(variant.lower()) + r"(?![a-z0-9])")
+
+
+@lru_cache(maxsize=1)
+def _lexicon() -> tuple[Skill, ...]:
+    """Every distinct skill any role asks for. Names of one or two letters ("C", "R", "Go") are left out:
+    their word boundaries are unreliable in prose ("C" would match inside "C++")."""
+    try:
+        roles = load_roles()
+    except DataError:
+        return ()
+    seen: dict[str, Skill] = {}
+    for role in roles:
+        for skill in role.skills:
+            key = canonical(skill.name).lower()
+            if key in seen or (len(skill.name) <= 2 and skill.name.isalpha()):
+                continue
+            seen[key] = Skill(name=canonical(skill.name), category=skill.category)
+    return tuple(seen.values())
+
+
+def _lexicon_pass(result: ExtractedCV, cv_text: str) -> ExtractedCV:
+    """Add known skills the CV names (by any alias) that the model's answer does not contain.
+
+    The quote is the CV line that names the skill, so the Analyzer can still verify it; confidence is
+    LEXICON_CONFIDENCE rather than 1.0 because no model judged the context.
+    """
+    present = {canonical(s.name).lower() for s in result.skills}
+    lines = [line for line in cv_text.splitlines() if line.strip()]
+    added: list[Skill] = []
+    for entry in _lexicon():
+        if entry.name.lower() in present:
+            continue
+        quote = next(
+            (line.strip() for line in lines if any(_pattern(v).search(_squash(line)) for v in variants(entry.name))),
+            None,
+        )
+        if quote is None:
+            continue
+        present.add(entry.name.lower())
+        added.append(
+            entry.model_copy(
+                update={"evidence": [quote[:EVIDENCE_CHARS]], "sources": ["cv"], "confidence": LEXICON_CONFIDENCE}
+            )
+        )
+    if added:
+        result.skills = normalize_skills([*result.skills, *added])
+    return result
 
 
 def _verify(result: ExtractedCV, cv_text: str) -> ExtractedCV:

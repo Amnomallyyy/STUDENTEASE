@@ -7,7 +7,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from .job import JobMatch
-from .profile import Anomaly
+from .profile import Anomaly, MatchResult
 from .skill import SkillSource
 
 
@@ -27,6 +27,11 @@ class AnalyzerReport(BaseModel):
     clusters: list[SkillCluster] = Field(default_factory=list)
     sources: dict[str, int] = Field(default_factory=dict, description="Skill count per source, e.g. {'cv': 12}.")
     github_username: str | None = None
+    target_role: str | None = Field(default=None, description="The profile's target role when the run refreshed its gap.")
+    match: MatchResult | None = Field(
+        default=None,
+        description="The target-role match recomputed with the merged skills; evidenced_pct counts external backing only.",
+    )
 
 
 class JobNearby(JobMatch):
