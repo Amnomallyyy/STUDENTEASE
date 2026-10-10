@@ -88,3 +88,24 @@ def test_embeddings_are_cached_between_calls(fake_embed):
 def test_rejects_inverted_thresholds():
     with pytest.raises(ValueError):
         matcher.match([skill("a")], [skill("b")], match_threshold=0.5, partial_threshold=0.9)
+
+
+def test_matches_carry_sources_and_evidenced_pct_counts_external_backing(fake_embed):
+    user = [
+        Skill(name="Python", category=SkillCategory.tool, sources=["cv", "github"]),
+        Skill(name="PostgreSQL", category=SkillCategory.tool, sources=["cv"]),
+    ]
+    target = [skill("Python"), skill("SQL", weight=2), skill("Tableau")]
+
+    plain = matcher.match(user, target)
+    assert plain.evidenced_pct is None  # the Analyzer has not run
+    assert {m.matched_to: m.sources for m in plain.matched} == {"Python": ["cv", "github"], "SQL": ["cv"]}
+
+    result = matcher.match(user, target, evidenced=True)
+    assert result.match_pct == 75.0  # Python 1 + SQL 2 of 4
+    assert result.evidenced_pct == 25.0  # only Python has external backing
+
+
+def test_evidenced_pct_is_zero_not_none_when_nothing_is_backed(fake_embed):
+    result = matcher.match([skill("Python")], [skill("Python")], evidenced=True)
+    assert result.match_pct == 100.0 and result.evidenced_pct == 0.0

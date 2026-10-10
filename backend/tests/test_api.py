@@ -58,6 +58,16 @@ def test_unsupported_and_empty_files_are_rejected(client):
     assert upload(client, content=b"   ").status_code == 422
 
 
+def test_a_cv_that_yields_no_skills_is_a_422_not_an_empty_profile(client, monkeypatch):
+    monkeypatch.setattr(profile_api, "extract_from_text", lambda text: ExtractedCV())
+
+    response = upload(client, content=b"P y t h o n  d e v e l o p e r")
+
+    assert response.status_code == 422
+    assert "No skills could be read" in response.json()["detail"]
+    assert client.get("/profile").json()["skills"] == []  # nothing was stored
+
+
 def test_patch_then_delete_my_data(client):
     upload(client)
 

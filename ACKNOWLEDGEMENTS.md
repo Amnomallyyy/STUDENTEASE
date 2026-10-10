@@ -17,7 +17,7 @@ Licence texts of third-party components remain with their authors; CareerLens it
 | OpenAI API | Commercial API, OpenAI usage policies | [https://platform.openai.com/](https://platform.openai.com/) | Alternative LLM and text-embedding-3-small embeddings (LLM_PROVIDER=openai, EMBED_PROVIDER=openai) |
 | Ollama | MIT (runtime); model licences vary (llama3.2: Llama 3.2 Community License) | [https://ollama.com/](https://ollama.com/) | Local LLM fallback when no API key or no internet (LLM_PROVIDER=ollama) |
 | sentence-transformers/all-MiniLM-L6-v2 | Apache-2.0 | [https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) | Default local embedding model (384-dim) for skill matching, reconciliation and interview relevance |
-| MediaPipe Tasks Vision (Face Landmarker, Pose Landmarker) | Apache-2.0 | [https://ai.google.dev/edge/mediapipe/solutions/vision](https://ai.google.dev/edge/mediapipe/solutions/vision) | Pre-trained landmarkers running in the browser; only geometric metrics leave the device |
+| MediaPipe Tasks Vision (Face, Pose and Hand Landmarkers) | Apache-2.0 | [https://ai.google.dev/edge/mediapipe/solutions/vision](https://ai.google.dev/edge/mediapipe/solutions/vision) | Pre-trained landmarkers running in the browser; only geometric metrics leave the device |
 | Whisper (OpenAI) | MIT (open-source weights); Whisper API is a commercial API | [https://github.com/openai/whisper](https://github.com/openai/whisper) | Final accurate interview transcript (API or faster-whisper locally) |
 
 ## APIs and web services

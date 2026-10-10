@@ -36,6 +36,8 @@ TARGET_ROLE = "Data Analyst"
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):  # Windows consoles default to cp1252, which cannot print the LLM's punctuation
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--base-url", default="http://localhost:8000", help="backend URL (default: http://localhost:8000)")
     parser.add_argument(

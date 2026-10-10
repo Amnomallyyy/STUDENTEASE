@@ -42,7 +42,7 @@ BUILT_WITH: list[BuiltWith] = [
           "Local LLM fallback when no API key or no internet (LLM_PROVIDER=ollama)"),
     _item("sentence-transformers/all-MiniLM-L6-v2", "model", "Apache-2.0", "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
           "Default local embedding model (384-dim) for skill matching, reconciliation and interview relevance"),
-    _item("MediaPipe Tasks Vision (Face Landmarker, Pose Landmarker)", "model", "Apache-2.0", "https://ai.google.dev/edge/mediapipe/solutions/vision",
+    _item("MediaPipe Tasks Vision (Face, Pose and Hand Landmarkers)", "model", "Apache-2.0", "https://ai.google.dev/edge/mediapipe/solutions/vision",
           "Pre-trained landmarkers running in the browser; only geometric metrics leave the device"),
     _item("Whisper (OpenAI)", "model", "MIT (open-source weights); Whisper API is a commercial API", "https://github.com/openai/whisper",
           "Final accurate interview transcript (API or faster-whisper locally)"),

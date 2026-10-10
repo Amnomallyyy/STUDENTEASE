@@ -1,9 +1,12 @@
-// Mock interview screen (M3; M4 fills the centre). Three zones: question + transcript on the left,
+// Mock interview screen (M3; M4 fills the centre), rendered inside M2's Shell at /interview.
+// The role comes from ?role= (the chatbot's open_interview action), else the profile's target role.
+// After every answer the shared profile is refreshed, so the Dashboard's readiness tile updates. Three zones: question + transcript on the left,
 // webcam with landmark overlay in the centre, live speaking / STAR / body-language gauges on the right.
 // After each answer: score card, STAR quotes, what to fix, coaching notes and the rewrite.
 // After the last question: the readiness report.
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import AnswerFeedback from "../components/interview/AnswerFeedback";
 import LiveTranscript from "../components/interview/LiveTranscript";
 import NonVerbalGauges from "../components/interview/NonVerbalGauges";
@@ -16,15 +19,20 @@ import { useAudioRecorder } from "../hooks/useAudioRecorder";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { useVisionMetrics } from "../hooks/useVisionMetrics";
 import { countFillers, wordCount } from "../lib/fillers";
-import { getProfile, getReport, startInterview, submitAnswer, transcribeClip } from "../lib/interviewApi";
+import { api } from "../lib/api";
+import { getReport, startInterview, submitAnswer, transcribeClip } from "../lib/interviewApi";
 import { liveStar } from "../lib/starCues";
+import { hasCV, useProfileStore } from "../store/profile";
 import type { AnswerResult, InterviewQuestion, InterviewReport } from "../types/profile";
 
 type Phase = "setup" | "answering" | "submitting" | "feedback" | "report";
 
 export default function Interview() {
   const [phase, setPhase] = useState<Phase>("setup");
-  const [role, setRole] = useState("");
+  const [params] = useSearchParams();
+  const profile = useProfileStore((s) => s.profile);
+  const setProfile = useProfileStore((s) => s.setProfile);
+  const [role, setRole] = useState(() => params.get("role") ?? profile?.target_role ?? "");
   const [cameraOn, setCameraOn] = useState(true);
   // Hiding the landmark overlay only changes the picture: body language is still measured.
   const [showLandmarks, setShowLandmarks] = useState(true);
@@ -48,12 +56,25 @@ export default function Interview() {
   const [clips, setClips] = useState<Record<number, string>>({});
   const answerToken = useRef(0);
 
-  // Pre-fill the role from the uploaded CV's profile, if the backend has one.
+  // The assistant can open this page for a role (?role=...) while it is already open.
   useEffect(() => {
-    getProfile()
-      .then((p) => p.target_role && setRole((r) => r || p.target_role!))
-      .catch(() => {});
-  }, []);
+    const r = params.get("role");
+    if (r && phase === "setup") setRole(r);
+  }, [params, phase]);
+
+  // The profile store may sync from the server after the first render: pick up its target role then.
+  const targetRole = profile?.target_role;
+  useEffect(() => {
+    if (targetRole && phase === "setup") setRole((r) => r || targetRole);
+  }, [targetRole, phase]);
+
+  /** Pull the server's profile (which now carries the interview report) into the shared store. */
+  function refreshProfile() {
+    api
+      .getProfile()
+      .then(setProfile)
+      .catch(() => {}); // the Dashboard just keeps the previous numbers
+  }
 
   useEffect(() => {
     if (!recording) return;
@@ -150,6 +171,7 @@ export default function Interview() {
       const r = await submitAnswer({ questionId: question.id, transcript, durationS, samples, audio: blob });
       setResults((prev) => ({ ...prev, [question.id]: r }));
       setPhase("feedback");
+      refreshProfile();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setPhase("answering");
@@ -177,8 +199,8 @@ export default function Interview() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 p-4 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4">
+    <div className="mx-auto max-w-7xl px-4 py-6">
+      <div className="flex flex-col gap-4">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-lg font-semibold">Mock interview{questions.length > 0 && role ? ` · ${role}` : ""}</h1>
           {phase !== "setup" && phase !== "report" && (
@@ -195,6 +217,23 @@ export default function Interview() {
         {phase === "setup" && (
           <section className="mx-auto flex w-full max-w-lg flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
             <h2 className="text-base font-semibold">Practise a 3-question interview</h2>
+            {hasCV(profile) ? (
+              <p className="-mt-2 text-sm text-slate-500">Questions are written from the skills and projects in your CV.</p>
+            ) : (
+              <p className="-mt-2 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">
+                <Link to="/upload" className="font-medium underline">
+                  Upload your CV
+                </Link>{" "}
+                first and the questions will be about your own skills and projects. You can also practise without one.
+              </p>
+            )}
+            {profile?.interview && (
+              <p className="text-sm text-slate-600">
+                Last session ({profile.interview.role}): readiness{" "}
+                <strong className="tabular-nums">{Math.round(profile.interview.readiness)}</strong>/100
+                {profile.interview.fix_first ? ` · fix first: ${profile.interview.fix_first}` : ""}
+              </p>
+            )}
             <label className="flex flex-col gap-1 text-sm">
               Target role
               <input
@@ -323,7 +362,7 @@ export default function Interview() {
 
         {phase === "report" && report && <ReportView report={report} onRestart={() => setPhase("setup")} />}
       </div>
-    </main>
+    </div>
   );
 }
 

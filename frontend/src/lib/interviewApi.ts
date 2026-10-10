@@ -1,9 +1,10 @@
-// Interview endpoints (M3). Small typed fetch helpers until M2's shared lib/api.ts exists.
+// Interview endpoints (M3). Uses the shared API_URL from lib/api.ts so there is one backend address.
 
-import type { AnswerResult, InterviewQuestion, InterviewReport, Profile } from "../types/profile";
+import type { AnswerResult, InterviewQuestion, InterviewReport } from "../types/profile";
+import { API_URL } from "./api";
 import type { NonVerbalSample } from "../vision/types";
 
-export const API_BASE: string = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+export const API_BASE: string = API_URL;
 
 export class ApiError extends Error {}
 
@@ -20,10 +21,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     throw new ApiError(typeof detail === "string" ? detail : `Request failed (${res.status})`);
   }
   return res.json() as Promise<T>;
-}
-
-export function getProfile(): Promise<Profile> {
-  return request<Profile>("/profile");
 }
 
 export function startInterview(role: string, count = 3): Promise<InterviewQuestion[]> {

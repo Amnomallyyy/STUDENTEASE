@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 
 from .interview import InterviewReport
 from .job import JobMatch
-from .skill import Experience, Project, Skill
+from .skill import Experience, Project, Skill, SkillSource
 
 
 class UserMode(str, Enum):
@@ -28,12 +28,21 @@ class SkillMatch(BaseModel):
     name: str
     matched_to: str = Field(description="The target skill this user skill was matched against.")
     similarity: float = Field(ge=0, le=1)
+    sources: list[SkillSource] = Field(
+        default_factory=list, description="Where the user skill was seen (cv, github, linkedin); set by the Analyzer."
+    )
 
 
 class MatchResult(BaseModel):
     """Output of services/matcher.py. Cosine >= 0.80 is matched, 0.65-0.80 is partial."""
 
     match_pct: float = Field(ge=0, le=100, description="Weighted matched / weighted total.")
+    evidenced_pct: float | None = Field(
+        default=None,
+        ge=0,
+        le=100,
+        description="Like match_pct but counting only skills backed by GitHub or LinkedIn. None until the Analyzer has run.",
+    )
     matched: list[SkillMatch] = Field(default_factory=list)
     partial: list[SkillMatch] = Field(default_factory=list)
     missing: list[Skill] = Field(default_factory=list)
@@ -94,5 +103,9 @@ class Profile(BaseModel):
 
     anomalies: list[Anomaly] = Field(default_factory=list)
     integrity_score: float | None = Field(default=None, ge=0, le=100)
+    evidence_sources: list[SkillSource] = Field(
+        default_factory=list,
+        description="External sources the Analyzer has checked (github, linkedin). Empty until POST /analyzer/run.",
+    )
 
     interview: InterviewReport | None = None

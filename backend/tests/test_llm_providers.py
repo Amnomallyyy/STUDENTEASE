@@ -33,7 +33,7 @@ def fake_openai(monkeypatch):
     _FakeOpenAI.created, _FakeOpenAI.calls = [], []
     monkeypatch.setitem(sys.modules, "openai", types.SimpleNamespace(OpenAI=_FakeOpenAI))
     llm_adapter._compat_client.cache_clear()
-    for var in ("DEEPSEEK_API_KEY", "XAI_API_KEY", "GROQ_API_KEY", "DEEPSEEK_MODEL", "XAI_MODEL", "LLM_CACHE_PATH"):
+    for var in ("DEEPSEEK_API_KEY", "XAI_API_KEY", "GROQ_API_KEY", "DEEPSEEK_MODEL", "XAI_MODEL", "GROQ_MODEL", "OPENAI_REASONING_EFFORT", "LLM_CACHE_PATH"):
         monkeypatch.delenv(var, raising=False)
     yield _FakeOpenAI
     llm_adapter._compat_client.cache_clear()
@@ -79,17 +79,17 @@ def test_missing_key_is_an_llm_error_so_features_fall_back(monkeypatch, fake_ope
         llm_adapter.complete_json("JSON", Answer)
 
 
-def test_gpt_oss_gets_reasoning_headroom(monkeypatch, fake_openai):
+def test_groq_gpt_oss_gets_low_reasoning_effort(monkeypatch, fake_openai):
     monkeypatch.setenv("LLM_PROVIDER", "groq")
     monkeypatch.setenv("GROQ_API_KEY", "k")
     llm_adapter.complete_json("JSON please", Answer, max_tokens=3000)
     call = fake_openai.calls[0]
-    assert call["reasoning_effort"] == "low"
-    assert call["max_tokens"] == 3000 + llm_adapter.REASONING_HEADROOM
+    assert call["extra_body"] == {"reasoning_effort": "low"}  # same handling as the openai path
+    assert call["max_tokens"] == 3000
 
 
-def test_other_models_keep_their_budget(monkeypatch, fake_openai):
+def test_other_models_get_no_reasoning_knob(monkeypatch, fake_openai):
     monkeypatch.setenv("LLM_PROVIDER", "deepseek")
     monkeypatch.setenv("DEEPSEEK_API_KEY", "k")
     llm_adapter.complete_json("JSON please", Answer, max_tokens=3000)
-    assert fake_openai.calls[0]["max_tokens"] == 3000 and "reasoning_effort" not in fake_openai.calls[0]
+    assert "extra_body" not in fake_openai.calls[0]

@@ -5,13 +5,15 @@
     embed(texts)                   -> list of unit-length vectors
 
 Provider switch (env vars, all optional):
-    LLM_PROVIDER     anthropic (default) | openai | deepseek | grok | groq | ollama
+    LLM_PROVIDER     anthropic (default) | openai | groq | deepseek | grok | ollama
     EMBED_PROVIDER   local (default, sentence-transformers) | openai
     ANTHROPIC_API_KEY / ANTHROPIC_MODEL
-    OPENAI_API_KEY / OPENAI_MODEL / OPENAI_EMBED_MODEL
-    DEEPSEEK_API_KEY / DEEPSEEK_MODEL  (OpenAI-compatible API at api.deepseek.com, default deepseek-flash)
-    XAI_API_KEY / XAI_MODEL            (Grok, OpenAI-compatible API at api.x.ai, default grok-4.3)
-    GROQ_API_KEY / GROQ_MODEL          (GroqCloud, free tier, api.groq.com, default openai/gpt-oss-120b)
+    OPENAI_API_KEY / OPENAI_MODEL / OPENAI_EMBED_MODEL / OPENAI_BASE_URL (any OpenAI-compatible host)
+    GROQ_API_KEY / GROQ_MODEL          (GroqCloud, free tier, default openai/gpt-oss-120b)
+    DEEPSEEK_API_KEY / DEEPSEEK_MODEL  (default deepseek-flash)
+    XAI_API_KEY / XAI_MODEL            (Grok, default grok-4.3)
+    groq / deepseek / grok are shortcuts for the OpenAI-compatible path with their own key, URL and model;
+    they get the same rate-limit fallback, JSON-mode retry and reasoning_effort handling as openai.
     OLLAMA_HOST / OLLAMA_MODEL
     EMBED_MODEL      local model name (default all-MiniLM-L6-v2, 384-dim)
     LLM_CACHE_PATH   JSON file of recorded complete_json replies, {"llm": {sha256(schema + prompt): result}};
@@ -35,16 +37,12 @@ T = TypeVar("T", bound=BaseModel)
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_OLLAMA_MODEL = "llama3.2"
-DEFAULT_DEEPSEEK_MODEL = "deepseek-flash"
-DEFAULT_XAI_MODEL = "grok-4.3"
-DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 
-# Providers that speak the OpenAI API: (API key env var, base URL, model env var, default model).
-OPENAI_COMPATIBLE: dict[str, tuple[str, str | None, str, str]] = {
-    "openai": ("OPENAI_API_KEY", None, "OPENAI_MODEL", DEFAULT_OPENAI_MODEL),
-    "deepseek": ("DEEPSEEK_API_KEY", "https://api.deepseek.com", "DEEPSEEK_MODEL", DEFAULT_DEEPSEEK_MODEL),
-    "grok": ("XAI_API_KEY", "https://api.x.ai/v1", "XAI_MODEL", DEFAULT_XAI_MODEL),
-    "groq": ("GROQ_API_KEY", "https://api.groq.com/openai/v1", "GROQ_MODEL", DEFAULT_GROQ_MODEL),
+# OpenAI-compatible providers other than OpenAI itself: (API key env var, base URL, model env var, default model).
+OPENAI_COMPATIBLE: dict[str, tuple[str, str, str, str]] = {
+    "groq": ("GROQ_API_KEY", "https://api.groq.com/openai/v1", "GROQ_MODEL", "openai/gpt-oss-120b"),
+    "deepseek": ("DEEPSEEK_API_KEY", "https://api.deepseek.com", "DEEPSEEK_MODEL", "deepseek-flash"),
+    "grok": ("XAI_API_KEY", "https://api.x.ai/v1", "XAI_MODEL", "grok-4.3"),
 }
 DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
@@ -147,23 +145,69 @@ def _anthropic(prompt, json_schema, name, system, temperature, max_tokens) -> di
     raise LLMError("Anthropic reply contained no tool_use block.")
 
 
+def _openai_extra(model: str) -> dict[str, Any]:
+    """Provider-specific knobs. Reasoning models on OpenAI-compatible hosts (Groq's gpt-oss) spend the token
+    budget on hidden reasoning before the JSON; `reasoning_effort=low` keeps the answer inside max_tokens."""
+    effort = os.getenv("OPENAI_REASONING_EFFORT") or ("low" if "gpt-oss" in model else None)
+    return {"extra_body": {"reasoning_effort": effort}} if effort else {}
+
+
+def _is_rate_limit(exc: Exception) -> bool:
+    """HTTP 429 from the host (Groq's free tier has per-minute and per-day token caps per model)."""
+    text = f"{getattr(exc, 'code', '')} {getattr(exc, 'status_code', '')} {exc}"
+    return "rate_limit" in text or "429" in text
+
+
+def _fallback_model(model: str) -> str | None:
+    """A second model to try when `model` is rate-limited: OPENAI_FALLBACK_MODEL, or Groq's smaller gpt-oss."""
+    fallback = os.getenv("OPENAI_FALLBACK_MODEL") or ("openai/gpt-oss-20b" if "gpt-oss-120b" in model else None)
+    return fallback if fallback and fallback != model else None
+
+
+def _create_with_fallback(client: Any, kwargs: dict[str, Any]) -> Any:
+    """chat.completions.create, retried once on the fallback model when the host answers 429."""
+    try:
+        return client.chat.completions.create(**kwargs)
+    except Exception as exc:
+        fallback = _fallback_model(kwargs["model"])
+        if fallback is None or not _is_rate_limit(exc):
+            raise
+        return client.chat.completions.create(**{**kwargs, "model": fallback, **_openai_extra(fallback)})
+
+
+def _is_json_mode_failure(exc: Exception) -> bool:
+    """Groq returns 400 `json_validate_failed` when the model's output is not valid JSON (often truncated)."""
+    text = f"{getattr(exc, 'code', '')} {exc}"
+    return "json_validate_failed" in text or "Failed to validate JSON" in text
+
+
+def _json_object(text: str) -> str:
+    """The first {...} block of a reply that may carry prose or a ```json fence around the object."""
+    start, end = text.find("{"), text.rfind("}")
+    return text[start : end + 1] if start >= 0 and end > start else text
+
+
 def _openai(prompt, json_schema, name, system, temperature, max_tokens, provider: str = "openai") -> str:
-    client = _compat_client(provider)
+    client = _client_for(provider)
+    model = _model_for(provider)
     sys_msg = (system + "\n\n" if system else "") + (
         "Reply with a single JSON object that matches this JSON Schema, and nothing else:\n"
         + json.dumps(json_schema)
     )
-    model = _compat_model(provider)
+    messages = [{"role": "system", "content": sys_msg}, {"role": "user", "content": prompt}]
+    kwargs: dict[str, Any] = {"model": model, "messages": messages, "temperature": temperature, **_openai_extra(model)}
     try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": prompt}],
-            response_format={"type": "json_object"},
-            temperature=temperature,
-            **_token_budget(model, max_tokens),
-        )
+        response = _create_with_fallback(client, {**kwargs, "response_format": {"type": "json_object"}, "max_tokens": max_tokens})
     except Exception as exc:
-        raise LLMError(f"{provider} call failed: {exc}") from exc
+        if not _is_json_mode_failure(exc):
+            raise LLMError(f"OpenAI call failed: {exc}") from exc
+        # The host rejected the model's own JSON: ask again with twice the budget and no JSON mode, then
+        # cut the object out of the text ourselves (complete_json still validates it against the schema).
+        try:
+            response = _create_with_fallback(client, {**kwargs, "max_tokens": max_tokens * 2})
+        except Exception as retry_exc:
+            raise LLMError(f"OpenAI call failed: {retry_exc}") from retry_exc
+        return _json_object(response.choices[0].message.content or "")
     return response.choices[0].message.content or ""
 
 
@@ -192,6 +236,7 @@ def _ollama(prompt, json_schema, name, system, temperature, max_tokens) -> str:
 
 _PROVIDERS: dict[str, Callable[..., Any]] = {
     "anthropic": _anthropic,
+    "openai": _openai,
     **{name: partial(_openai, provider=name) for name in OPENAI_COMPATIBLE},
     "xai": partial(_openai, provider="grok"),
     "ollama": _ollama,
@@ -205,13 +250,16 @@ def _anthropic_client():
     return anthropic.Anthropic()  # reads ANTHROPIC_API_KEY
 
 
+@lru_cache(maxsize=1)
 def _openai_client():
-    return _compat_client("openai")
+    import openai
+
+    return openai.OpenAI()  # reads OPENAI_API_KEY (and OPENAI_BASE_URL for another OpenAI-compatible host)
 
 
 @lru_cache(maxsize=None)
 def _compat_client(provider: str):
-    """OpenAI SDK client for an OpenAI-compatible provider (OpenAI itself, DeepSeek, Grok)."""
+    """OpenAI SDK client for groq / deepseek / grok, with that provider's key and base URL."""
     key_env, base_url, _, _ = OPENAI_COMPATIBLE[provider]
     key = os.getenv(key_env, "").strip()
     if not key:
@@ -223,21 +271,15 @@ def _compat_client(provider: str):
     return openai.OpenAI(api_key=key, base_url=base_url)
 
 
-def _compat_model(provider: str) -> str:
+def _client_for(provider: str):
+    return _openai_client() if provider == "openai" else _compat_client(provider)
+
+
+def _model_for(provider: str) -> str:
+    if provider == "openai":
+        return os.getenv("OPENAI_MODEL", DEFAULT_OPENAI_MODEL)
     _, _, model_env, default = OPENAI_COMPATIBLE[provider]
     return os.getenv(model_env, default)
-
-
-# gpt-oss models (Groq's default) reason before answering, and the reasoning counts against max_tokens:
-# a long CV extraction could run out before the JSON was finished. Keep the reasoning short and leave
-# room for it on top of the caller's budget for the answer itself.
-REASONING_HEADROOM = 4096
-
-
-def _token_budget(model: str, max_tokens: int) -> dict[str, Any]:
-    if "gpt-oss" in model:
-        return {"max_tokens": max_tokens + REASONING_HEADROOM, "reasoning_effort": os.getenv("REASONING_EFFORT", "low")}
-    return {"max_tokens": max_tokens}
 
 
 # --------------------------------------------------------------------------- chat with tools
@@ -320,7 +362,7 @@ def _anthropic_chat(messages, system, tools, max_tokens, temperature) -> Assista
 
 
 def _openai_chat(messages, system, tools, max_tokens, temperature, provider: str = "openai") -> AssistantTurn:
-    client = _compat_client(provider)
+    client = _client_for(provider)
     msgs: list[dict[str, Any]] = [{"role": "system", "content": system}] if system else []
     for m in messages:
         if m["role"] == "assistant":
@@ -335,11 +377,13 @@ def _openai_chat(messages, system, tools, max_tokens, temperature, provider: str
             msgs.append({"role": "tool", "tool_call_id": m["tool_call_id"], "content": m["content"]})
         else:
             msgs.append({"role": m["role"], "content": m["content"]})
+    model = _model_for(provider)
     kwargs: dict[str, Any] = {
-        "model": _compat_model(provider),
+        "model": model,
         "messages": msgs,
         "temperature": temperature,
-        **_token_budget(_compat_model(provider), max_tokens),
+        "max_tokens": max_tokens,
+        **_openai_extra(model),
     }
     if tools:
         kwargs["tools"] = [
@@ -347,9 +391,9 @@ def _openai_chat(messages, system, tools, max_tokens, temperature, provider: str
             for t in tools
         ]
     try:
-        response = client.chat.completions.create(**kwargs)
+        response = _create_with_fallback(client, kwargs)
     except Exception as exc:
-        raise LLMError(f"{provider} call failed: {exc}") from exc
+        raise LLMError(f"OpenAI call failed: {exc}") from exc
     message = response.choices[0].message
     calls = [
         ToolCall(id=c.id, name=c.function.name, arguments=_loads_object(c.function.arguments))
@@ -395,6 +439,7 @@ def _loads_object(raw: str | None) -> dict[str, Any]:
 
 _CHAT_PROVIDERS: dict[str, Callable[..., AssistantTurn]] = {
     "anthropic": _anthropic_chat,
+    "openai": _openai_chat,
     **{name: partial(_openai_chat, provider=name) for name in OPENAI_COMPATIBLE},
     "xai": partial(_openai_chat, provider="grok"),
     "ollama": _ollama_chat,

@@ -60,3 +60,21 @@ def test_near_synonyms_merge_by_cosine_but_two_cv_skills_never_do(fake_embed):
 def test_has_external():
     assert not reconcile.has_external(reconcile.reconcile([skill("Python")], [], [])[0])
     assert reconcile.has_external(reconcile.reconcile([], [skill("Python", "github")], [])[0])
+
+
+def test_merge_evidence_tags_cv_skills_and_appends_external_only_ones(monkeypatch):
+    monkeypatch.setattr(matcher, "embed", lambda texts: [VECTORS[t.lower()] for t in texts])
+    cv = [skill("Python", evidence=["Python"]), skill("Excel")]
+    github = [skill("JS", "github"), skill("python", "github")]
+    linkedin = [skill("Excel", "linkedin"), skill("Jupyter Notebook", "linkedin")]
+    clusters = reconcile.reconcile(cv, github, linkedin)
+
+    merged = reconcile.merge_evidence(cv, github, linkedin, clusters)
+
+    assert [(s.name, s.sources) for s in merged] == [
+        ("Python", ["cv", "github"]),
+        ("Excel", ["cv", "linkedin"]),
+        ("JavaScript", ["github"]),
+        ("Jupyter", ["linkedin"]),  # alias table canonicalises the name
+    ]
+    assert merged[0].evidence == ["Python"]  # CV objects keep their evidence quotes

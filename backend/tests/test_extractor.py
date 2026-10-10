@@ -66,3 +66,24 @@ def test_extract_empty_text_makes_no_llm_call(monkeypatch):
 
     monkeypatch.setattr(extractor, "complete_json", boom)
     assert extractor.extract_from_text("   ").skills == []
+
+
+def test_lexicon_pass_adds_skills_the_cv_names_but_the_model_skipped(monkeypatch):
+    cv = """SKILLS
+Programming: C++, Python
+Core: DSA, OOP, Operating Systems
+I like to go hiking.
+"""
+    monkeypatch.setattr(
+        extractor, "complete_json", lambda *a, **k: ExtractedCV(skills=[Skill(name="Python", category=SkillCategory.language, evidence=["Programming: C++, Python"])])
+    )
+
+    result = extractor.extract_from_text(cv)
+
+    names = [s.name for s in result.skills]
+    assert names[0] == "Python"  # the model's answer comes first and keeps its confidence
+    assert "Data Structures and Algorithms" in names and "Object-Oriented Programming" in names and "C++" in names
+    assert "Go" not in names  # two-letter names are never matched in prose
+    dsa = next(s for s in result.skills if s.name == "Data Structures and Algorithms")
+    assert dsa.evidence == ["Core: DSA, OOP, Operating Systems"] and dsa.confidence == extractor.LEXICON_CONFIDENCE
+    assert dsa.sources == ["cv"]

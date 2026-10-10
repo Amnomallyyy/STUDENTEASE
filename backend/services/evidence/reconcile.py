@@ -2,6 +2,7 @@
 
     reconcile(cv, github, linkedin) -> list[SkillCluster]
     cluster_for(clusters, name)     -> SkillCluster | None   lookup by any member spelling
+    merge_evidence(cv, github, linkedin, clusters) -> list[Skill]   the profile's skills after the Analyzer
 
 Skills are grouped by canonical name first (alias table), then clusters whose names embed within
 matcher.MATCH_THRESHOLD cosine of each other are merged, so "Jupyter" and "Jupyter Notebook" count as
@@ -35,6 +36,33 @@ def cluster_for(clusters: list[SkillCluster], name: str) -> SkillCluster | None:
 
 def has_external(cluster: SkillCluster) -> bool:
     return any(source in EXTERNAL_SOURCES for source in cluster.sources)
+
+
+def merge_evidence(
+    cv: list[Skill], github: list[Skill], linkedin: list[Skill], clusters: list[SkillCluster]
+) -> list[Skill]:
+    """The profile's skill list once the Analyzer has run, so the Career Map sees the evidence.
+
+    CV skills come first, each tagged with every source that backs it (its cluster's sources). Then
+    the externally evidenced skills the CV does not claim (GitHub first, then LinkedIn), one per cluster,
+    under the cluster's canonical name. Order inside each group is preserved.
+    """
+    merged: list[Skill] = []
+    seen: set[str] = set()
+    for skill in cv:
+        cluster = cluster_for(clusters, skill.name)
+        sources = list(cluster.sources) if cluster else list(skill.sources or ["cv"])
+        merged.append(skill.model_copy(update={"sources": sources}))
+        seen.add((cluster.name if cluster else canonical(skill.name)).lower())
+    for skill in [*github, *linkedin]:
+        cluster = cluster_for(clusters, skill.name)
+        name = cluster.name if cluster else canonical(skill.name)
+        if name.lower() in seen:
+            continue
+        seen.add(name.lower())
+        sources = list(cluster.sources) if cluster else list(skill.sources)
+        merged.append(skill.model_copy(update={"name": name, "sources": sources}))
+    return merged
 
 
 def _by_canonical_name(*groups: list[Skill]) -> list[SkillCluster]:

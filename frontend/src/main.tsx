@@ -1,24 +1,13 @@
-// Temporary entry point until M2's scaffold (App.tsx, router.tsx) lands.
-//   #/            mock interview (M3 + M4)
-//   #/vision      M4 vision playground with the debug panel, for threshold tuning
-import { StrictMode, useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "./index.css";
-import VisionPlayground from "./dev/VisionPlayground";
-import Interview from "./pages/Interview";
+import App from "./App";
 
-function Root() {
-  const [hash, setHash] = useState(window.location.hash);
-  useEffect(() => {
-    const onHash = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, []);
-  return hash.startsWith("#/vision") ? <VisionPlayground /> : <Interview />;
-}
-
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Root />
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );

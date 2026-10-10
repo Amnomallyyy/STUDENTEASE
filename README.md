@@ -124,7 +124,7 @@ Backend (Python 3.11+):
 python -m venv .venv
 .venv/Scripts/activate                 # Windows;  macOS/Linux: source .venv/bin/activate
 pip install -r backend/requirements.txt
-cp .env.example .env                   # set ANTHROPIC_API_KEY (or OPENAI_API_KEY / Ollama); see "Environment variables"
+cp .env.example .env                   # free: LLM_PROVIDER=groq + GROQ_API_KEY (or Anthropic / OpenAI / Ollama); see "Environment variables"
 uvicorn backend.main:app --reload      # http://localhost:8000  (interactive docs at /docs)
 ```
 
@@ -142,13 +142,16 @@ from the repo root (the image bakes in the MiniLM model so a cold start is fast)
 
 ### Environment variables
 
-All optional; `.env.example` documents each one. The important ones:
+All optional; `.env.example` documents each one. The backend loads `<repo root>/.env` on startup (blank values keep the defaults; variables already set in the shell win). The important ones:
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `LLM_PROVIDER` | `anthropic` | `anthropic`, `openai` or `ollama` (local fallback) |
+| `LLM_PROVIDER` | `anthropic` | `anthropic`, `openai`, `groq`, `deepseek`, `grok` or `ollama` (local fallback) |
+| `GROQ_API_KEY` / `DEEPSEEK_API_KEY` / `XAI_API_KEY` | | Keys for the `groq` (free tier, also used for Whisper transcription), `deepseek` and `grok` shortcuts; models via `GROQ_MODEL` / `DEEPSEEK_MODEL` / `XAI_MODEL` |
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | | Provider key |
+| `OPENAI_BASE_URL` | OpenAI | Any OpenAI-compatible host, e.g. Groq `https://api.groq.com/openai/v1` with `LLM_PROVIDER=openai` and `OPENAI_MODEL=openai/gpt-oss-120b` |
 | `ANTHROPIC_MODEL` / `OPENAI_MODEL` / `OLLAMA_MODEL` | `claude-sonnet-5-5` / `gpt-4o-mini` / `llama3.2` | Model ids |
+| `OPENAI_FALLBACK_MODEL` / `OPENAI_REASONING_EFFORT` | `openai/gpt-oss-20b` for gpt-oss-120b / `low` for gpt-oss | Second model tried on a 429 rate limit; reasoning budget for reasoning models |
 | `EMBED_PROVIDER` / `EMBED_MODEL` | `local` / `sentence-transformers/all-MiniLM-L6-v2` | Embeddings; `openai` uses `OPENAI_EMBED_MODEL` |
 | `GITHUB_TOKEN` | | Optional; 5000 req/h instead of 60 |
 | `LLM_CACHE_PATH`, `LLM_CACHE_RECORD`, `GITHUB_CACHE_PATH` | | Offline replay of the demo (see `demo/README.md`) |
@@ -220,8 +223,8 @@ Prompts are plain `.md` files in `backend/prompts/`, indexed in [`docs/prompts.m
 |---|---|---|
 | M1 | AI core / backend lead | `backend/llm_adapter.py`, `backend/schemas/`, `backend/prompts/{extract_skills,roadmap,chat_system}.md`, `backend/services/{extractor,normalize,matcher,differential,roadmap,career,chat,geo,data,session,cv_text}.py`, `backend/api/{profile,career,chat,errors}.py`, `frontend/src/types/profile.ts`, their tests |
 | M2 | Frontend lead | `frontend/` scaffold, store, shell, Upload, Dashboard, Career Map (gap panel, map, roadmap), chat panel, Analyzer board, `vercel.json` |
-| M3 | Interview NLP | `backend/services/interview/{fillers,pace,star,questions,rewrite,transcribe,scoring}.py`, `backend/prompts/{star_rubric,question_gen,rewrite_star}.md`, `backend/api/interview.py`, `frontend/src/pages/Interview.tsx` and its components, `useSpeechRecognition` |
-| M4 | Computer vision | `frontend/src/vision/*`, `WebcamPanel.tsx`, `NonVerbalGauges.tsx`, `useVisionMetrics.ts`, `backend/services/interview/nonverbal.py`, `backend/prompts/coaching_notes.md`, `docs/vision_metrics.md` |
+| M3 | Interview NLP | `backend/services/interview/{fillers,pace,star,questions,rewrite,transcribe,scoring}.py`, `backend/prompts/{star_rubric,question_gen,rewrite_star}.md`, `backend/api/interview.py`, `frontend/src/pages/Interview.tsx` and its components, `useSpeechRecognition`, `useAudioRecorder`, `lib/{interviewApi,fillers,starCues}.ts` |
+| M4 | Computer vision | `frontend/src/vision/*`, `WebcamPanel.tsx`, `NonVerbalGauges.tsx`, `useVisionMetrics.ts`, `frontend/src/dev/` (the `/vision` calibration page), `frontend/public/models/`, `backend/services/interview/nonverbal.py`, `backend/prompts/coaching_notes.md`, `docs/vision_metrics.md` |
 | M5 | Data, evidence & DevOps (main contact) | `data/*.json`, `scripts/`, `backend/services/evidence/*`, `backend/prompts/anomaly_fix.md`, `backend/api/{jobs,analyzer}.py`, `backend/main.py`, `backend/built_with.py`, `backend/Dockerfile`, `requirements*.txt`, `render.yaml`, `.github/workflows/ci.yml`, `demo/`, `README.md`, `DISCLOSURES.md`, `ACKNOWLEDGEMENTS.md`, `docs/{architecture,demo_script}.md`, `LICENSE` |
 
 Branches are `feat/<member>-<feature>`; PRs are reviewed by the backup member and must pass CI; commits use

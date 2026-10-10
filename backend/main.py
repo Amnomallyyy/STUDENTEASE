@@ -8,10 +8,20 @@ CORS_ORIGINS), and two housekeeping routes: GET /health and GET /built-with.
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+try:  # <repo root>/.env: blank values keep the code defaults, variables already set in the shell win
+    from dotenv import dotenv_values
+
+    for _key, _value in dotenv_values(Path(__file__).resolve().parents[1] / ".env").items():
+        if _value:
+            os.environ.setdefault(_key, _value)
+except ImportError:  # python-dotenv is optional: set the variables in the shell instead
+    pass
 
 from backend.api import analyzer, career, chat, jobs, profile
 from backend.built_with import BUILT_WITH

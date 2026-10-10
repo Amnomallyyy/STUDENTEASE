@@ -3,3 +3,8 @@ dist/
 public/mediapipe-wasm/
 *.tsbuildinfo
 .env
+# emitted by "tsc -b" through tsconfig.node.json (composite)
+vite.config.js
+vite.config.d.ts
+tailwind.config.js
+tailwind.config.d.ts

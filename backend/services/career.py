@@ -24,14 +24,20 @@ def _coords(location: Location | None) -> tuple[float, float] | None:
 
 
 def compute_gap(
-    skills: list[Skill], role_name: str, location: Location | None, radius_km: float = DEFAULT_RADIUS_KM
+    skills: list[Skill],
+    role_name: str,
+    location: Location | None,
+    radius_km: float = DEFAULT_RADIUS_KM,
+    *,
+    evidenced: bool = False,
 ) -> GapResponse:
     """Match the user to a role, then rank the missing skills against the nearest jobs.
 
     If jobs.json does not exist yet, the role match still works and the job fields are empty.
+    `evidenced=True` (the Analyzer has run) also fills match.evidenced_pct.
     """
     role = find_role(role_name)
-    result = matcher.match(skills, role.skills)
+    result = matcher.match(skills, role.skills, evidenced=evidenced)
     try:
         jobs = load_jobs()
     except DataMissing:

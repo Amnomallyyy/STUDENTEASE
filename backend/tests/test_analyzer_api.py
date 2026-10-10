@@ -96,8 +96,23 @@ def test_run_with_github_builds_a_report_and_updates_the_profile(client):
 
     profile = session.get_profile()
     assert profile.integrity_score == 33.3 and len(profile.anomalies) == 3
+    # The evidence flows back into the shared profile: sources on CV skills, GitHub-only skills appended.
+    assert [(s.name, s.sources) for s in profile.skills] == [
+        ("Python", ["cv", "github"]),
+        ("Docker", ["cv"]),
+        ("Excel", ["cv"]),
+        ("JavaScript", ["github"]),
+    ]
+    assert profile.evidence_sources == ["github"]
+    assert body["target_role"] is None and body["match"] is None  # no target role set
 
-    assert client.get("/analyzer/report").json()["report_id"] == body["report_id"]
+    # A second run still treats only the CV's own claims as claims: JavaScript is not "unsupported".
+    again = client.post("/analyzer/run", data={"github_username": "demo"}).json()
+    assert {(a["kind"], a["claim"]) for a in again["anomalies"]} == {(a["kind"], a["claim"]) for a in body["anomalies"]}
+    assert again["sources"] == {"cv": 3, "github": 2}
+    assert [s.name for s in session.get_profile().skills] == ["Python", "Docker", "Excel", "JavaScript"]
+
+    assert client.get("/analyzer/report").json()["report_id"] == again["report_id"]  # latest wins
     assert client.get("/analyzer/report", params={"report_id": body["report_id"]}).status_code == 200
     assert client.get("/analyzer/report", params={"report_id": "nope"}).status_code == 404
 
@@ -134,3 +149,63 @@ def test_linkedin_extraction_failure_is_a_502(client, monkeypatch):
 
     monkeypatch.setattr(linkedin, "extract_from_text", down)
     assert client.post("/analyzer/run", data={"linkedin_text": "Skills: Python"}).status_code == 502
+
+
+def test_run_refreshes_the_target_role_gap_with_evidence(client, monkeypatch):
+    from backend.schemas import GapResponse, Location, MatchResult, SkillMatch
+    from backend.services import career
+
+    session.set_profile(
+        Profile(target_role="Data Analyst", location=Location(lat=24.86, lng=67.0, city="Karachi"), skills=[skill("Python"), skill("Excel")])
+    )
+    seen = {}
+
+    def fake_gap(skills, role_name, location, radius_km=25.0, *, evidenced=False):
+        seen.update(skills=[(s.name, s.sources) for s in skills], role=role_name, evidenced=evidenced)
+        match = MatchResult(
+            match_pct=50.0,
+            evidenced_pct=25.0,
+            matched=[SkillMatch(name="Python", matched_to="Python", similarity=1.0, sources=["cv", "github"])],
+        )
+        return GapResponse(role="Data Analyst", match=match)
+
+    monkeypatch.setattr(career, "compute_gap", fake_gap)
+
+    body = client.post("/analyzer/run", data={"github_username": "demo"}).json()
+
+    assert seen == {
+        "skills": [("Python", ["cv", "github"]), ("Excel", ["cv"]), ("JavaScript", ["github"])],
+        "role": "Data Analyst",
+        "evidenced": True,
+    }
+    assert body["target_role"] == "Data Analyst" and body["match"]["evidenced_pct"] == 25.0
+    profile = session.get_profile()
+    assert profile.gap.evidenced_pct == 25.0 and profile.gap.matched[0].sources == ["cv", "github"]
+
+
+def test_only_substantial_github_languages_join_the_profile(client, monkeypatch):
+    with_cv()
+    small = GitHubEvidence(
+        username="demo",
+        repos=[GitHubRepo(name="weather-dashboard", languages={"Python": 9000, "JavaScript": 1000}, commit_count=8)],
+        language_share={"Python": 0.9, "JavaScript": 0.1},
+    )
+    monkeypatch.setattr(analyzer_api, "get_github", lambda username: small)
+
+    body = client.post("/analyzer/run", data={"github_username": "demo"}).json()
+
+    assert body["sources"] == {"cv": 3, "github": 2}  # both languages sit on the evidence board
+    assert [s.name for s in session.get_profile().skills] == ["Python", "Docker", "Excel"]  # 10% JavaScript stays out
+
+    topic = Skill(name="weather", category=SkillCategory.tool, sources=["github"], confidence=0.6)
+    strong = Skill(name="Go", category=SkillCategory.language, sources=["github"], confidence=0.4)
+    assert analyzer_api.github_strengths([topic, strong]) == [strong]  # repo topics are never skills
+
+
+def test_new_cv_upload_forgets_old_reports(client):
+    with_cv()
+    assert client.post("/analyzer/run", data={"github_username": "demo"}).status_code == 200
+    assert client.get("/analyzer/report").status_code == 200
+
+    analyzer_api.clear_reports()
+    assert client.get("/analyzer/report").status_code == 404

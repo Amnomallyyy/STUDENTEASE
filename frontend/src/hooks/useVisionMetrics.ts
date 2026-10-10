@@ -51,8 +51,8 @@ export interface VisionOptions {
 }
 
 export interface VisionController {
-  videoRef: React.RefObject<HTMLVideoElement | null>;
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  videoRef: React.RefObject<HTMLVideoElement>;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
   status: VisionStatus;
   error: string | null;
   delegate: Delegate | null;
@@ -85,8 +85,8 @@ const EMPTY_LIVE: LiveVisionState = {
 export function useVisionMetrics(options: VisionOptions = {}): VisionController {
   const { enabled = true, source = "camera", fps = 15, overlay = true } = options;
 
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<VisionStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const [delegate, setDelegate] = useState<Delegate | null>(null);
