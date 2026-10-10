@@ -1,0 +1,4 @@
+# Never convert line endings in binary files (a PDF changed to CRLF on Windows checkout is corrupt).
+*.pdf binary
+*.task binary
+*.wasm binary
