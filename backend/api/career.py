@@ -4,10 +4,20 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Query
 
 from backend.api.errors import HANDLED, http_error
-from backend.schemas import AdjacentRole, GapResponse, Location, Profile, Roadmap
+from backend.schemas import AdjacentRole, GapResponse, Location, Profile, Roadmap, Role
 from backend.services import career, session
+from backend.services.data import load_roles
 
 router = APIRouter(prefix="/career", tags=["career"])
+
+
+@router.get("/roles", response_model=list[Role])
+def list_roles() -> list[Role]:
+    """Every target role with its weighted skills, for the role picker and the keyword-vs-embedding toggle (M2)."""
+    try:
+        return load_roles()
+    except HANDLED as exc:
+        raise http_error(exc) from exc
 
 
 def _ready_profile(role: str | None) -> tuple[Profile, str]:
@@ -32,7 +42,7 @@ def get_gap(
     if lat is not None and lng is not None:
         location = Location(lat=lat, lng=lng, city=location.city if location else "")
     try:
-        gap = career.compute_gap(profile.skills, name, location, radius_km)
+        gap = career.compute_gap(profile.skills, name, location, radius_km, evidenced=bool(profile.evidence_sources))
     except HANDLED as exc:
         raise http_error(exc) from exc
     session.update_profile(

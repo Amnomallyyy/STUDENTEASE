@@ -109,6 +109,7 @@ export interface MarketGap {
 
 export interface MatchResult {
   match_pct: number;
+  evidenced_pct: number | null;
   matched: SkillMatch[];
   partial: SkillMatch[];
   missing: Skill[];
@@ -151,6 +152,7 @@ export interface Profile {
   roadmap: Roadmap | null;
   anomalies: Anomaly[];
   integrity_score: number | null;
+  evidence_sources: ("cv" | "github" | "linkedin")[];
   interview: InterviewReport | null;
 }
 
@@ -215,6 +217,7 @@ export interface SkillMatch {
   name: string;
   matched_to: string;
   similarity: number;
+  sources: ("cv" | "github" | "linkedin")[];
 }
 
 export interface StarElement {
