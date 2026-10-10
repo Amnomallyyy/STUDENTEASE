@@ -11,6 +11,9 @@ Licence texts of third-party components remain with their authors; CareerLens it
 | Name | Licence | Link | Used for |
 |---|---|---|---|
 | Claude API (Anthropic) | Commercial API, Anthropic usage policy | [https://www.anthropic.com/api](https://www.anthropic.com/api) | Default LLM: skill extraction, roadmap, STAR rubric, anomaly fixes, chatbot (LLM_PROVIDER=anthropic) |
+| DeepSeek API | Commercial API, DeepSeek terms of use | [https://api-docs.deepseek.com/](https://api-docs.deepseek.com/) | Low-cost LLM via its OpenAI-compatible API (LLM_PROVIDER=deepseek) |
+| GroqCloud API | Commercial API with a free tier, Groq terms of use | [https://console.groq.com/docs](https://console.groq.com/docs) | Free-tier LLM (gpt-oss-120b) and Whisper transcription via its OpenAI-compatible API (LLM_PROVIDER=groq) |
+| xAI Grok API | Commercial API, xAI terms of service | [https://docs.x.ai/](https://docs.x.ai/) | Alternative LLM via its OpenAI-compatible API (LLM_PROVIDER=grok) |
 | OpenAI API | Commercial API, OpenAI usage policies | [https://platform.openai.com/](https://platform.openai.com/) | Alternative LLM and text-embedding-3-small embeddings (LLM_PROVIDER=openai, EMBED_PROVIDER=openai) |
 | Ollama | MIT (runtime); model licences vary (llama3.2: Llama 3.2 Community License) | [https://ollama.com/](https://ollama.com/) | Local LLM fallback when no API key or no internet (LLM_PROVIDER=ollama) |
 | sentence-transformers/all-MiniLM-L6-v2 | Apache-2.0 | [https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) | Default local embedding model (384-dim) for skill matching, reconciliation and interview relevance |

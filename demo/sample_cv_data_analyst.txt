@@ -1,0 +1,47 @@
+HAMZA RAZA
+Lahore, Pakistan
+Email: hamza.raza@example.com
+Phone: +92 300 0000001
+
+SUMMARY
+Fresh Statistics graduate who turns messy business data into clear reports and dashboards.
+Built automated sales and inventory reporting during an internship that cut reporting time from two days to under an hour.
+Looking for a Data Analyst role in Lahore.
+
+EDUCATION
+BS Statistics, Example University, Lahore
+Graduated June 2026, CGPA 3.4 / 4.0
+Relevant courses: Probability, Regression Analysis, Sampling Techniques, Database Systems
+
+SKILLS
+Data and analysis: SQL (PostgreSQL, MySQL), Excel (pivot tables, Power Query, VLOOKUP/XLOOKUP), Statistics, A/B testing
+Programming: Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter
+Visualisation: Power BI (DAX, data modelling)
+Tools: Git, Google Sheets
+Soft skills: Communication, Presenting findings to non-technical teams, Teamwork
+
+EXPERIENCE
+Data Analyst Intern, Example Retail (Pvt) Ltd, Lahore, Jul 2025 - Sep 2025
+Wrote SQL queries to pull daily sales from 14 stores and built a Power BI dashboard for the regional manager.
+Automated the weekly sales report with Python and Pandas, reducing preparation time from two days to under one hour.
+Found that 9% of stock-out days came from late re-orders on 20 products and presented a re-order threshold fix.
+
+Teaching Assistant, Statistics Department, Example University, Feb 2025 - Jun 2025
+Ran weekly lab sessions on Excel and regression for 40 second-year students and marked assignments.
+
+PROJECTS
+Customer Churn Analysis
+Analysed 7,000 anonymised telecom customer records in Python to find which plans and tenure groups churn most.
+Built a logistic regression model (78% accuracy) and summarised three retention actions in a one-page report.
+
+Lahore Air Quality Dashboard
+Cleaned two years of public hourly air-quality data with Pandas and built a Power BI dashboard showing
+seasonal smog peaks by area. Used SQL views to keep the dashboard refreshing from one source table.
+
+Ramadan Sales A/B Test
+For a university case study, compared two discount banners with an A/B test and a two-proportion z-test,
+showing the second banner lifted conversion by 1.8 percentage points (p = 0.03).
+
+CERTIFICATIONS
+Google Data Analytics Professional Certificate (Coursera), 2025
+Kaggle Learn: Intro to SQL, Advanced SQL, Pandas

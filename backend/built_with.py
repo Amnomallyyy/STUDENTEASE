@@ -30,6 +30,12 @@ BUILT_WITH: list[BuiltWith] = [
     # ---- models
     _item("Claude API (Anthropic)", "model", "Commercial API, Anthropic usage policy", "https://www.anthropic.com/api",
           "Default LLM: skill extraction, roadmap, STAR rubric, anomaly fixes, chatbot (LLM_PROVIDER=anthropic)"),
+    _item("DeepSeek API", "model", "Commercial API, DeepSeek terms of use", "https://api-docs.deepseek.com/",
+          "Low-cost LLM via its OpenAI-compatible API (LLM_PROVIDER=deepseek)"),
+    _item("GroqCloud API", "model", "Commercial API with a free tier, Groq terms of use", "https://console.groq.com/docs",
+          "Free-tier LLM (gpt-oss-120b) and Whisper transcription via its OpenAI-compatible API (LLM_PROVIDER=groq)"),
+    _item("xAI Grok API", "model", "Commercial API, xAI terms of service", "https://docs.x.ai/",
+          "Alternative LLM via its OpenAI-compatible API (LLM_PROVIDER=grok)"),
     _item("OpenAI API", "model", "Commercial API, OpenAI usage policies", "https://platform.openai.com/",
           "Alternative LLM and text-embedding-3-small embeddings (LLM_PROVIDER=openai, EMBED_PROVIDER=openai)"),
     _item("Ollama", "model", "MIT (runtime); model licences vary (llama3.2: Llama 3.2 Community License)", "https://ollama.com/",

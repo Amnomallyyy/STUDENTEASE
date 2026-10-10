@@ -6,6 +6,7 @@ phone `+92 300 0000000`, "Example University", Karachi). No real person's data i
 | File | What it is |
 |---|---|
 | `demo_cv.pdf` / `demo_cv.txt` | The demo CV (target role: Data Analyst) with three planted anomalies |
+| `sample_cv_data_analyst.pdf` / `.txt` | A clean sample CV for "Hamza Raza" (fictional, Lahore, Data Analyst): no planted anomalies and no GitHub account, for trying the upload, Career Map and interview with a realistic profile |
 | `linkedin_export.pdf` / `linkedin_export.txt` | A LinkedIn "Download your data" style export for the same persona |
 | `github_username.txt` | The GitHub username the analyzer is run with (`careerlens-demo`) |
 | `cached_responses.json` | Cached GitHub data for that username plus recorded LLM answers for the demo CV (offline replay) |
