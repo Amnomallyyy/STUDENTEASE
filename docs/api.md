@@ -22,9 +22,9 @@ There are no accounts: the server keeps one in-memory `Profile` for the session 
 | `GET /analyzer/report` | M5 | query `report_id` (default: latest) | `AnalyzerReport`; 404 if none |
 | `GET /health` | M5 | none | `{status: "ok", llm_provider, embed_provider, data: {roles, jobs, resources}}` (counts, or null when a file is missing) |
 | `GET /built-with` | M5 | none | `list[{name, kind (model / api / dataset / library), licence, url}]` from `backend/built_with.py` |
-| `POST /interview/start` | M3 | `{role}` | `list[InterviewQuestion]` |
-| `POST /interview/answer` | M3 | audio + transcript + `list[NonVerbalSample]` | `AnswerResult` |
-| `GET /interview/report` | M3 | none | `InterviewReport` |
+| `POST /interview/start` | M3 | `{role?, count?}` (role defaults to the profile's target role) | `list[InterviewQuestion]` |
+| `POST /interview/answer` | M3 | multipart: `question_id`, `transcript`, `duration_s` (0 = typed), `samples` (JSON `list[NonVerbalSample]`, `[]` = camera off), optional `audio` file | `AnswerResult` |
+| `GET /interview/report` | M3 | none (also written to `Profile.interview`) | `InterviewReport` |
 
 ## Errors
 

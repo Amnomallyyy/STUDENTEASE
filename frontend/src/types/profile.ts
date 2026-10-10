@@ -23,6 +23,7 @@ export interface AnswerResult {
   verbal_score: number;
   rewritten_answer: string;
   coaching_notes: string[];
+  content_feedback: string[];
 }
 
 export interface ChatMessage {
@@ -122,6 +123,7 @@ export interface NonVerbalMetrics {
   expression_label: "neutral" | "engaged" | "tense";
   nod_count: number;
   body_language_score: number;
+  hand_actions: Record<string, number>;
 }
 
 export interface NonVerbalSample {
@@ -136,6 +138,12 @@ export interface NonVerbalSample {
   smile: number;
   brow: number;
   nodded: boolean;
+  eye_contact_frac: number | null;
+  face_detected: boolean;
+  pose_detected: boolean;
+  hands_visible: boolean;
+  tension: number | null;
+  hand_action: "covering_mouth" | "touching_face" | "touching_head" | "fiddling" | "restless" | "fist" | "gesturing" | "resting" | null;
 }
 
 export interface Profile {
@@ -220,6 +228,7 @@ export interface SkillMatch {
 export interface StarElement {
   present: boolean;
   evidence_span: string;
+  strength: number;
 }
 
 export interface StarScore {
@@ -227,6 +236,7 @@ export interface StarScore {
   task: StarElement;
   action: StarElement;
   result: StarElement;
+  source: "llm" | "rules";
 }
 
 export type UserMode = "student" | "job_seeker";
@@ -235,10 +245,11 @@ export interface VerbalMetrics {
   word_count: number;
   duration_s: number;
   wpm: number;
-  pace_band: "slow" | "within" | "fast";
+  pace_band: "slow" | "within" | "fast" | "unknown";
   filler_counts: Record<string, number>;
   fillers_per_100_words: number;
   star: StarScore;
-  relevance: number;
+  relevance: number | null;
   concise: boolean;
+  component_scores: Record<string, number>;
 }
