@@ -1,4 +1,4 @@
-import { Map as MapIcon, Mic, Target } from "lucide-react";
+import { AlertTriangle, Map as MapIcon, Mic, RotateCw, Target } from "lucide-react";
 import { MiniMarkdown } from "../../lib/miniMarkdown";
 import { useSessionStore } from "../../store/session";
 import type { ChatAction, UIMessage } from "../../types/api";
@@ -6,6 +6,8 @@ import type { ChatAction, UIMessage } from "../../types/api";
 interface Props {
   message: UIMessage;
   streaming?: boolean;
+  /** Offered on the newest failed reply: asks the same question again. */
+  onRetry?: () => void;
 }
 
 function actionLabel(action: ChatAction): { text: string; Icon: typeof MapIcon } {
@@ -22,7 +24,7 @@ function actionLabel(action: ChatAction): { text: string; Icon: typeof MapIcon }
   }
 }
 
-export default function ChatMessage({ message, streaming }: Props) {
+export default function ChatMessage({ message, streaming, onRetry }: Props) {
   const setPendingAction = useSessionStore((s) => s.setPendingAction);
   const mine = message.role === "user";
   return (
@@ -52,7 +54,7 @@ export default function ChatMessage({ message, streaming }: Props) {
         )}
         {mine ? (
           <p className="whitespace-pre-wrap break-words">{message.content}</p>
-        ) : (
+        ) : message.error && !message.content ? null : (
           // The model answers in markdown (bold, bullets); render it instead of showing the asterisks.
           <div className="break-words">
             <MiniMarkdown text={message.content} />
@@ -60,7 +62,20 @@ export default function ChatMessage({ message, streaming }: Props) {
             {streaming && message.content && <span className="ml-0.5 inline-block w-1.5 animate-pulse bg-slate-400">&nbsp;</span>}
           </div>
         )}
-        {message.error && <p className="mt-1 text-xs text-red-300">{message.error}</p>}
+        {message.error && (
+          <div role="alert" className={`flex items-start gap-2 text-xs text-amber-200 ${message.content ? "mt-2" : ""}`}>
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden />
+            <div className="min-w-0 flex-1">
+              <p className="break-words leading-relaxed">{message.error}</p>
+              {onRetry && (
+                <button type="button" className="chip mt-2 border-white/20 bg-white/10 text-slate-100 hover:bg-white/20" onClick={onRetry}>
+                  <RotateCw className="h-3 w-3" aria-hidden />
+                  Try again
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

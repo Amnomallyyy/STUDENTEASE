@@ -66,5 +66,16 @@ export function useChatStream() {
 
   const stop = useCallback(() => abortRef.current?.abort(), []);
 
-  return { messages, send, stop, streaming };
+  /** Re-ask the last question after a failed reply: drops the failed turn first so it is not shown twice. */
+  const retry = useCallback(() => {
+    if (streaming) return;
+    const current = useSessionStore.getState().messages;
+    const last = current[current.length - 1];
+    const asked = current[current.length - 2];
+    if (!last?.error || asked?.role !== "user") return;
+    setMessages(current.slice(0, -2));
+    void send(asked.content);
+  }, [send, setMessages, streaming]);
+
+  return { messages, send, stop, retry, streaming };
 }

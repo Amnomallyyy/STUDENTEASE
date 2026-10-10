@@ -55,6 +55,8 @@ export default function Interview() {
   // so the live filler gauge counts from these instead.
   const [clips, setClips] = useState<Record<number, string>>({});
   const answerToken = useRef(0);
+  // Whether the microphone recording started: if the live captions drop, a recorded answer is still transcribed on submit.
+  const [audioRecording, setAudioRecording] = useState(false);
 
   // The assistant can open this page for a role (?role=...) while it is already open.
   useEffect(() => {
@@ -135,7 +137,8 @@ export default function Interview() {
     speech.start();
     const token = answerToken.current;
     // Optional: the full recording improves the final transcript; the clips drive the live filler gauge.
-    void audio.start({
+    void audio
+      .start({
       segmentMs: 5000,
       onSegment: (clip, i) => {
         transcribeClip(clip)
@@ -144,7 +147,8 @@ export default function Interview() {
           })
           .catch(() => {}); // rate limit or offline: the live gauge just falls back to Chrome's transcript
       },
-    });
+    })
+      .then(setAudioRecording);
     if (vision.status === "running") vision.startAnswer();
     setRecording(true);
   }
@@ -156,6 +160,7 @@ export default function Interview() {
     setElapsed(duration);
     const samples = vision.recording ? vision.stopAnswer() : [];
     const blob = await audio.stop();
+    setAudioRecording(false);
     await send(transcript, duration, samples, blob);
   }
 
@@ -259,8 +264,9 @@ export default function Interview() {
 
         {question && (phase === "answering" || phase === "submitting" || phase === "feedback") && (
           <>
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)_300px]">
-              <div className="flex flex-col gap-4">
+            <div className="iv-zone">
+            <div className="iv-grid">
+              <div className="iv-q flex flex-col gap-4">
                 <QuestionCard
                   question={question}
                   index={index}
@@ -298,7 +304,21 @@ export default function Interview() {
                       </button>
                     </div>
                   )}
-                  {speech.error && <p className="mt-2 text-xs text-amber-700 dark:text-amber-400">{speech.error}</p>}
+                  {speech.reconnecting && (
+                    <p className="mt-2 text-xs text-slate-500" aria-live="polite">
+                      Live captions lost the connection. Reconnecting… keep talking.
+                    </p>
+                  )}
+                  {speech.error && (
+                    <p role="alert" className="mt-2 text-xs text-amber-700 dark:text-amber-400">
+                      {speech.error}{" "}
+                      {speech.errorKind === "network" && recording && audioRecording
+                        ? "Your voice is still being recorded: keep going and submit when you are done, and the recording will be transcribed for scoring."
+                        : speech.errorKind === "network"
+                          ? "Type your answer instead."
+                          : null}
+                    </p>
+                  )}
                 </section>
               </div>
 
@@ -336,6 +356,7 @@ export default function Interview() {
                 <StarChecklist live={star} scored={phase === "feedback" ? result?.verbal.star : null} />
                 {cameraOn && <NonVerbalGauges live={vision.live} answer={vision.answer} recording={vision.recording} />}
               </div>
+            </div>
             </div>
 
             {phase === "submitting" && (

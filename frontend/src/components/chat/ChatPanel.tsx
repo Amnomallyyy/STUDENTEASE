@@ -15,7 +15,7 @@ interface Props {
 export default function ChatPanel({ onClose }: Props) {
   const profile = useProfileStore((s) => s.profile);
   const clearChat = useSessionStore((s) => s.clearChat);
-  const { messages, send, stop, streaming } = useChatStream();
+  const { messages, send, stop, retry, streaming } = useChatStream();
   const [draft, setDraft] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -68,6 +68,7 @@ export default function ChatPanel({ onClose }: Props) {
             key={index}
             message={message}
             streaming={streaming && index === messages.length - 1 && message.role === "assistant"}
+            onRetry={index === messages.length - 1 && !streaming ? retry : undefined}
           />
         ))}
         <div ref={bottomRef} />
