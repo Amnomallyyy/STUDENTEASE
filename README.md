@@ -1,6 +1,18 @@
+---
+title: CareerLens API
+emoji: 🧭
+colorFrom: blue
+colorTo: yellow
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # CareerLens
 
 **Upload your CV, and in two minutes know exactly what to fix, where to apply, and how to answer.**
+
+> The block above is read by Hugging Face Spaces (free Docker hosting for the backend, see "Deploy"); GitHub shows it as a small table.
 
 AICON'26 "Build With AI" entry, EdTech & Workforce domain. One web app, four modules, one shared profile.
 
