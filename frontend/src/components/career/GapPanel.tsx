@@ -21,15 +21,15 @@ interface Props {
   loading: boolean;
   error: string | null;
   /** Sources the CV Analyzer has checked (profile.evidence_sources); empty until it has run. */
-  evidenceSources: ("cv" | "github" | "linkedin")[];
+  evidenceSources: ("cv" | "github" | "linkedin" | "portfolio")[];
   /** Open the Analyzer at the anomaly for a CV-only skill. */
   onVerify: (skillName: string) => void;
 }
 
-const SOURCE_LABELS: Record<string, string> = { github: "GitHub", linkedin: "LinkedIn", cv: "CV" };
+const SOURCE_LABELS: Record<string, string> = { github: "GitHub", linkedin: "LinkedIn", portfolio: "your portfolio", cv: "CV" };
 
 function isEvidenced(m: SkillMatch): boolean {
-  return m.sources.some((s) => s === "github" || s === "linkedin");
+  return m.sources.some((s) => s === "github" || s === "linkedin" || s === "portfolio");
 }
 
 export function headline(gap: GapResponse): string {

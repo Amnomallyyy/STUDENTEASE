@@ -16,6 +16,8 @@ class Job(BaseModel):
     requirements_text: str = ""
     required_skills: list[Skill] = Field(default_factory=list, description="Pre-extracted with M1's extractor.")
     source_url: str | None = None
+    source_name: str = Field(default="", description="Board the posting was listed on, e.g. 'LinkedIn', 'Indeed'.")
+    posted_at: str = Field(default="", description="As the board states it, e.g. '5 days ago'; empty for sample listings.")
     synthetic: bool = Field(default=False, description="True when the listing is generated, not public.")
 
 

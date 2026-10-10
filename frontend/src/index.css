@@ -2,95 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Look taken from the team's deck: cream paper with a faint circuit-dot grid, navy Fredoka titles,
+   sky / periwinkle fills, black outlines and offset "sticker" shadows, a mustard accent. */
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
   }
-  /* White page with a soft sky wash at the top, Geist for text. */
   body {
-    @apply font-sans text-slate-900 antialiased;
-    background:
-      radial-gradient(120% 420px at 50% -120px, rgba(111, 182, 255, 0.35) 0%, rgba(169, 212, 255, 0.18) 45%, rgba(255, 255, 255, 0) 75%),
-      #ffffff;
-    background-attachment: fixed;
+    @apply font-sans text-ink antialiased;
+    background-color: #fbf5f1;
+    background-image: radial-gradient(rgba(140, 185, 221, 0.35) 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
   }
-  /* Page titles in a serif, medium weight (overrides the pages' font-bold). */
   h1 {
-    @apply font-serif tracking-tight;
-    font-weight: 500 !important;
+    @apply font-display tracking-tight text-brand-600;
+    font-weight: 700 !important;
+  }
+  h2,
+  h3 {
+    @apply text-brand-700;
   }
 }
 
 @layer components {
   .card {
-    @apply rounded-2xl border border-slate-200/70 bg-white/85 shadow-soft backdrop-blur;
+    @apply rounded-2xl border-2 border-ink/80 bg-white shadow-sticker-sm;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 px-3.5 py-2 text-sm font-semibold transition
       disabled:cursor-not-allowed disabled:opacity-50;
   }
-  /* Glossy blue: two radial gradients plus a soft outer glow and inner highlight. */
+  /* Navy block with a sky offset shadow; presses down on hover. */
   .btn-primary {
-    @apply btn text-white;
-    background-image:
-      radial-gradient(100% 100% at 65% 82%, rgba(255, 255, 255, 0.45) 0, rgba(255, 255, 255, 0) 100%),
-      radial-gradient(115% 115% at 10% 17%, #2f8ae6 0, #1d45e8 100%);
-    box-shadow:
-      0 10px 24px -10px rgba(37, 99, 235, 0.6),
-      inset -3px -3px 4px rgba(191, 229, 251, 0.35),
-      inset 3px 3px 4px rgba(19, 26, 228, 0.12);
+    @apply btn border-ink bg-brand-600 text-white shadow-sticker-sky;
   }
   .btn-primary:hover:not(:disabled) {
-    filter: brightness(1.07);
+    @apply translate-x-[1px] translate-y-[1px] bg-brand-700;
+    box-shadow: 3px 3px 0 0 #93ccff;
   }
   .btn-danger {
-    @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700;
+    @apply btn border-ink bg-red-600 text-white shadow-sticker-sm hover:bg-red-700;
   }
   .btn-secondary {
-    @apply btn border border-slate-200 bg-white/80 text-slate-700 shadow-sm backdrop-blur hover:bg-white;
+    @apply btn border-ink bg-white text-ink shadow-sticker-sm hover:bg-brand-50;
   }
   .btn-ghost {
-    @apply btn text-slate-600 hover:bg-slate-900/5;
+    @apply btn border-transparent text-ink/70 hover:border-ink/20 hover:bg-white;
   }
   .input {
-    @apply w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm
-      focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-100;
+    @apply w-full rounded-xl border-2 border-periwinkle bg-white px-3 py-2 text-sm text-ink
+      focus:border-brand-600 focus:outline-none focus:ring-4 focus:ring-sky/50;
   }
   .label {
-    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500;
+    @apply mb-1 block text-xs font-bold uppercase tracking-wide text-brand-600;
   }
   .chip {
-    @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold;
   }
 
-  /* Dark frosted glass, for the assistant and the interviewer card. */
+  /* Ink panel for the assistant and the interviewer card (the deck's black outline colour). */
   .glass-dark {
     @apply text-slate-100;
-    background: rgba(17, 20, 28, 0.82);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.7);
+    background: #181821;
+    border: 2px solid #181821;
+    box-shadow: 4px 4px 0 0 #93ccff;
   }
   .chip-dark {
-    @apply chip border-white/10 bg-white/5 text-slate-200 hover:bg-white/10;
+    @apply chip border-white/15 bg-white/10 text-slate-100 hover:bg-white/20;
   }
   .btn-ghost-dark {
-    @apply btn text-slate-300 hover:bg-white/10 hover:text-white;
+    @apply btn border-transparent text-slate-300 hover:bg-white/10 hover:text-white;
   }
   .input-dark {
-    @apply w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400
-      focus:border-brand-400/60 focus:outline-none focus:ring-4 focus:ring-brand-500/20;
+    @apply w-full rounded-xl border-2 border-white/15 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400
+      focus:border-sky focus:outline-none focus:ring-4 focus:ring-sky/20;
   }
 
-  /* Sky hero band for page headers: CSS only, no artwork. */
+  /* Sky band for page headers, outlined like a deck slide, with a mustard "hex nut" accent. */
   .sky-hero {
-    @apply relative overflow-hidden rounded-3xl text-white;
+    @apply relative overflow-hidden rounded-3xl border-2 border-ink text-ink shadow-sticker;
     background:
-      radial-gradient(60% 80% at 85% 110%, rgba(255, 196, 140, 0.55) 0%, rgba(255, 196, 140, 0) 70%),
-      radial-gradient(70% 90% at 15% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%),
-      linear-gradient(180deg, #2f8ae6 0%, #5aa8f0 45%, #a8d3fa 80%, #dceefe 100%);
-    box-shadow: 0 30px 60px -30px rgba(29, 69, 232, 0.55);
+      radial-gradient(rgba(33, 65, 132, 0.12) 1.2px, transparent 1.2px) 0 0 / 22px 22px,
+      linear-gradient(180deg, #b9d9ff 0%, #93ccff 100%);
+  }
+  .sky-hero::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+    width: 160px;
+    height: 160px;
+    background: #ecb347;
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+    opacity: 0.9;
+    pointer-events: none;
   }
 }
 
@@ -101,20 +107,20 @@
   font: inherit;
 }
 
-/* Job pins: a coloured dot with a white ring (colour set inline per match band). */
+/* Job pins: a coloured dot with an ink ring (colour set inline per match band). */
 .job-pin {
   display: block;
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  border: 3px solid #fff;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.45);
+  border: 2px solid #181821;
+  box-shadow: 2px 2px 0 0 rgba(24, 24, 33, 0.35);
   cursor: pointer;
   transition: transform 120ms ease;
 }
 .job-pin.selected {
   transform: scale(1.5);
-  outline: 2px solid #1c57f0;
+  outline: 2px solid #214184;
   outline-offset: 1px;
 }
 .user-pin {
@@ -122,9 +128,9 @@
   width: 16px;
   height: 16px;
   border-radius: 9999px;
-  background: #1c57f0;
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 6px rgba(28, 87, 240, 0.25);
+  background: #214184;
+  border: 2px solid #181821;
+  box-shadow: 0 0 0 6px rgba(147, 204, 255, 0.6);
 }
 
 /* Thin scrollbars for the chat and lists. */
@@ -135,6 +141,6 @@
   width: 8px;
 }
 .scroll-thin::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #8cb9dd;
   border-radius: 9999px;
 }

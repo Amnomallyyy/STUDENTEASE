@@ -23,7 +23,7 @@ from backend.schemas import MatchResult, Skill, SkillMatch
 
 MATCH_THRESHOLD = 0.80
 PARTIAL_THRESHOLD = 0.65
-EXTERNAL_SOURCES = ("github", "linkedin")  # sources that count as evidence for evidenced_pct
+EXTERNAL_SOURCES = ("github", "linkedin", "portfolio")  # sources that count as evidence for evidenced_pct
 
 CACHE_PATH: Path | None = Path(__file__).resolve().parents[1] / "cache" / "embeddings.json"
 _memory: dict[str, list[float]] | None = None

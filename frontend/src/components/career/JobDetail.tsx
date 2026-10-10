@@ -102,13 +102,13 @@ export default function JobDetail({ job, pinned, onPin, onUnpin, onClose }: Prop
           </button>
         )}
         {job.source_url && (
-          <a className="btn-ghost text-xs" href={job.source_url} target="_blank" rel="noreferrer">
-            <ExternalLink className="h-3 w-3" aria-hidden /> Source
+          <a className="btn-secondary text-xs" href={job.source_url} target="_blank" rel="noreferrer">
+            <ExternalLink className="h-3 w-3" aria-hidden /> {job.source_name ? `Apply on ${job.source_name}` : "Open posting"}
           </a>
         )}
         {job.synthetic && (
-          <span className="text-xs text-slate-400" title="Labelled synthetic listing from data/jobs.json">
-            Synthetic listing
+          <span className="chip border-amber-300 bg-amber-50 text-amber-900" title="Sample listing from data/jobs.json: no job API key is configured">
+            Sample listing
           </span>
         )}
       </div>

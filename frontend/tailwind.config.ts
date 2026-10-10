@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+// Palette and type taken from the team's "Blue Modern Robotics" deck: cream paper, deep navy titles,
+// sky and periwinkle blues, a teal, a mustard accent, black outlines, chunky rounded headline type.
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   // The app is light-only; "class" keeps the interview components' dark: variants from switching on
@@ -8,27 +10,38 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Geist for UI text, EB Garamond for page titles (see index.html for the font import).
-        sans: ['"Geist"', "ui-sans-serif", "system-ui", "-apple-system", '"Segoe UI"', "sans-serif"],
-        serif: ['"EB Garamond"', "ui-serif", "Georgia", "serif"],
+        // Outfit for UI text, Fredoka for titles (see index.html for the font import). `serif` is kept
+        // as an alias so earlier `font-serif` title usages pick up the display face.
+        sans: ['"Outfit"', "ui-sans-serif", "system-ui", "-apple-system", '"Segoe UI"', "sans-serif"],
+        display: ['"Fredoka"', '"Outfit"', "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ['"Fredoka"', '"Outfit"', "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
         brand: {
-          50: "#eef5ff",
-          100: "#dbe9fe",
-          200: "#bfd8fd",
-          300: "#93bdfb",
-          400: "#5f9bf5",
-          500: "#2f7deb",
-          600: "#1d5fe6",
-          700: "#1c45d8",
-          800: "#1b39ad",
-          900: "#1b3487",
+          50: "#f1f6fd",
+          100: "#e2eefc",
+          200: "#b9d9ff",
+          300: "#93ccff",
+          400: "#5fb0ef",
+          500: "#2d8bba",
+          600: "#214184",
+          700: "#1b3670",
+          800: "#162c5c",
+          900: "#0f1e40",
         },
+        ink: "#181821",
+        cream: "#fbf5f1",
+        sky: "#93ccff",
+        periwinkle: "#8cb9dd",
+        teal: { 500: "#4895aa", 700: "#2a6377" },
+        mustard: "#ecb347",
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -12px rgba(30, 64, 175, 0.18)",
-        glow: "0 10px 30px -8px rgba(47, 125, 235, 0.45)",
+        soft: "0 1px 2px rgba(24, 24, 33, 0.05), 0 10px 28px -14px rgba(33, 65, 132, 0.25)",
+        glow: "0 10px 30px -8px rgba(45, 139, 186, 0.45)",
+        sticker: "4px 4px 0 0 #181821",
+        "sticker-sm": "3px 3px 0 0 #181821",
+        "sticker-sky": "4px 4px 0 0 #93ccff",
       },
     },
   },

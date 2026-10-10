@@ -1,7 +1,7 @@
 // UI session state that is not part of the Profile contract: map filters, the pinned job, roadmap tick-offs,
 // the chat transcript and the action the chatbot last asked the UI to perform.
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { ChatAction, UIMessage } from "../types/api";
 
 export const RADIUS_OPTIONS = [5, 10, 25] as const;
@@ -86,6 +86,7 @@ export const useSessionStore = create<SessionState>()(
     {
       name: "careerlens-session",
       version: 1,
+      storage: createJSONStorage(() => window.sessionStorage), // per tab, like the profile
       partialize: (s) => ({
         role: s.role,
         radiusKm: s.radiusKm,

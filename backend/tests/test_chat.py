@@ -64,7 +64,7 @@ def test_system_prompt_carries_mode_guidance_and_profile():
 
 
 def test_jobs_tool_filters_by_keyword_and_asks_the_ui_to_open_the_map(monkeypatch):
-    monkeypatch.setattr(chat_service, "load_jobs", lambda: [acme_job()])
+    monkeypatch.setattr(chat_service.jobs_live, "jobs_for", lambda role, location: [acme_job()])
 
     result, action = chat_service.run_tool("get_jobs_near_me", {"radius_km": 30, "keyword": "Acme"}, profile())
 

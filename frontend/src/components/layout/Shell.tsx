@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   BarChart3,
-  Info,
   LayoutDashboard,
   Map as MapIcon,
   MessageSquare,
@@ -14,6 +13,7 @@ import {
   Upload as UploadIcon,
 } from "lucide-react";
 import { api, errorMessage } from "../../lib/api";
+import { rotateSessionId } from "../../lib/session";
 import { hasCV, useProfileStore } from "../../store/profile";
 import { useSessionStore } from "../../store/session";
 import ChatPanel from "../chat/ChatPanel";
@@ -25,7 +25,6 @@ const NAV = [
   { to: "/career", label: "Career Map", icon: MapIcon },
   { to: "/analyzer", label: "CV Analyzer", icon: ShieldCheck },
   { to: "/interview", label: "Mock Interview", icon: Mic },
-  { to: "/built-with", label: "Built with", icon: Info },
 ];
 
 export default function Shell() {
@@ -120,11 +119,14 @@ export default function Shell() {
       clearProfile();
       resetSession();
       try {
-        window.localStorage.removeItem("careerlens-profile");
+        window.sessionStorage.removeItem("careerlens-profile");
+        window.sessionStorage.removeItem("careerlens-session");
+        window.localStorage.removeItem("careerlens-profile"); // left by versions before per-tab storage
         window.localStorage.removeItem("careerlens-session");
       } catch {
         /* storage unavailable */
       }
+      rotateSessionId(); // the server slot used so far is abandoned
       setBusy(false);
       navigate("/upload");
     }
@@ -132,12 +134,12 @@ export default function Shell() {
 
   return (
     <div className="flex min-h-screen">
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-white/60 bg-white/60 backdrop-blur-xl lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r-2 border-ink/80 bg-white lg:flex">
         <div className="flex items-center gap-2.5 px-5 py-6">
-          <span className="btn-primary h-8 w-8 rounded-lg p-0">
-            <BarChart3 className="h-4 w-4" aria-hidden />
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink bg-brand-600 text-mustard shadow-sticker-sm">
+            <BarChart3 className="h-5 w-5" aria-hidden />
           </span>
-          <span className="font-serif text-2xl font-medium tracking-tight">CareerLens</span>
+          <span className="font-display text-2xl font-bold tracking-tight text-brand-600">CareerLens</span>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-3">
           {NAV.map(({ to, label, icon: Icon }) => (
@@ -145,10 +147,10 @@ export default function Shell() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                `flex items-center gap-3 rounded-xl border-2 px-3 py-2 text-sm font-semibold transition ${
                   isActive
-                    ? "bg-white text-brand-700 shadow-soft ring-1 ring-slate-200/70"
-                    : "text-slate-600 hover:bg-white/70 hover:text-slate-900"
+                    ? "border-ink bg-sky text-brand-700 shadow-sticker-sm"
+                    : "border-transparent text-ink/70 hover:border-ink/20 hover:bg-brand-50 hover:text-ink"
                 }`
               }
             >
@@ -164,10 +166,10 @@ export default function Shell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-[1000] flex flex-wrap items-center gap-3 border-b border-white/60 bg-white/60 px-4 py-3 backdrop-blur-xl">
+        <header className="sticky top-0 z-[1000] flex flex-wrap items-center gap-3 border-b-2 border-ink/80 bg-white px-4 py-3">
           <div className="flex items-center gap-2 lg:hidden">
             <BarChart3 className="h-5 w-5 text-brand-600" aria-hidden />
-            <span className="font-serif text-xl font-medium">CareerLens</span>
+            <span className="font-display text-xl font-bold text-brand-600">CareerLens</span>
           </div>
           <nav className="-mx-1 flex gap-1 overflow-x-auto lg:hidden">
             {NAV.map(({ to, label }) => (
@@ -187,11 +189,6 @@ export default function Shell() {
           <div className="ml-auto flex items-center gap-2">
             {profile && (
               <>
-                {profile.target_role && (
-                  <span className="hidden rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-xs text-slate-600 shadow-sm sm:inline">
-                    Target: <strong>{profile.target_role}</strong>
-                  </span>
-                )}
                 <select
                   aria-label="Mode"
                   className="input w-auto py-1 text-xs"

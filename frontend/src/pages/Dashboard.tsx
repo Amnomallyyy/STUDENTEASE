@@ -25,7 +25,8 @@ export default function Dashboard() {
   const strongJobs = profile.jobs_nearby.filter((j) => j.match_pct >= 75).length;
   const topGap = profile.market_gaps[0];
   const analyzed = (profile.evidence_sources ?? []).length > 0;
-  const checked = (profile.evidence_sources ?? []).map((s) => (s === "github" ? "GitHub" : s === "linkedin" ? "LinkedIn" : s)).join(" and ");
+  const sourceLabel: Record<string, string> = { github: "GitHub", linkedin: "LinkedIn", portfolio: "your portfolio" };
+  const checked = (profile.evidence_sources ?? []).map((s) => sourceLabel[s] ?? s).join(" and ");
   const byCategory = new Map<string, typeof profile.skills>();
   for (const skill of profile.skills) {
     byCategory.set(skill.category, [...(byCategory.get(skill.category) ?? []), skill]);
@@ -142,7 +143,7 @@ export default function Dashboard() {
                 title={titleCase(category)}
                 items={skills.map((skill) => ({
                   name: skill.name,
-                  verified: analyzed ? skill.sources.some((s) => s === "github" || s === "linkedin") : null,
+                  verified: analyzed ? skill.sources.some((s) => s === "github" || s === "linkedin" || s === "portfolio") : null,
                   title: analyzed ? `Sources: ${skill.sources.join(", ") || "cv"}` : undefined,
                 }))}
                 variant="neutral"

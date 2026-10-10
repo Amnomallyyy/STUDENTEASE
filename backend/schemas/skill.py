@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-SkillSource = Literal["cv", "github", "linkedin"]
+SkillSource = Literal["cv", "github", "linkedin", "portfolio"]
 
 
 class SkillCategory(str, Enum):

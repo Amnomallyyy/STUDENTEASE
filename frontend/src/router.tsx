@@ -5,7 +5,6 @@ import Dashboard from "./pages/Dashboard";
 import CareerMap from "./pages/CareerMap";
 import Analyzer from "./pages/Analyzer";
 import Interview from "./pages/Interview";
-import BuiltWith from "./pages/BuiltWith";
 import VisionPlayground from "./dev/VisionPlayground";
 import { hasCV, useProfileStore } from "./store/profile";
 
@@ -26,7 +25,6 @@ export const router = createBrowserRouter([
       { path: "career", element: <CareerMap /> },
       { path: "analyzer", element: <Analyzer /> },
       { path: "interview", element: <Interview /> },
-      { path: "built-with", element: <BuiltWith /> },
       { path: "*", element: <Navigate to="/" replace /> },
     ],
   },

@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 try:  # <repo root>/.env: blank values keep the code defaults, variables already set in the shell win
@@ -23,9 +23,9 @@ try:  # <repo root>/.env: blank values keep the code defaults, variables already
 except ImportError:  # python-dotenv is optional: set the variables in the shell instead
     pass
 
-from backend.api import analyzer, career, chat, jobs, profile
+from backend.api import analyzer, career, chat, geo, jobs, profile
 from backend.built_with import BUILT_WITH
-from backend.services import data
+from backend.services import data, session
 
 DEFAULT_CORS_ORIGINS = "http://localhost:5173,http://127.0.0.1:5173"
 
@@ -49,10 +49,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def bind_session(request: Request, call_next):
+    """One profile per browser tab: the frontend sends X-Session-Id; services read it from session.current."""
+    token = session.current.set(session.session_id_from_header(request.headers.get("x-session-id")))
+    try:
+        return await call_next(request)
+    finally:
+        session.current.reset(token)
+
+
 app.include_router(profile.router)
 app.include_router(career.router)
 app.include_router(chat.router)
 app.include_router(jobs.router)
+app.include_router(geo.router)
 app.include_router(analyzer.router)
 
 try:  # M3's interview router is optional until it lands.

@@ -84,6 +84,8 @@ export interface Job {
   requirements_text: string;
   required_skills: Skill[];
   source_url: string | null;
+  source_name: string;
+  posted_at: string;
   synthetic: boolean;
 }
 
@@ -160,7 +162,7 @@ export interface Profile {
   roadmap: Roadmap | null;
   anomalies: Anomaly[];
   integrity_score: number | null;
-  evidence_sources: ("cv" | "github" | "linkedin")[];
+  evidence_sources: ("cv" | "github" | "linkedin" | "portfolio")[];
   interview: InterviewReport | null;
 }
 
@@ -212,7 +214,7 @@ export interface Skill {
   name: string;
   category: SkillCategory;
   evidence: string[];
-  sources: ("cv" | "github" | "linkedin")[];
+  sources: ("cv" | "github" | "linkedin" | "portfolio")[];
   years: number | null;
   confidence: number;
   weight: number;
@@ -225,7 +227,7 @@ export interface SkillMatch {
   name: string;
   matched_to: string;
   similarity: number;
-  sources: ("cv" | "github" | "linkedin")[];
+  sources: ("cv" | "github" | "linkedin" | "portfolio")[];
 }
 
 export interface StarElement {

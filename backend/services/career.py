@@ -3,16 +3,15 @@ and the chatbot tools, so all three give the same numbers."""
 from __future__ import annotations
 
 from backend.schemas import AdjacentRole, GapResponse, Location, Profile, Roadmap, Skill
-from backend.services import differential, matcher
+from backend.services import differential, jobs_live, matcher
 from backend.services.data import (
     DataMissing,
-    find_job,
     find_role,
-    load_jobs,
     load_resources,
     load_roles,
 )
 from backend.services.geo import nearby_jobs
+from backend.services.jobs_live import find_job
 from backend.services.roadmap import build_roadmap
 
 DEFAULT_RADIUS_KM = 25.0
@@ -39,9 +38,9 @@ def compute_gap(
     role = find_role(role_name)
     result = matcher.match(skills, role.skills, evidenced=evidenced)
     try:
-        jobs = load_jobs()
-    except DataMissing:
-        jobs = []
+        jobs = jobs_live.jobs_for(role.name, location)
+    except (DataMissing, jobs_live.JobsUnavailable):
+        jobs = []  # the role match still works; GET /jobs/nearby reports the job-source problem itself
     pairs = nearby_jobs(jobs, _coords(location), radius_km, limit=MARKET_JOBS)
     gaps = differential.market_gaps(result.missing, [job for job, _ in pairs])
     scored = sorted(

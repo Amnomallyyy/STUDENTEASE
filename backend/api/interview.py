@@ -49,7 +49,12 @@ class _Interview:
         return [self.answers[q] for q in self.questions if q in self.answers]
 
 
-_state = _Interview()
+_states: dict[str, _Interview] = {}
+
+
+def _current() -> _Interview:
+    """This browser session's interview (see services/session.py)."""
+    return _states.setdefault(session.current_session(), _Interview())
 
 
 @router.post("/start", response_model=list[InterviewQuestion])
@@ -59,10 +64,10 @@ def start(body: StartRequest) -> list[InterviewQuestion]:
     if not role:
         raise HTTPException(status_code=422, detail="Pick a target role first.")
     questions = generate_questions(role, profile, body.count)
-    with _state.lock:
-        _state.role = role
-        _state.questions = {q.id: q for q in questions}
-        _state.answers = {}
+    with _current().lock:
+        _current().role = role
+        _current().questions = {q.id: q for q in questions}
+        _current().answers = {}
     return questions
 
 
@@ -74,8 +79,8 @@ def answer(
     samples: str = Form(default="[]", description="JSON list of NonVerbalSample from the browser; [] = camera off."),
     audio: UploadFile | None = File(default=None),
 ) -> AnswerResult:
-    with _state.lock:
-        question = _state.questions.get(question_id)
+    with _current().lock:
+        question = _current().questions.get(question_id)
     if question is None:
         raise HTTPException(status_code=404, detail="Unknown question. Start a new interview.")
     try:
@@ -93,9 +98,9 @@ def answer(
         raise HTTPException(status_code=422, detail="No answer was heard. Try again, or type your answer.")
 
     result = analyze_answer(question, transcript, duration_s, nv_samples)
-    with _state.lock:
-        _state.answers[question_id] = result
-        report = scoring.build_report(_state.role, _state.ordered_answers())
+    with _current().lock:
+        _current().answers[question_id] = result
+        report = scoring.build_report(_current().role, _current().ordered_answers())
     session.update_profile(interview=report)
     return result
 
@@ -119,10 +124,10 @@ def transcribe_clip(audio: UploadFile = File(...)) -> TranscribeResponse:
 
 @router.get("/report", response_model=InterviewReport)
 def report() -> InterviewReport:
-    with _state.lock:
-        if not _state.questions:
+    with _current().lock:
+        if not _current().questions:
             raise HTTPException(status_code=404, detail="No interview yet. Start one first.")
-        return scoring.build_report(_state.role, _state.ordered_answers())
+        return scoring.build_report(_current().role, _current().ordered_answers())
 
 
 def analyze_answer(

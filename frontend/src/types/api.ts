@@ -2,7 +2,7 @@
 // the generated profile.ts), the /health and /built-with payloads, and the /chat event stream (docs/api.md).
 import type { Anomaly, ChatMessage, JobMatch, MatchResult } from "./profile";
 
-export type SkillSource = "cv" | "github" | "linkedin";
+export type SkillSource = "cv" | "github" | "linkedin" | "portfolio";
 
 export interface SkillCluster {
   name: string;
@@ -33,6 +33,18 @@ export interface JobNearby extends JobMatch {
   lng: number;
   synthetic: boolean;
   source_url: string | null;
+  /** Board the posting was listed on (e.g. "LinkedIn", "Indeed"); empty for sample listings. */
+  source_name: string;
+  /** As the board states it, e.g. "5 days ago"; empty for sample listings. */
+  posted_at: string;
+}
+
+/** GET /geo/place: a free-text place resolved to coordinates. */
+export interface Place {
+  lat: number;
+  lng: number;
+  name: string;
+  city: string;
 }
 
 export interface BuiltWithItem {

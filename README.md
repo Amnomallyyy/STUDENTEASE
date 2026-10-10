@@ -153,6 +153,7 @@ All optional; `.env.example` documents each one. The backend loads `<repo root>/
 | `ANTHROPIC_MODEL` / `OPENAI_MODEL` / `OLLAMA_MODEL` | `claude-sonnet-5-5` / `gpt-4o-mini` / `llama3.2` | Model ids |
 | `OPENAI_FALLBACK_MODEL` / `OPENAI_REASONING_EFFORT` | `openai/gpt-oss-20b` for gpt-oss-120b / `low` for gpt-oss | Second model tried on a 429 rate limit; reasoning budget for reasoning models |
 | `EMBED_PROVIDER` / `EMBED_MODEL` | `local` / `sentence-transformers/all-MiniLM-L6-v2` | Embeddings; `openai` uses `OPENAI_EMBED_MODEL` |
+| `RAPIDAPI_KEY` / `JOBS_SOURCE` | / `live` | Real job postings through JSearch (rapidapi.com, free plan) for the role and place the user enters; `JOBS_SOURCE=dataset` uses the synthetic sample (tests, offline demo) |
 | `GITHUB_TOKEN` | | Optional; 5000 req/h instead of 60 |
 | `LLM_CACHE_PATH`, `LLM_CACHE_RECORD`, `GITHUB_CACHE_PATH` | | Offline replay of the demo (see `demo/README.md`) |
 | `ROLES_PATH`, `JOBS_PATH`, `RESOURCES_PATH`, `SKILL_ALIASES_PATH` | `data/*.json` | Dataset overrides |

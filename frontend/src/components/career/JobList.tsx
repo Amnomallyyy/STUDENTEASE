@@ -41,6 +41,8 @@ export default function JobList({ jobs, selectedId, pinnedId, onSelect }: Props)
                 <span className="block truncate text-xs text-slate-500">
                   {job.company} · {km(job.distance_km)}
                   {job.missing.length > 0 ? ` · missing ${job.missing.length}` : " · nothing missing"}
+                  {job.synthetic ? " · sample listing" : job.source_name ? ` · on ${job.source_name}` : ""}
+                  {job.posted_at ? ` · ${job.posted_at}` : ""}
                 </span>
               </span>
               <span className={`chip ${BAND_CLASSES[band]}`}>{pct(job.match_pct)}</span>

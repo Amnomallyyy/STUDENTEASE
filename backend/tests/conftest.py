@@ -1,7 +1,12 @@
 """Shared fixtures: an isolated embedding cache and a fake embedding model with known similarities."""
+import os
+
 import pytest
 
 from backend.services import matcher
+
+# The tests score against the sample dataset; live job search (JSearch) is never called from here.
+os.environ.setdefault("JOBS_SOURCE", "dataset")
 
 DIMS = ["sql", "python", "tableau", "excel", "docker", "statistics", "git", "communication"]
 

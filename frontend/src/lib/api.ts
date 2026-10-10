@@ -1,7 +1,8 @@
 // Typed fetch wrapper for the CareerLens API (docs/api.md). Every call goes through request(), so errors
 // always surface as ApiError with the FastAPI `detail` message, and the base URL lives in one place.
 import type { AdjacentRole, ChatRequest, GapResponse, Job, Profile, ProfilePatch, Roadmap, Role } from "../types/profile";
-import type { AnalyzerReport, BuiltWithItem, ChatEvent, Health, JobNearby } from "../types/api";
+import type { AnalyzerReport, BuiltWithItem, ChatEvent, Health, JobNearby, Place } from "../types/api";
+import { withSession } from "./session";
 
 export const API_URL = ((import.meta.env.VITE_API_URL as string | undefined) || "http://127.0.0.1:8000").replace(
   /\/+$/,
@@ -42,7 +43,7 @@ async function readDetail(res: Response): Promise<string> {
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, init);
+    res = await fetch(`${API_URL}${path}`, withSession(init));
   } catch {
     throw new ApiError(0, `Cannot reach the CareerLens API at ${API_URL}. Is the backend running?`);
   }
@@ -79,6 +80,9 @@ export interface AnalyzerInput {
   github_username?: string;
   linkedin_text?: string;
   linkedin_export?: File | null;
+  /** Portfolio documents the user uploads as proof (PDF, DOCX, TXT), and optionally a public site. */
+  portfolio_files?: File[];
+  portfolio_url?: string;
 }
 
 export const api = {
@@ -110,6 +114,8 @@ export const api = {
     request<AdjacentRole[]>(`/career/adjacent${query(params)}`),
 
   jobsNearby: (params: {
+    role?: string | null;
+    place?: string | null;
     lat?: number | null;
     lng?: number | null;
     radius?: number;
@@ -117,12 +123,16 @@ export const api = {
     min_match?: number;
   }) => request<JobNearby[]>(`/jobs/nearby${query(params)}`),
   job: (id: string) => request<Job>(`/jobs/${encodeURIComponent(id)}`),
+  /** Free-text place -> coordinates (OpenStreetMap Nominatim via the backend). */
+  place: (q: string) => request<Place>(`/geo/place${query({ q })}`),
 
   runAnalyzer: (input: AnalyzerInput) => {
     const form = new FormData();
     if (input.github_username?.trim()) form.append("github_username", input.github_username.trim());
     if (input.linkedin_text?.trim()) form.append("linkedin_text", input.linkedin_text.trim());
     if (input.linkedin_export) form.append("linkedin_export", input.linkedin_export, input.linkedin_export.name);
+    if (input.portfolio_url?.trim()) form.append("portfolio_url", input.portfolio_url.trim());
+    for (const file of input.portfolio_files ?? []) form.append("portfolio_files", file, file.name);
     return request<AnalyzerReport>("/analyzer/run", { method: "POST", body: form });
   },
   analyzerReport: (report_id?: string | null) => request<AnalyzerReport>(`/analyzer/report${query({ report_id })}`),
@@ -131,7 +141,7 @@ export const api = {
   chat: async (body: ChatRequest, onEvent: (event: ChatEvent) => void, signal?: AbortSignal): Promise<void> => {
     let res: Response;
     try {
-      res = await fetch(`${API_URL}/chat`, { ...json("POST", body), signal });
+      res = await fetch(`${API_URL}/chat`, withSession({ ...json("POST", body), signal }));
     } catch (err) {
       if ((err as Error).name === "AbortError") return;
       throw new ApiError(0, `Cannot reach the CareerLens API at ${API_URL}. Is the backend running?`);

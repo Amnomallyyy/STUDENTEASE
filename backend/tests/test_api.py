@@ -89,10 +89,10 @@ def test_gap_works_before_jobs_exist_and_is_saved_on_the_profile(client, monkeyp
     upload(client)
     monkeypatch.setattr(career_service, "find_role", lambda name: Role(id="da", name="Data Analyst", skills=[skill("Python"), skill("Tableau")]))
 
-    def no_jobs():
+    def no_jobs(role, location):
         raise DataMissing("jobs.json not found")
 
-    monkeypatch.setattr(career_service, "load_jobs", no_jobs)
+    monkeypatch.setattr(career_service.jobs_live, "jobs_for", no_jobs)
 
     response = client.get("/career/gap", params={"role": "data analyst"})
 

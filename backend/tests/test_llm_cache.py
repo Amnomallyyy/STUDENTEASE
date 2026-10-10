@@ -129,3 +129,56 @@ def test_openai_rate_limit_falls_back_to_the_smaller_model(monkeypatch):
     with pytest.raises(llm_adapter.LLMError):
         llm_adapter.complete_json("hello", Answer, retries=0)
     assert len(calls) == 1
+
+def test_short_rate_limit_waits_then_retries_the_same_model(monkeypatch):
+    class Limited(Exception):
+        code = "rate_limit_exceeded"
+
+    calls = []
+    slept = []
+
+    class Completions:
+        def create(self, **kwargs):
+            calls.append(kwargs["model"])
+            if len(calls) == 1:
+                raise Limited("Error code: 429 - tokens per minute (TPM): Limit 8000, Used 6731, Requested 2426. Please try again in 8.6775s.")
+            message = type("M", (), {"content": '{"text": "after the wait"}'})()
+            return type("R", (), {"choices": [type("C", (), {"message": message})()]})()
+
+    client = type("Client", (), {"chat": type("Chat", (), {"completions": Completions()})()})()
+    monkeypatch.setattr(llm_adapter, "_openai_client", lambda: client)
+    monkeypatch.setattr(llm_adapter.time, "sleep", lambda s: slept.append(s))
+    monkeypatch.setenv("LLM_PROVIDER", "openai")
+    monkeypatch.setenv("OPENAI_MODEL", "openai/gpt-oss-20b")
+    monkeypatch.delenv("OPENAI_FALLBACK_MODEL", raising=False)
+    monkeypatch.delenv("LLM_CACHE_PATH", raising=False)
+
+    assert llm_adapter.complete_json("hello", Answer) == Answer(text="after the wait")
+    assert calls == ["openai/gpt-oss-20b", "openai/gpt-oss-20b"]  # same model, after sleeping
+    assert slept and 8.6 < slept[0] < 9.5
+
+
+def test_long_rate_limit_walks_the_fallback_chain(monkeypatch):
+    class Limited(Exception):
+        code = "rate_limit_exceeded"
+
+    calls = []
+
+    class Completions:
+        def create(self, **kwargs):
+            calls.append(kwargs["model"])
+            if kwargs["model"] != "qwen/qwen3.8-27b":
+                raise Limited("Error code: 429 - tokens per day (TPD): Limit 200000. Please try again in 1h22m10.5s.")
+            message = type("M", (), {"content": '{"text": "third model"}'})()
+            return type("R", (), {"choices": [type("C", (), {"message": message})()]})()
+
+    client = type("Client", (), {"chat": type("Chat", (), {"completions": Completions()})()})()
+    monkeypatch.setattr(llm_adapter, "_openai_client", lambda: client)
+    monkeypatch.setattr(llm_adapter.time, "sleep", lambda s: (_ for _ in ()).throw(AssertionError("must not sleep for a long wait")))
+    monkeypatch.setenv("LLM_PROVIDER", "openai")
+    monkeypatch.setenv("OPENAI_MODEL", "openai/gpt-oss-120b")
+    monkeypatch.delenv("OPENAI_FALLBACK_MODEL", raising=False)
+    monkeypatch.delenv("LLM_CACHE_PATH", raising=False)
+
+    assert llm_adapter.complete_json("hello", Answer) == Answer(text="third model")
+    assert calls == ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]

@@ -1,7 +1,7 @@
 // Zustand store mirroring the shared Profile object (backend/schemas/profile.py), persisted to local storage
 // so a reload keeps the dashboard. The server keeps its own in-memory copy; "Delete my data" clears both.
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { Profile } from "../types/profile";
 
 interface ProfileState {
@@ -24,7 +24,8 @@ export const useProfileStore = create<ProfileState>()(
         ),
       clear: () => set({ profile: null, updatedAt: null }),
     }),
-    { name: "careerlens-profile", version: 1 },
+    // sessionStorage: a profile lives only in the tab that uploaded the CV, so every visitor starts fresh.
+    { name: "careerlens-profile", version: 1, storage: createJSONStorage(() => window.sessionStorage) },
   ),
 );
 

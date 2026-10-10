@@ -15,12 +15,14 @@ from backend.schemas.analyzer import SkillCluster
 from backend.services import matcher
 from backend.services.normalize import canonical
 
-EXTERNAL_SOURCES = ("github", "linkedin")
+EXTERNAL_SOURCES = ("github", "linkedin", "portfolio")
 
 
-def reconcile(cv: list[Skill], github: list[Skill], linkedin: list[Skill]) -> list[SkillCluster]:
+def reconcile(
+    cv: list[Skill], github: list[Skill], linkedin: list[Skill], portfolio: list[Skill] | None = None
+) -> list[SkillCluster]:
     """Merge the three skill lists into clusters; CV clusters come first and keep the CV spelling."""
-    clusters = _by_canonical_name(cv, github, linkedin)
+    clusters = _by_canonical_name(cv, github, linkedin, portfolio or [])
     return _merge_similar(clusters)
 
 
@@ -39,12 +41,16 @@ def has_external(cluster: SkillCluster) -> bool:
 
 
 def merge_evidence(
-    cv: list[Skill], github: list[Skill], linkedin: list[Skill], clusters: list[SkillCluster]
+    cv: list[Skill],
+    github: list[Skill],
+    linkedin: list[Skill],
+    clusters: list[SkillCluster],
+    portfolio: list[Skill] | None = None,
 ) -> list[Skill]:
     """The profile's skill list once the Analyzer has run, so the Career Map sees the evidence.
 
     CV skills come first, each tagged with every source that backs it (its cluster's sources). Then
-    the externally evidenced skills the CV does not claim (GitHub first, then LinkedIn), one per cluster,
+    the externally evidenced skills the CV does not claim (GitHub, then LinkedIn, then the portfolio), one per cluster,
     under the cluster's canonical name. Order inside each group is preserved.
     """
     merged: list[Skill] = []
@@ -54,7 +60,7 @@ def merge_evidence(
         sources = list(cluster.sources) if cluster else list(skill.sources or ["cv"])
         merged.append(skill.model_copy(update={"sources": sources}))
         seen.add((cluster.name if cluster else canonical(skill.name)).lower())
-    for skill in [*github, *linkedin]:
+    for skill in [*github, *linkedin, *(portfolio or [])]:
         cluster = cluster_for(clusters, skill.name)
         name = cluster.name if cluster else canonical(skill.name)
         if name.lower() in seen:

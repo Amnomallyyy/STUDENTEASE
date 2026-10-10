@@ -80,7 +80,7 @@ export default function Upload() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <section className="sky-hero px-6 pb-14 pt-12 text-center sm:px-10">
-        <p className="mx-auto mb-4 w-fit rounded-full border border-white/40 bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
+        <p className="mx-auto mb-4 w-fit rounded-full border-2 border-ink bg-white px-3 py-1 text-xs font-semibold text-ink shadow-sticker-sm">
           CV · Career Map · Evidence check · Mock interview
         </p>
         <h1 className="text-4xl leading-[1.1] sm:text-6xl">
@@ -88,7 +88,7 @@ export default function Upload() {
           <br />
           Land the role.
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm text-white/90 sm:text-base">
+        <p className="mx-auto mt-4 max-w-xl text-sm font-medium text-ink/80 sm:text-base">
           Upload your CV once. In two minutes, know exactly what to fix, where to apply, and how to answer.
         </p>
       </section>

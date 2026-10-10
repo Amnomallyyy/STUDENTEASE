@@ -2,6 +2,7 @@
 
 import type { AnswerResult, InterviewQuestion, InterviewReport } from "../types/profile";
 import { API_URL } from "./api";
+import { withSession } from "./session";
 import type { NonVerbalSample } from "../vision/types";
 
 export const API_BASE: string = API_URL;
@@ -11,7 +12,7 @@ export class ApiError extends Error {}
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_BASE}${path}`, init);
+    res = await fetch(`${API_BASE}${path}`, withSession(init));
   } catch {
     throw new ApiError(`Can't reach the CareerLens backend at ${API_BASE}. Is it running? (uvicorn backend.main:app)`);
   }

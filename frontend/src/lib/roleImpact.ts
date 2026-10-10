@@ -43,5 +43,5 @@ export function roleImpact(anomaly: Anomaly, role: Role | null, match: MatchResu
 
 /** Matched role skills with no GitHub or LinkedIn backing (only meaningful once the Analyzer has run). */
 export function unverifiedMatches(match: MatchResult | null): SkillMatch[] {
-  return (match?.matched ?? []).filter((m) => !m.sources.some((s) => s === "github" || s === "linkedin"));
+  return (match?.matched ?? []).filter((m) => !m.sources.some((s) => s === "github" || s === "linkedin" || s === "portfolio"));
 }

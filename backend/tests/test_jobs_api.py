@@ -32,8 +32,8 @@ JOBS = [
 @pytest.fixture
 def client(monkeypatch, fake_embed):
     session.reset_profile()
-    monkeypatch.setattr(jobs_api, "load_jobs", lambda: list(JOBS))
-    monkeypatch.setattr(jobs_api, "find_job", lambda job_id: next(j for j in JOBS if j.id == job_id))
+    monkeypatch.setattr(jobs_api.jobs_live, "jobs_for", lambda role, location: list(JOBS))
+    monkeypatch.setattr(jobs_api.jobs_live, "find_job", lambda job_id: next(j for j in JOBS if j.id == job_id))
     app = FastAPI()
     app.include_router(jobs_api.router)
     yield TestClient(app)
@@ -76,10 +76,10 @@ def test_nearby_falls_back_to_the_profile_location_and_honours_limit_and_min_mat
 def test_missing_dataset_is_a_503(client, monkeypatch):
     with_cv()
 
-    def missing():
+    def missing(role, location):
         raise DataMissing("jobs.json not found")
 
-    monkeypatch.setattr(jobs_api, "load_jobs", missing)
+    monkeypatch.setattr(jobs_api.jobs_live, "jobs_for", missing)
     response = client.get("/jobs/nearby", params={"lat": 24.86, "lng": 67.0})
     assert response.status_code == 503 and "jobs.json" in response.json()["detail"]
 
@@ -90,5 +90,5 @@ def test_get_job_by_id(client, monkeypatch):
     def unknown(job_id):
         raise JobNotFound(f"Unknown job id '{job_id}'")
 
-    monkeypatch.setattr(jobs_api, "find_job", unknown)
+    monkeypatch.setattr(jobs_api.jobs_live, "find_job", unknown)
     assert client.get("/jobs/zzz").status_code == 404

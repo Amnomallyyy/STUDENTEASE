@@ -40,13 +40,14 @@ def find_anomalies(
     github: GitHubEvidence | None,
     linkedin: ExtractedCV | None,
     clusters: list[SkillCluster],
+    portfolio: ExtractedCV | None = None,
 ) -> list[Anomaly]:
     found: list[Anomaly] = []
-    if github is not None or linkedin is not None:
-        overclaims = _overclaims(profile_skills, clusters, github, linkedin)
+    if github is not None or linkedin is not None or portfolio is not None:
+        overclaims = _overclaims(profile_skills, clusters, github, linkedin, portfolio)
         found.extend(overclaims)
         flagged = {a.claim.lower() for a in overclaims}
-        found.extend(_unsupported_claims(profile_skills, clusters, github, linkedin, skip=flagged))
+        found.extend(_unsupported_claims(profile_skills, clusters, github, linkedin, portfolio, skip=flagged))
     if github is not None:
         found.extend(_missed_strengths(github, clusters))
         found.extend(_weak_evidence(projects, github))
@@ -65,16 +66,20 @@ def integrity_score(clusters: list[SkillCluster], cv_skills: list[Skill]) -> flo
 
 # --------------------------------------------------------------------------- rules
 
-def _sources_checked(github: GitHubEvidence | None, linkedin: ExtractedCV | None) -> str:
+def _sources_checked(
+    github: GitHubEvidence | None, linkedin: ExtractedCV | None, portfolio: ExtractedCV | None = None
+) -> str:
     parts = []
     if github is not None:
         parts.append(f"{len(github.repos)} GitHub repos")
     if linkedin is not None:
         parts.append("the LinkedIn export")
+    if portfolio is not None:
+        parts.append("the portfolio site")
     return " or ".join(parts)
 
 
-def _unsupported_claims(skills, clusters, github, linkedin, *, skip: set[str]) -> list[Anomaly]:
+def _unsupported_claims(skills, clusters, github, linkedin, portfolio=None, *, skip: set[str]) -> list[Anomaly]:
     out = []
     for skill in skills:
         cluster = cluster_for(clusters, skill.name)
@@ -84,7 +89,7 @@ def _unsupported_claims(skills, clusters, github, linkedin, *, skip: set[str]) -
             _anomaly(
                 "unsupported_claim",
                 skill.name,
-                f"{skill.name} is on the CV but appears in none of {_sources_checked(github, linkedin)}.",
+                f"{skill.name} is on the CV but appears in none of {_sources_checked(github, linkedin, portfolio)}.",
                 severity=2,
             )
         )
@@ -163,7 +168,7 @@ def _inconsistencies(cv: list[Experience], linkedin: list[Experience]) -> list[A
     return out
 
 
-def _overclaims(skills, clusters, github, linkedin) -> list[Anomaly]:
+def _overclaims(skills, clusters, github, linkedin, portfolio=None) -> list[Anomaly]:
     out = []
     for skill in skills:
         quote = next((q for q in skill.evidence if _OVERCLAIM.search(q)), None)
@@ -177,7 +182,7 @@ def _overclaims(skills, clusters, github, linkedin) -> list[Anomaly]:
                 "overclaim",
                 skill.name,
                 f"The CV says \"{quote}\" but {skill.name} is mentioned only once and appears in none of "
-                f"{_sources_checked(github, linkedin)}.",
+                f"{_sources_checked(github, linkedin, portfolio)}.",
                 severity=3,
             )
         )

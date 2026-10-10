@@ -26,6 +26,8 @@ import hashlib
 import json
 import math
 import os
+import re
+import time
 from functools import lru_cache, partial
 from pathlib import Path
 from typing import Any, Callable, TypeVar
@@ -158,21 +160,61 @@ def _is_rate_limit(exc: Exception) -> bool:
     return "rate_limit" in text or "429" in text
 
 
+RETRY_WAIT_MAX_S = 20.0  # a per-minute cap says "try again in 8.7s": worth waiting; a per-day cap says minutes: not
+_RETRY_AFTER = re.compile(r"try again in (?:(\d+)m)?([\d.]+)s", re.IGNORECASE)
+_DEFAULT_FALLBACKS = {
+    "openai/gpt-oss-120b": ["openai/gpt-oss-20b", "qwen/qwen3.8-27b"],
+    "openai/gpt-oss-20b": ["qwen/qwen3.8-27b"],
+}
+
+
+def _retry_after(exc: Exception) -> float | None:
+    """Seconds the host asked us to wait, parsed from Groq's message, or None."""
+    match = _RETRY_AFTER.search(str(exc))
+    if not match:
+        return None
+    minutes, seconds = match.groups()
+    return (int(minutes) * 60 if minutes else 0) + float(seconds)
+
+
+def _fallback_models(model: str) -> list[str]:
+    """Models to try, in order, when `model` is rate-limited: OPENAI_FALLBACK_MODEL (comma-separated) or
+    Groq's smaller models for gpt-oss."""
+    configured = os.getenv("OPENAI_FALLBACK_MODEL")
+    chain = [m.strip() for m in configured.split(",") if m.strip()] if configured else _DEFAULT_FALLBACKS.get(model, [])
+    return [m for m in chain if m != model]
+
+
 def _fallback_model(model: str) -> str | None:
-    """A second model to try when `model` is rate-limited: OPENAI_FALLBACK_MODEL, or Groq's smaller gpt-oss."""
-    fallback = os.getenv("OPENAI_FALLBACK_MODEL") or ("openai/gpt-oss-20b" if "gpt-oss-120b" in model else None)
-    return fallback if fallback and fallback != model else None
+    """The first fallback (kept for callers and tests that expect a single model)."""
+    chain = _fallback_models(model)
+    return chain[0] if chain else None
 
 
 def _create_with_fallback(client: Any, kwargs: dict[str, Any]) -> Any:
-    """chat.completions.create, retried once on the fallback model when the host answers 429."""
-    try:
-        return client.chat.completions.create(**kwargs)
-    except Exception as exc:
-        fallback = _fallback_model(kwargs["model"])
-        if fallback is None or not _is_rate_limit(exc):
-            raise
-        return client.chat.completions.create(**{**kwargs, "model": fallback, **_openai_extra(fallback)})
+    """chat.completions.create with Groq-style resilience: on a 429 that names a short wait, sleep and retry
+    the same model once; otherwise move down the fallback chain. Any other error surfaces at once."""
+    models = [kwargs["model"], *_fallback_models(kwargs["model"])]
+    last: Exception | None = None
+    for model in models:
+        attempt = {**kwargs, "model": model, **_openai_extra(model)}
+        try:
+            return client.chat.completions.create(**attempt)
+        except Exception as exc:
+            if not _is_rate_limit(exc):
+                raise
+            last = exc
+            wait = _retry_after(exc)
+            if wait is not None and wait <= RETRY_WAIT_MAX_S:
+                time.sleep(wait + 0.5)
+                try:
+                    return client.chat.completions.create(**attempt)
+                except Exception as again:
+                    if not _is_rate_limit(again):
+                        raise
+                    last = again
+    assert last is not None
+    raise last
 
 
 def _is_json_mode_failure(exc: Exception) -> bool:

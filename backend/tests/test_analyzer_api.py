@@ -209,3 +209,57 @@ def test_new_cv_upload_forgets_old_reports(client):
 
     analyzer_api.clear_reports()
     assert client.get("/analyzer/report").status_code == 404
+
+def test_run_with_a_portfolio_site(client, monkeypatch):
+    with_cv()
+    monkeypatch.setattr(analyzer_api.portfolio, "fetch_portfolio", lambda url: "Projects: a Python dashboard and an Excel model.")
+    monkeypatch.setattr(
+        analyzer_api.portfolio,
+        "skills_from_portfolio",
+        lambda text: ExtractedCV(skills=[Skill(name="Python", category=SkillCategory.tool, sources=["portfolio"]), Skill(name="Excel", category=SkillCategory.tool, sources=["portfolio"])]),
+    )
+
+    body = client.post("/analyzer/run", data={"portfolio_url": "https://example.test/me"}).json()
+
+    assert body["sources"] == {"cv": 3, "portfolio": 2}
+    assert {a["kind"] for a in body["anomalies"]} == {"overclaim"}  # Docker: Python and Excel are now backed
+    assert body["integrity_score"] == 66.7
+    assert next(c for c in body["clusters"] if c["name"] == "Excel")["sources"] == ["cv", "portfolio"]
+    profile = session.get_profile()
+    assert profile.evidence_sources == ["portfolio"]
+    assert [(s.name, s.sources) for s in profile.skills] == [("Python", ["cv", "portfolio"]), ("Docker", ["cv"]), ("Excel", ["cv", "portfolio"])]
+
+
+def test_unreadable_portfolio_is_a_422(client, monkeypatch):
+    with_cv()
+
+    def bad(url):
+        raise analyzer_api.portfolio.PortfolioError("Could not fetch the portfolio: nope")
+
+    monkeypatch.setattr(analyzer_api.portfolio, "fetch_portfolio", bad)
+    response = client.post("/analyzer/run", data={"portfolio_url": "https://example.test"})
+    assert response.status_code == 422 and "Could not fetch" in response.json()["detail"]
+
+def test_run_with_portfolio_files(client, monkeypatch):
+    with_cv()
+    seen = []
+
+    def fake_extract(text):
+        seen.append(text)
+        return ExtractedCV(skills=[Skill(name="Excel", category=SkillCategory.tool, sources=["portfolio"])])
+
+    monkeypatch.setattr(analyzer_api.portfolio, "skills_from_portfolio", fake_extract)
+    files = [
+        ("portfolio_files", ("report.txt", b"Built an Excel forecasting model.", "text/plain")),
+        ("portfolio_files", ("notes.txt", b"Dashboard write-up.", "text/plain")),
+    ]
+
+    body = client.post("/analyzer/run", files=files).json()
+
+    assert body["sources"] == {"cv": 3, "portfolio": 1}
+    assert "=== report.txt ===" in seen[0] and "=== notes.txt ===" in seen[0]  # both files, labelled
+    assert next(c for c in body["clusters"] if c["name"] == "Excel")["sources"] == ["cv", "portfolio"]
+    assert session.get_profile().evidence_sources == ["portfolio"]
+
+    bad = [("portfolio_files", ("deck.pptx", b"xx", "application/octet-stream"))]
+    assert client.post("/analyzer/run", files=bad).status_code == 422

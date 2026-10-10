@@ -87,15 +87,15 @@ def _lexicon() -> tuple[Skill, ...]:
     return tuple(seen.values())
 
 
-def _lexicon_pass(result: ExtractedCV, cv_text: str) -> ExtractedCV:
-    """Add known skills the CV names (by any alias) that the model's answer does not contain.
+def lexicon_skills(text: str, *, exclude: set[str] | None = None) -> list[Skill]:
+    """Known skills (role vocabulary + alias table) that `text` names, each quoting the line that names it.
 
-    The quote is the CV line that names the skill, so the Analyzer can still verify it; confidence is
-    LEXICON_CONFIDENCE rather than 1.0 because no model judged the context.
+    Deterministic and model-free: used as the CV extractor's safety net and to read the requirements
+    out of real job postings. `exclude` holds lower-case canonical names to skip.
     """
-    present = {canonical(s.name).lower() for s in result.skills}
-    lines = [line for line in cv_text.splitlines() if line.strip()]
-    added: list[Skill] = []
+    present = set(exclude or ())
+    lines = [line for line in text.splitlines() if line.strip()]
+    found: list[Skill] = []
     for entry in _lexicon():
         if entry.name.lower() in present:
             continue
@@ -106,11 +106,21 @@ def _lexicon_pass(result: ExtractedCV, cv_text: str) -> ExtractedCV:
         if quote is None:
             continue
         present.add(entry.name.lower())
-        added.append(
+        found.append(
             entry.model_copy(
                 update={"evidence": [quote[:EVIDENCE_CHARS]], "sources": ["cv"], "confidence": LEXICON_CONFIDENCE}
             )
         )
+    return found
+
+
+def _lexicon_pass(result: ExtractedCV, cv_text: str) -> ExtractedCV:
+    """Add known skills the CV names (by any alias) that the model's answer does not contain.
+
+    The quote is the CV line that names the skill, so the Analyzer can still verify it; confidence is
+    LEXICON_CONFIDENCE rather than 1.0 because no model judged the context.
+    """
+    added = lexicon_skills(cv_text, exclude={canonical(s.name).lower() for s in result.skills})
     if added:
         result.skills = normalize_skills([*result.skills, *added])
     return result

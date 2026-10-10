@@ -22,8 +22,8 @@ from typing import Any, Iterator
 
 from backend.llm_adapter import LLMError, chat
 from backend.schemas import ChatMessage, Profile, UserMode
-from backend.services import career, differential
-from backend.services.data import DataError, JobNotFound, RoleNotFound, find_role, load_jobs
+from backend.services import career, differential, jobs_live
+from backend.services.data import DataError, JobNotFound, RoleNotFound, find_role
 from backend.services.geo import nearby_jobs
 
 PROMPT_PATH = Path(__file__).resolve().parents[1] / "prompts" / "chat_system.md"
@@ -166,7 +166,11 @@ def _tool_jobs(args: dict[str, Any], profile: Profile) -> tuple[dict[str, Any], 
     radius = _number(args.get("radius_km"), career.DEFAULT_RADIUS_KM, 1, 200)
     keyword = str(args.get("keyword") or "").strip().lower()
     location = (profile.location.lat, profile.location.lng) if profile.location else None
-    pairs = nearby_jobs(load_jobs(), location, radius)
+    try:
+        jobs = jobs_live.jobs_for(profile.target_role, profile.location)
+    except (DataError, jobs_live.JobsUnavailable) as exc:
+        return {"location_known": location is not None, "jobs_found": 0, "error": str(exc)}, {}
+    pairs = nearby_jobs(jobs, location, radius)
     if keyword:
         pairs = [(j, d) for j, d in pairs if keyword in f"{j.title} {j.company} {j.requirements_text}".lower()]
     scored = sorted(

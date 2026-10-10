@@ -3,7 +3,7 @@
 // anomaly cards grouped by rule, and the integrity score.
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { FileText, Github, Loader2, ShieldCheck, Target } from "lucide-react";
+import { FileText, Github, Loader2, Paperclip, ShieldCheck, Target } from "lucide-react";
 import AnomalyCard, { kindInfo } from "../components/analyzer/AnomalyCard";
 import CVDropzone from "../components/CVDropzone";
 import MatchMeter from "../components/career/MatchMeter";
@@ -14,9 +14,9 @@ import { useSessionStore } from "../store/session";
 import type { AnalyzerReport, SkillCluster, SkillSource } from "../types/api";
 import type { Role } from "../types/profile";
 
-const SOURCE_LABELS: Record<SkillSource, string> = { cv: "CV", linkedin: "LinkedIn", github: "GitHub" };
-const SOURCE_ORDER: SkillSource[] = ["cv", "linkedin", "github"];
-const STEPS = ["Fetching GitHub repos, languages and READMEs", "Extracting LinkedIn skills (LLM)", "Reconciling sources", "Applying the five anomaly rules"];
+const SOURCE_LABELS: Record<SkillSource, string> = { cv: "CV", linkedin: "LinkedIn", github: "GitHub", portfolio: "Portfolio" };
+const SOURCE_ORDER: SkillSource[] = ["cv", "linkedin", "github", "portfolio"];
+const STEPS = ["Fetching GitHub repos, languages and READMEs", "Reading LinkedIn and portfolio (LLM)", "Reconciling sources", "Applying the five anomaly rules"];
 
 type ChipTone = "green" | "amber" | "blue";
 
@@ -47,6 +47,7 @@ export default function Analyzer() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [github, setGithub] = useState("");
+  const [portfolioFiles, setPortfolioFiles] = useState<File[]>([]);
   const [linkedinMode, setLinkedinMode] = useState<"file" | "text">("file");
   const [linkedinFile, setLinkedinFile] = useState<File | null>(null);
   const [linkedinText, setLinkedinText] = useState("");
@@ -104,6 +105,7 @@ export default function Analyzer() {
         github_username: github,
         linkedin_text: linkedinMode === "text" ? linkedinText : undefined,
         linkedin_export: linkedinMode === "file" ? linkedinFile : null,
+        portfolio_files: portfolioFiles,
       });
       setReport(result);
       setHighlighted(null);
@@ -184,7 +186,7 @@ export default function Analyzer() {
     );
   }
 
-  const canRun = !!github.trim() || (linkedinMode === "file" ? !!linkedinFile : !!linkedinText.trim());
+  const canRun = !!github.trim() || portfolioFiles.length > 0 || (linkedinMode === "file" ? !!linkedinFile : !!linkedinText.trim());
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -192,7 +194,7 @@ export default function Analyzer() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">CV Analyzer</h1>
           <p className="mt-1 text-slate-600">
-            Claims on your CV that GitHub or LinkedIn do not back up, strengths your CV misses, and a fix for each.
+            Claims on your CV that GitHub, LinkedIn or your portfolio do not back up, strengths your CV misses, and a fix for each.
           </p>
         </div>
         <Link to="/upload" className="btn-secondary text-xs">
@@ -219,6 +221,48 @@ export default function Analyzer() {
           </div>
           <p className="mt-1 text-xs text-slate-500">
             Official REST API only: repos, languages, READMEs, commit counts. Your own account only.
+          </p>
+          <label className="label mt-4" htmlFor="portfolio">
+            Personal portfolio files
+          </label>
+          <input
+            id="portfolio"
+            type="file"
+            multiple
+            accept=".pdf,.docx,.txt"
+            className="sr-only"
+            disabled={running}
+            onChange={(e) => {
+              const picked = Array.from(e.target.files ?? []);
+              setPortfolioFiles((prev) => [...prev, ...picked.filter((f) => !prev.some((p) => p.name === f.name && p.size === f.size))]);
+              e.target.value = "";
+            }}
+          />
+          <label htmlFor="portfolio" className="btn-secondary cursor-pointer text-xs">
+            <Paperclip className="h-4 w-4" aria-hidden /> Add portfolio files
+          </label>
+          {portfolioFiles.length > 0 && (
+            <ul className="mt-2 space-y-1" aria-label="Portfolio files">
+              {portfolioFiles.map((f) => (
+                <li key={f.name + f.size} className="flex items-center justify-between rounded-lg border border-periwinkle bg-white px-2.5 py-1 text-xs">
+                  <span className="truncate">
+                    {f.name} <span className="text-slate-400">· {Math.max(1, Math.round(f.size / 1024))} KB</span>
+                  </span>
+                  <button
+                    type="button"
+                    className="text-slate-500 hover:text-red-600"
+                    onClick={() => setPortfolioFiles((prev) => prev.filter((p) => p !== f))}
+                    aria-label={`Remove ${f.name}`}
+                  >
+                    ×
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="mt-1 text-xs text-slate-500">
+            Project write-ups, certificates, reports or a portfolio PDF (PDF, DOCX or TXT, up to 5 MB each). They are read
+            for skills and projects and compared with the CV, GitHub and LinkedIn.
           </p>
         </div>
 
@@ -263,7 +307,7 @@ export default function Analyzer() {
             {running ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <ShieldCheck className="h-4 w-4" aria-hidden />}
             {running ? STEPS[step] : "Run the evidence check"}
           </button>
-          {!canRun && <span className="text-xs text-slate-500">Give a GitHub username, a LinkedIn export, or both.</span>}
+          {!canRun && <span className="text-xs text-slate-500">Give a GitHub username, a LinkedIn export, a portfolio site, or any mix.</span>}
           {error && <span className="text-sm text-red-600">{error}</span>}
         </div>
       </form>
@@ -280,7 +324,11 @@ export default function Analyzer() {
                   <span className="chip border-amber-300 bg-amber-50 text-amber-900">amber</span> in one only (click for the fix)
                 </span>
               </div>
-              <div className={`mt-4 grid gap-4 ${provided.length === 3 ? "md:grid-cols-3" : provided.length === 2 ? "md:grid-cols-2" : ""}`}>
+              <div
+                className={`mt-4 grid gap-4 ${
+                  provided.length >= 4 ? "md:grid-cols-2 xl:grid-cols-4" : provided.length === 3 ? "md:grid-cols-3" : provided.length === 2 ? "md:grid-cols-2" : ""
+                }`}
+              >
                 {provided.map((source) => (
                   <div key={source} className="rounded-lg border border-slate-200 p-3">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">

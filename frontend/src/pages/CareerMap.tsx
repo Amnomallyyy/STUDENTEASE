@@ -88,14 +88,16 @@ export default function CareerMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role, radiusKm, lat, lng]);
 
-  // Jobs for the map: every listing within the radius (filters apply client-side).
+  // Jobs for the map: real postings for the role in the chosen place, within the radius (filters apply client-side).
+  const place = location?.city ?? "";
   useEffect(() => {
-    if (!hasCV(profile) || lat === null || lng === null) return;
+    if (!hasCV(profile) || lat === null || lng === null || !role) return;
     let cancelled = false;
     setJobsLoading(true);
     setJobsError(null);
+    setJobs([]);
     api
-      .jobsNearby({ lat, lng, radius: radiusKm, limit: 200 })
+      .jobsNearby({ role, place, lat, lng, radius: radiusKm, limit: 200 })
       .then((list) => !cancelled && setJobs(list))
       .catch((err) => !cancelled && fail(err, setJobsError))
       .finally(() => !cancelled && setJobsLoading(false));
@@ -103,7 +105,7 @@ export default function CareerMap() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lng, radiusKm]);
+  }, [role, place, lat, lng, radiusKm]);
 
   // Roadmap: depends on the role, the radius and the pinned job.
   useEffect(() => {
@@ -216,6 +218,13 @@ export default function CareerMap() {
         <div className="card max-h-[420px] overflow-y-auto">
           <div className="sticky top-0 border-b border-slate-100 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
             Ranked jobs · pins green ≥ 75%, amber 50-74%, red &lt; 50%
+            {jobs.length > 0 && (
+              <span className="ml-2 font-normal normal-case text-slate-400" data-testid="jobs-source">
+                {jobs.some((j) => !j.synthetic)
+                  ? `· real postings via JSearch (${[...new Set(jobs.map((j) => j.source_name).filter(Boolean))].slice(0, 4).join(", ") || "LinkedIn, Indeed and others"})`
+                  : "· sample listings: add RAPIDAPI_KEY for real postings"}
+              </span>
+            )}
           </div>
           <JobList jobs={ranked} selectedId={selectedJobId} pinnedId={pinnedJobId} onSelect={setSelectedJobId} />
         </div>

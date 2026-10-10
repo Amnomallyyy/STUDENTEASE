@@ -44,3 +44,5 @@ class JobNearby(JobMatch):
     lng: float = Field(ge=-180, le=180)
     synthetic: bool = False
     source_url: str | None = None
+    source_name: str = ""
+    posted_at: str = ""
