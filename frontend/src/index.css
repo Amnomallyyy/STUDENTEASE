@@ -6,37 +6,91 @@
   html {
     -webkit-text-size-adjust: 100%;
   }
+  /* White page with a soft sky wash at the top, Geist for text. */
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply font-sans text-slate-900 antialiased;
+    background:
+      radial-gradient(120% 420px at 50% -120px, rgba(111, 182, 255, 0.35) 0%, rgba(169, 212, 255, 0.18) 45%, rgba(255, 255, 255, 0) 75%),
+      #ffffff;
+    background-attachment: fixed;
+  }
+  /* Page titles in a serif, medium weight (overrides the pages' font-bold). */
+  h1 {
+    @apply font-serif tracking-tight;
+    font-weight: 500 !important;
   }
 }
 
 @layer components {
   .card {
-    @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    @apply rounded-2xl border border-slate-200/70 bg-white/85 shadow-soft backdrop-blur;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition
       disabled:cursor-not-allowed disabled:opacity-50;
   }
+  /* Glossy blue: two radial gradients plus a soft outer glow and inner highlight. */
   .btn-primary {
-    @apply btn bg-brand-600 text-white hover:bg-brand-700;
+    @apply btn text-white;
+    background-image:
+      radial-gradient(100% 100% at 65% 82%, rgba(255, 255, 255, 0.45) 0, rgba(255, 255, 255, 0) 100%),
+      radial-gradient(115% 115% at 10% 17%, #2f8ae6 0, #1d45e8 100%);
+    box-shadow:
+      0 10px 24px -10px rgba(37, 99, 235, 0.6),
+      inset -3px -3px 4px rgba(191, 229, 251, 0.35),
+      inset 3px 3px 4px rgba(19, 26, 228, 0.12);
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.07);
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700;
   }
   .btn-secondary {
-    @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+    @apply btn border border-slate-200 bg-white/80 text-slate-700 shadow-sm backdrop-blur hover:bg-white;
   }
   .btn-ghost {
-    @apply btn text-slate-600 hover:bg-slate-100;
+    @apply btn text-slate-600 hover:bg-slate-900/5;
   }
   .input {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm
-      focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200;
+    @apply w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm
+      focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-100;
   }
   .label {
     @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500;
   }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  /* Dark frosted glass, for the assistant and the interviewer card. */
+  .glass-dark {
+    @apply text-slate-100;
+    background: rgba(17, 20, 28, 0.82);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.7);
+  }
+  .chip-dark {
+    @apply chip border-white/10 bg-white/5 text-slate-200 hover:bg-white/10;
+  }
+  .btn-ghost-dark {
+    @apply btn text-slate-300 hover:bg-white/10 hover:text-white;
+  }
+  .input-dark {
+    @apply w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400
+      focus:border-brand-400/60 focus:outline-none focus:ring-4 focus:ring-brand-500/20;
+  }
+
+  /* Sky hero band for page headers: CSS only, no artwork. */
+  .sky-hero {
+    @apply relative overflow-hidden rounded-3xl text-white;
+    background:
+      radial-gradient(60% 80% at 85% 110%, rgba(255, 196, 140, 0.55) 0%, rgba(255, 196, 140, 0) 70%),
+      radial-gradient(70% 90% at 15% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%),
+      linear-gradient(180deg, #2f8ae6 0%, #5aa8f0 45%, #a8d3fa 80%, #dceefe 100%);
+    box-shadow: 0 30px 60px -30px rgba(29, 69, 232, 0.55);
   }
 }
 

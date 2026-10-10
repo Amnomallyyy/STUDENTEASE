@@ -42,7 +42,7 @@ const WEIGHT_ROWS = [
 
 export default function NonVerbalGauges({ live, answer, recording }: Props) {
   return (
-    <section className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4 text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+    <section className="flex flex-col gap-4 card p-4 text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
       <h3 className="text-sm font-semibold">Body language</h3>
 
       <div className="flex items-center gap-4">

@@ -19,7 +19,7 @@ interface Props {
 
 export default function StarChecklist({ live, scored }: Props) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+    <section className="card p-4 dark:border-slate-700 dark:bg-slate-900">
       <h3 className="mb-3 text-sm font-semibold">STAR structure {scored ? "· scored" : "· live"}</h3>
       <ul className="flex flex-col gap-2">
         {STAR_KEYS.map((k) => {

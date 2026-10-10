@@ -78,13 +78,22 @@ export default function Upload() {
   const busy = step >= 0 && step < STEPS.length && !error;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="text-2xl font-bold tracking-tight">Upload your CV</h1>
-      <p className="mt-1 text-slate-600">
-        In two minutes, know exactly what to fix, where to apply, and how to answer. One upload feeds every module.
-      </p>
+    <div className="mx-auto max-w-4xl px-4 py-8">
+      <section className="sky-hero px-6 pb-14 pt-12 text-center sm:px-10">
+        <p className="mx-auto mb-4 w-fit rounded-full border border-white/40 bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">
+          CV · Career Map · Evidence check · Mock interview
+        </p>
+        <h1 className="text-4xl leading-[1.1] sm:text-6xl">
+          Know your gap.
+          <br />
+          Land the role.
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-sm text-white/90 sm:text-base">
+          Upload your CV once. In two minutes, know exactly what to fix, where to apply, and how to answer.
+        </p>
+      </section>
 
-      <form onSubmit={submit} className="mt-6 grid gap-6 md:grid-cols-[1fr_280px]">
+      <form onSubmit={submit} className="card -mt-8 grid gap-6 p-5 sm:p-6 md:grid-cols-[1fr_280px]">
         <div className="space-y-5">
           <CVDropzone file={file} onFile={setFile} disabled={busy} />
 
@@ -141,13 +150,13 @@ export default function Upload() {
         </div>
 
         <aside className="space-y-4">
-          <div className="card p-4">
+          <div className="rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4">
             <p className="text-sm font-semibold">What happens</p>
             <div className="mt-3">
               <ProgressSteps steps={STEPS} current={step} error={error} />
             </div>
           </div>
-          <div className="card flex gap-3 p-4 text-xs text-slate-600">
+          <div className="flex gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4 text-xs text-slate-600">
             <ShieldCheck className="h-5 w-5 shrink-0 text-green-600" aria-hidden />
             <p>
               Only your own data, only with your action. Email, phone, address, date of birth and photo are stripped

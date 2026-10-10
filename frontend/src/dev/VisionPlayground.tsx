@@ -30,10 +30,10 @@ export default function VisionPlayground() {
       </header>
 
       <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-[220px_1fr_300px]">
-        <aside className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
+        <aside className="flex flex-col gap-2 card p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
           {!vision.recording ? (
             <button
-              className="rounded-lg bg-slate-900 px-3 py-2 font-medium text-white disabled:opacity-40 dark:bg-white dark:text-slate-900"
+              className="btn-primary px-3 py-2"
               disabled={vision.status !== "running"}
               onClick={vision.startAnswer}
             >
@@ -44,7 +44,7 @@ export default function VisionPlayground() {
               Stop answer
             </button>
           )}
-          <button className="rounded-lg border border-slate-300 px-3 py-2 dark:border-slate-600" onClick={vision.recalibrate}>
+          <button className="btn-secondary px-3 py-2" onClick={vision.recalibrate}>
             Recalibrate
           </button>
           <label className="mt-2 flex items-center gap-2">
@@ -72,7 +72,7 @@ export default function VisionPlayground() {
       </div>
 
       {samples.length > 0 && (
-        <section className="mx-auto mt-4 max-w-6xl rounded-xl border border-slate-200 bg-white p-4 text-xs dark:border-slate-700 dark:bg-slate-900">
+        <section className="mx-auto mt-4 max-w-6xl card p-4 text-xs dark:border-slate-700 dark:bg-slate-900">
           <div className="mb-2 flex items-center justify-between">
             <h2 className="font-semibold">Last answer payload ({samples.length} samples → POST /interview/answer)</h2>
             <button className="underline" onClick={() => navigator.clipboard.writeText(JSON.stringify(samples, null, 2))}>

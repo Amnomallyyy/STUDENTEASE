@@ -215,7 +215,7 @@ export default function Interview() {
         )}
 
         {phase === "setup" && (
-          <section className="mx-auto flex w-full max-w-lg flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+          <section className="mx-auto flex w-full max-w-lg flex-col gap-4 card p-6 dark:border-slate-700 dark:bg-slate-900">
             <h2 className="text-base font-semibold">Practise a 3-question interview</h2>
             {hasCV(profile) ? (
               <p className="-mt-2 text-sm text-slate-500">Questions are written from the skills and projects in your CV.</p>
@@ -248,7 +248,7 @@ export default function Interview() {
               Use my camera for body-language feedback (video never leaves this device)
             </label>
             <button
-              className="rounded-lg bg-slate-900 px-4 py-2.5 font-medium text-white disabled:opacity-40 dark:bg-white dark:text-slate-900"
+              className="btn-primary px-4 py-2.5"
               disabled={!role.trim() || starting}
               onClick={begin}
             >
@@ -274,7 +274,7 @@ export default function Interview() {
                   onStart={startSpeaking}
                   onStop={stopSpeaking}
                 />
-                <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                <section className="card p-4 dark:border-slate-700 dark:bg-slate-900">
                   <h3 className="mb-2 text-sm font-semibold">{mode === "speak" ? "Live transcript" : "Your answer"}</h3>
                   {scored ? (
                     <LiveTranscript text={scored.transcript} />
@@ -290,7 +290,7 @@ export default function Interview() {
                         placeholder="Type your answer as you would say it."
                       />
                       <button
-                        className="self-end rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40 dark:bg-white dark:text-slate-900"
+                        className="self-end btn-primary px-4 py-2 text-sm"
                         disabled={phase !== "answering" || !typed.trim()}
                         onClick={() => send(typed, 0, [], null)}
                       >
@@ -339,7 +339,7 @@ export default function Interview() {
             </div>
 
             {phase === "submitting" && (
-              <p className="rounded-xl border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900" aria-live="polite">
+              <p className="card p-4 text-sm dark:border-slate-700 dark:bg-slate-900" aria-live="polite">
                 Analysing your answer: STAR structure, fillers, relevance and body language…
               </p>
             )}
@@ -348,10 +348,10 @@ export default function Interview() {
               <>
                 <AnswerFeedback result={result} />
                 <div className="flex gap-3">
-                  <button className="rounded-lg bg-slate-900 px-4 py-2 font-medium text-white dark:bg-white dark:text-slate-900" onClick={next}>
+                  <button className="btn-primary px-4 py-2" onClick={next}>
                     {index + 1 < questions.length ? "Next question" : "See my readiness report"}
                   </button>
-                  <button className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-600" onClick={retry}>
+                  <button className="btn-secondary px-4 py-2" onClick={retry}>
                     Try this question again
                   </button>
                 </div>

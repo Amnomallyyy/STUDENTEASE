@@ -131,11 +131,13 @@ export default function Shell() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className="hidden w-56 shrink-0 flex-col border-r border-slate-200 bg-white lg:flex">
-        <div className="flex items-center gap-2 px-5 py-5">
-          <BarChart3 className="h-6 w-6 text-brand-600" aria-hidden />
-          <span className="text-lg font-bold tracking-tight">CareerLens</span>
+    <div className="flex min-h-screen">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-white/60 bg-white/60 backdrop-blur-xl lg:flex">
+        <div className="flex items-center gap-2.5 px-5 py-6">
+          <span className="btn-primary h-8 w-8 rounded-lg p-0">
+            <BarChart3 className="h-4 w-4" aria-hidden />
+          </span>
+          <span className="font-serif text-2xl font-medium tracking-tight">CareerLens</span>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-3">
           {NAV.map(({ to, label, icon: Icon }) => (
@@ -143,8 +145,10 @@ export default function Shell() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
-                  isActive ? "bg-brand-50 text-brand-700" : "text-slate-600 hover:bg-slate-100"
+                `flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-white text-brand-700 shadow-soft ring-1 ring-slate-200/70"
+                    : "text-slate-600 hover:bg-white/70 hover:text-slate-900"
                 }`
               }
             >
@@ -160,10 +164,10 @@ export default function Shell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex flex-wrap items-center gap-3 border-b border-slate-200 bg-white px-4 py-3">
+        <header className="sticky top-0 z-[1000] flex flex-wrap items-center gap-3 border-b border-white/60 bg-white/60 px-4 py-3 backdrop-blur-xl">
           <div className="flex items-center gap-2 lg:hidden">
             <BarChart3 className="h-5 w-5 text-brand-600" aria-hidden />
-            <span className="font-bold">CareerLens</span>
+            <span className="font-serif text-xl font-medium">CareerLens</span>
           </div>
           <nav className="-mx-1 flex gap-1 overflow-x-auto lg:hidden">
             {NAV.map(({ to, label }) => (
@@ -184,7 +188,7 @@ export default function Shell() {
             {profile && (
               <>
                 {profile.target_role && (
-                  <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600 sm:inline">
+                  <span className="hidden rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-xs text-slate-600 shadow-sm sm:inline">
                     Target: <strong>{profile.target_role}</strong>
                   </span>
                 )}
@@ -198,7 +202,7 @@ export default function Shell() {
                   <option value="job_seeker">Job seeker</option>
                 </select>
                 <button
-                  className={`text-xs ${confirmDelete ? "btn-primary bg-red-600 hover:bg-red-700" : "btn-ghost"}`}
+                  className={`text-xs ${confirmDelete ? "btn-danger" : "btn-ghost"}`}
                   onClick={deleteMyData}
                   disabled={busy}
                   title={confirmDelete ? "Deletes your CV, profile, reports and chat from this browser and the server" : "DELETE /profile"}
@@ -212,7 +216,7 @@ export default function Shell() {
               </>
             )}
             <button
-              className="btn-secondary text-xs"
+              className={`${chatOpen ? "btn-secondary" : "btn-primary"} text-xs`}
               onClick={() => setChatOpen(!chatOpen)}
               aria-pressed={chatOpen}
               title="Career assistant"
@@ -249,7 +253,7 @@ export default function Shell() {
       </div>
 
       {chatOpen && (
-        <div className="fixed inset-0 z-[1100] flex flex-col bg-white lg:static lg:z-auto lg:w-96 lg:shrink-0 lg:border-l lg:border-slate-200">
+        <div className="glass-dark fixed inset-0 z-[1100] flex flex-col lg:sticky lg:inset-auto lg:top-3 lg:z-auto lg:m-3 lg:h-[calc(100vh-1.5rem)] lg:w-96 lg:shrink-0 lg:rounded-3xl">
           <ChatPanel onClose={() => setChatOpen(false)} />
         </div>
       )}

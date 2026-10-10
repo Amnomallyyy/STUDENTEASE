@@ -25,7 +25,7 @@ export default function AnswerFeedback({ result }: { result: AnswerResult }) {
   const nv = result.non_verbal;
   const readiness = nv ? 0.7 * result.verbal_score + 0.3 * nv.body_language_score : result.verbal_score;
   return (
-    <section className="flex flex-col gap-5 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
+    <section className="flex flex-col gap-5 card p-5 dark:border-slate-700 dark:bg-slate-900">
       <div className="flex flex-wrap items-end gap-6">
         <Score label="This answer" value={readiness} big />
         <Score label="Verbal · 70%" value={result.verbal_score} />

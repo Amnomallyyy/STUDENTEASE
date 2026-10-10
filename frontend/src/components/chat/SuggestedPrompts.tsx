@@ -23,7 +23,7 @@ export default function SuggestedPrompts({ mode, disabled, onPick }: Props) {
           type="button"
           disabled={disabled}
           onClick={() => onPick(prompt)}
-          className="chip border-slate-200 bg-white text-slate-600 hover:border-brand-300 hover:text-brand-700 disabled:opacity-50"
+          className="chip-dark disabled:opacity-50"
         >
           {prompt}
         </button>

@@ -17,7 +17,7 @@ export default function VerbalGauges({ words, fillers, elapsedS, spoken, scored 
   const paceTone = wpm === null ? "" : wpm < 120 || wpm > 160 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400";
   const fillerTone = per100 > 2 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400";
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+    <section className="card p-4 dark:border-slate-700 dark:bg-slate-900">
       <h3 className="mb-3 text-sm font-semibold">Speaking · {scored ? "scored" : "live"}</h3>
       <dl className="grid grid-cols-2 gap-3 text-xs">
         <Stat label="Filler words" value={`${fillers}`} sub={words ? `${per100.toFixed(1)} / 100 words` : ""} tone={words ? fillerTone : ""} />

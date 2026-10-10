@@ -6,7 +6,7 @@ import type { InterviewReport } from "../../types/profile";
 export default function ReportView({ report, onRestart }: { report: InterviewReport; onRestart(): void }) {
   const hasVideo = report.non_verbal_score !== null;
   return (
-    <section className="flex flex-col gap-6 rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+    <section className="flex flex-col gap-6 card p-6 dark:border-slate-700 dark:bg-slate-900">
       <div className="flex flex-wrap items-center gap-8">
         <Dial value={report.readiness} />
         <div className="flex flex-col gap-3">
@@ -55,7 +55,7 @@ export default function ReportView({ report, onRestart }: { report: InterviewRep
         </tbody>
       </table>
 
-      <button className="self-start rounded-lg bg-slate-900 px-4 py-2 font-medium text-white dark:bg-white dark:text-slate-900" onClick={onRestart}>
+      <button className="self-start btn-primary px-4 py-2" onClick={onRestart}>
         Practise again
       </button>
     </section>

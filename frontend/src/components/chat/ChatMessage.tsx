@@ -1,4 +1,5 @@
 import { Map as MapIcon, Mic, Target } from "lucide-react";
+import { MiniMarkdown } from "../../lib/miniMarkdown";
 import { useSessionStore } from "../../store/session";
 import type { ChatAction, UIMessage } from "../../types/api";
 
@@ -28,7 +29,7 @@ export default function ChatMessage({ message, streaming }: Props) {
     <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[90%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
-          mine ? "bg-brand-600 text-white" : "bg-slate-100 text-slate-900"
+          mine ? "btn-primary block rounded-2xl px-3 py-2 text-left font-normal" : "border border-white/10 bg-white/[0.06] text-slate-100"
         }`}
       >
         {message.actions && message.actions.length > 0 && (
@@ -39,7 +40,7 @@ export default function ChatMessage({ message, streaming }: Props) {
                 <button
                   key={i}
                   type="button"
-                  className="chip border-brand-300 bg-white text-brand-700 hover:bg-brand-50"
+                  className="chip border-brand-400/40 bg-brand-500/15 text-brand-200 hover:bg-brand-500/25"
                   onClick={() => setPendingAction(action)}
                 >
                   <Icon className="h-3 w-3" aria-hidden />
@@ -49,12 +50,17 @@ export default function ChatMessage({ message, streaming }: Props) {
             })}
           </div>
         )}
-        <p className="whitespace-pre-wrap break-words">
-          {message.content}
-          {streaming && !message.content && <span className="animate-pulse">…</span>}
-          {streaming && message.content && <span className="ml-0.5 inline-block w-1.5 animate-pulse bg-slate-400">&nbsp;</span>}
-        </p>
-        {message.error && <p className="mt-1 text-xs text-red-600">{message.error}</p>}
+        {mine ? (
+          <p className="whitespace-pre-wrap break-words">{message.content}</p>
+        ) : (
+          // The model answers in markdown (bold, bullets); render it instead of showing the asterisks.
+          <div className="break-words">
+            <MiniMarkdown text={message.content} />
+            {streaming && !message.content && <span className="animate-pulse">…</span>}
+            {streaming && message.content && <span className="ml-0.5 inline-block w-1.5 animate-pulse bg-slate-400">&nbsp;</span>}
+          </div>
+        )}
+        {message.error && <p className="mt-1 text-xs text-red-300">{message.error}</p>}
       </div>
     </div>
   );
