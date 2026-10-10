@@ -45,9 +45,11 @@ export default function QuestionCard(p: Props) {
             className="flex items-center justify-center gap-2 btn-primary px-4 py-2.5"
             disabled={p.busy || !p.speechSupported}
             onClick={p.onStart}
+	            title={p.speechSupported ? undefined : "Voice recognition isn't supported in this browser. Try Chrome or Edge, or type your answer."}
           >
             <span className="h-2.5 w-2.5 rounded-full bg-red-500" /> Start answering
           </button>
+		
         )
       ) : null}
 
