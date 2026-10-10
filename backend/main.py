@@ -89,6 +89,12 @@ def health() -> dict[str, Any]:
         "status": "ok",
         "llm_provider": os.getenv("LLM_PROVIDER", "anthropic").lower(),
         "embed_provider": os.getenv("EMBED_PROVIDER", "local").lower(),
+        # Which optional secrets the server can see (true/false only, never the values): a quick way to check
+        # that a key added in the host's dashboard really reached the running service.
+        "keys": {
+            "github_token": bool(os.getenv("GITHUB_TOKEN", "").strip()),
+            "groq_whisper": bool(os.getenv("GROQ_API_KEY", "").strip()),
+        },
         "data": {
             "roles": _count(data.load_roles),
             "jobs": _count(data.load_jobs),

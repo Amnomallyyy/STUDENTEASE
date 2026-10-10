@@ -182,3 +182,17 @@ def test_long_rate_limit_walks_the_fallback_chain(monkeypatch):
 
     assert llm_adapter.complete_json("hello", Answer) == Answer(text="third model")
     assert calls == ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]
+
+
+def test_default_groq_chain_walks_every_model_in_order(monkeypatch):
+    monkeypatch.delenv("OPENAI_FALLBACK_MODEL", raising=False)
+
+    assert llm_adapter._fallback_models("openai/gpt-oss-120b") == [
+        "openai/gpt-oss-20b",
+        "qwen/qwen3.8-27b",
+        "llama-3.3-70b-versatile",
+        "llama-3.1-8b-instant",
+    ]
+    assert llm_adapter._fallback_models("qwen/qwen3.8-27b") == ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+    assert llm_adapter._fallback_models("llama-3.1-8b-instant") == []  # last resort: nothing further
+    assert llm_adapter._fallback_models("gpt-4o-mini") == []  # not a Groq model: no chain

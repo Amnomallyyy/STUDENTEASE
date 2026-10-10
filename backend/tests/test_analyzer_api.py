@@ -76,6 +76,14 @@ def test_github_errors_become_404_and_502(client, monkeypatch):
     monkeypatch.setattr(analyzer_api, "get_github", limited)
     assert client.post("/analyzer/run", data={"github_username": "demo"}).status_code == 502
 
+    def throttled(username):
+        raise GitHubError("GitHub rate limit reached; set GITHUB_TOKEN (HTTP 403).", kind="rate_limit", retry_after_s=1500)
+
+    monkeypatch.setattr(analyzer_api, "get_github", throttled)
+    response = client.post("/analyzer/run", data={"github_username": "demo"})
+    assert response.status_code == 429 and response.headers["retry-after"] == "1500"
+    assert "GITHUB_TOKEN" not in response.json()["detail"] and "25 minutes" in response.json()["detail"]
+
 
 def test_run_with_github_builds_a_report_and_updates_the_profile(client):
     with_cv()

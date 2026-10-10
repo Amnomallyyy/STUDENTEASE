@@ -45,6 +45,16 @@ def test_health_reports_providers_and_data_counts(client, monkeypatch):
     assert body["data"] == {"roles": 3, "jobs": 150, "resources": None}
 
 
+def test_health_says_whether_keys_are_set_without_leaking_them(client, monkeypatch):
+    monkeypatch.setenv("GITHUB_TOKEN", "github_pat_secret")
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+
+    response = client.get("/health")
+
+    assert response.json()["keys"] == {"github_token": True, "groq_whisper": False}
+    assert "github_pat_secret" not in response.text
+
+
 def test_built_with_lists_every_component(client):
     body = client.get("/built-with").json()
 

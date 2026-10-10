@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import math
 import os
 import re
@@ -35,6 +36,7 @@ from typing import Any, Callable, TypeVar
 from pydantic import BaseModel, Field, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
+log = logging.getLogger(__name__)
 
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
@@ -50,7 +52,67 @@ DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 class LLMError(RuntimeError):
-    """Raised when a provider call fails or never returns output that matches the schema."""
+    """Raised when a provider call fails or never returns output that matches the schema.
+
+    `str(exc)` is the technical message (for logs and tests). `user_message` is safe to show in the UI: it
+    never contains the provider's raw reply, which can carry organisation ids, model names and billing links.
+    `kind` is one of rate_limit | auth | connection | overloaded | invalid_output | unavailable.
+    """
+
+    def __init__(self, message: str, *, kind: str = "unavailable", retry_after_s: float | None = None) -> None:
+        super().__init__(message)
+        self.kind = kind
+        self.retry_after_s = retry_after_s
+
+    @property
+    def user_message(self) -> str:
+        if self.kind == "rate_limit":
+            return f"The AI service has reached its usage limit. Please try again {_wait_phrase(self.retry_after_s)}."
+        if self.kind == "auth":
+            return "The AI service is not set up correctly (its API key is missing or was rejected). Please tell the site owner."
+        if self.kind == "connection":
+            return "Could not reach the AI service. Check your internet connection and try again."
+        if self.kind == "overloaded":
+            return "The AI service is busy right now. Please try again in a minute."
+        if self.kind == "invalid_output":
+            return "The AI service sent back an answer that could not be read. Please try again."
+        return "The AI service is unavailable right now. Please try again shortly."
+
+    @property
+    def http_status(self) -> int:
+        return {"rate_limit": 429, "auth": 503, "connection": 503, "overloaded": 503}.get(self.kind, 502)
+
+
+def _wait_phrase(seconds: float | None) -> str:
+    """'in about 12 minutes' / 'in 30 seconds' / 'later' when the provider gave no wait."""
+    if seconds is None:
+        return "in a few minutes"
+    seconds = max(1, math.ceil(seconds))
+    if seconds < 90:
+        return f"in {seconds} seconds"
+    minutes = math.ceil(seconds / 60)
+    if minutes < 90:
+        return f"in about {minutes} minutes"
+    return f"in about {math.ceil(minutes / 60)} hours"
+
+
+def _llm_error(provider: str, exc: Exception) -> LLMError:
+    """Turn a provider SDK exception into an LLMError with a kind, logging the raw detail once."""
+    text = f"{type(exc).__name__} {getattr(exc, 'code', '')} {getattr(exc, 'status_code', '')} {exc}"
+    lowered = text.lower()
+    status = getattr(exc, "status_code", None)
+    if _is_rate_limit(exc):
+        kind = "rate_limit"
+    elif status in (401, 403) or "authentication" in lowered or "invalid api key" in lowered or "permission" in lowered:
+        kind = "auth"
+    elif "timeout" in lowered or "connection" in lowered or "timed out" in lowered:
+        kind = "connection"
+    elif (isinstance(status, int) and status >= 500) or "overloaded" in lowered:
+        kind = "overloaded"
+    else:
+        kind = "unavailable"
+    log.warning("%s call failed (%s): %s", provider, kind, exc)
+    return LLMError(f"{provider} call failed: {exc}", kind=kind, retry_after_s=_retry_after(exc) if kind == "rate_limit" else None)
 
 
 # --------------------------------------------------------------------------- structured output
@@ -94,7 +156,9 @@ def complete_json(
             continue
         _cache_write(cache_key, result)
         return result
-    raise LLMError(f"No schema-valid reply from {provider} after {retries + 1} attempts: {last_error}") from last_error
+    raise LLMError(
+        f"No schema-valid reply from {provider} after {retries + 1} attempts: {last_error}", kind="invalid_output"
+    ) from last_error
 
 
 def _cache_read(key: str) -> dict[str, Any] | None:
@@ -140,11 +204,11 @@ def _anthropic(prompt, json_schema, name, system, temperature, max_tokens) -> di
     try:
         response = client.messages.create(**kwargs)
     except Exception as exc:  # network, auth, rate limit
-        raise LLMError(f"Anthropic call failed: {exc}") from exc
+        raise _llm_error("Anthropic", exc) from exc
     for block in response.content:
         if block.type == "tool_use":
             return block.input
-    raise LLMError("Anthropic reply contained no tool_use block.")
+    raise LLMError("Anthropic reply contained no tool_use block.", kind="invalid_output")
 
 
 def _openai_extra(model: str) -> dict[str, Any]:
@@ -162,10 +226,16 @@ def _is_rate_limit(exc: Exception) -> bool:
 
 RETRY_WAIT_MAX_S = 20.0  # a per-minute cap says "try again in 8.7s": worth waiting; a per-day cap says minutes: not
 _RETRY_AFTER = re.compile(r"try again in (?:(\d+)m)?([\d.]+)s", re.IGNORECASE)
-_DEFAULT_FALLBACKS = {
-    "openai/gpt-oss-120b": ["openai/gpt-oss-20b", "qwen/qwen3.8-27b"],
-    "openai/gpt-oss-20b": ["qwen/qwen3.8-27b"],
-}
+# Groq counts the daily token cap per model, so each extra model is more free quota. Best first; every model here
+# supports JSON mode and tool calling (the chatbot and the interview scoring need both).
+_GROQ_CHAIN = [
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "qwen/qwen3.8-27b",
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
+]
+_DEFAULT_FALLBACKS = {model: _GROQ_CHAIN[i + 1 :] for i, model in enumerate(_GROQ_CHAIN[:-1])}
 
 
 def _retry_after(exc: Exception) -> float | None:
@@ -242,13 +312,13 @@ def _openai(prompt, json_schema, name, system, temperature, max_tokens, provider
         response = _create_with_fallback(client, {**kwargs, "response_format": {"type": "json_object"}, "max_tokens": max_tokens})
     except Exception as exc:
         if not _is_json_mode_failure(exc):
-            raise LLMError(f"OpenAI call failed: {exc}") from exc
+            raise _llm_error("OpenAI", exc) from exc
         # The host rejected the model's own JSON: ask again with twice the budget and no JSON mode, then
         # cut the object out of the text ourselves (complete_json still validates it against the schema).
         try:
             response = _create_with_fallback(client, {**kwargs, "max_tokens": max_tokens * 2})
         except Exception as retry_exc:
-            raise LLMError(f"OpenAI call failed: {retry_exc}") from retry_exc
+            raise _llm_error("OpenAI", retry_exc) from retry_exc
         return _json_object(response.choices[0].message.content or "")
     return response.choices[0].message.content or ""
 
@@ -272,7 +342,10 @@ def _ollama(prompt, json_schema, name, system, temperature, max_tokens) -> str:
         )
         resp.raise_for_status()
     except Exception as exc:
-        raise LLMError(f"Ollama call failed: {exc}") from exc
+        err = _llm_error("Ollama", exc)
+        if err.kind == "unavailable" and "connection" not in str(exc).lower():
+            err.kind = "connection"  # Ollama is local: a failed call almost always means it is not running
+        raise err from exc
     return resp.json()["message"]["content"]
 
 
@@ -305,7 +378,7 @@ def _compat_client(provider: str):
     key_env, base_url, _, _ = OPENAI_COMPATIBLE[provider]
     key = os.getenv(key_env, "").strip()
     if not key:
-        raise LLMError(f"{key_env} is not set (LLM_PROVIDER={provider}). Add it to .env.")
+        raise LLMError(f"{key_env} is not set (LLM_PROVIDER={provider}). Add it to .env.", kind="auth")
     try:
         import openai
     except ImportError as exc:
@@ -397,7 +470,7 @@ def _anthropic_chat(messages, system, tools, max_tokens, temperature) -> Assista
     try:
         response = client.messages.create(**kwargs)
     except Exception as exc:
-        raise LLMError(f"Anthropic call failed: {exc}") from exc
+        raise _llm_error("Anthropic", exc) from exc
     text = "".join(b.text for b in response.content if b.type == "text")
     calls = [ToolCall(id=b.id, name=b.name, arguments=dict(b.input)) for b in response.content if b.type == "tool_use"]
     return AssistantTurn(text=text, tool_calls=calls)
@@ -435,7 +508,7 @@ def _openai_chat(messages, system, tools, max_tokens, temperature, provider: str
     try:
         response = _create_with_fallback(client, kwargs)
     except Exception as exc:
-        raise LLMError(f"OpenAI call failed: {exc}") from exc
+        raise _llm_error("OpenAI", exc) from exc
     message = response.choices[0].message
     calls = [
         ToolCall(id=c.id, name=c.function.name, arguments=_loads_object(c.function.arguments))
@@ -467,7 +540,10 @@ def _ollama_chat(messages, system, tools, max_tokens, temperature) -> AssistantT
         )
         resp.raise_for_status()
     except Exception as exc:
-        raise LLMError(f"Ollama call failed: {exc}") from exc
+        err = _llm_error("Ollama", exc)
+        if err.kind == "unavailable" and "connection" not in str(exc).lower():
+            err.kind = "connection"
+        raise err from exc
     return AssistantTurn(text=resp.json()["message"]["content"])
 
 
@@ -501,7 +577,7 @@ def embed(texts: list[str]) -> list[list[float]]:
                 model=os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small"), input=texts
             )
         except Exception as exc:
-            raise LLMError(f"OpenAI embeddings call failed: {exc}") from exc
+            raise _llm_error("OpenAI embeddings", exc) from exc
         return [_normalise(item.embedding) for item in response.data]
     if provider == "local":
         vectors = _local_embedder().encode(texts, normalize_embeddings=True)

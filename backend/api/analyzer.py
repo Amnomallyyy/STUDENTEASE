@@ -1,6 +1,7 @@
 """Analyzer routes: run the evidence check, read a report. Register with app.include_router(analyzer.router)."""
 from __future__ import annotations
 
+import math
 from uuid import uuid4
 
 from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile
@@ -188,7 +189,8 @@ def _fetch_github(username: str) -> GitHubEvidence:
     except GitHubUserNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except GitHubError as exc:
-        raise HTTPException(status_code=502, detail=f"GitHub error: {exc}") from exc
+        headers = {"Retry-After": str(math.ceil(exc.retry_after_s))} if exc.retry_after_s else None
+        raise HTTPException(status_code=exc.http_status, detail=exc.user_message, headers=headers) from exc
 
 
 def _portfolio_text(url: str | None, files: list[UploadFile]) -> str | None:

@@ -11,8 +11,10 @@ Env: GITHUB_TOKEN (optional bearer token, raises the rate limit), GITHUB_CACHE_P
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
+import time
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +35,41 @@ _LINK_LAST = re.compile(r'[?&]page=(\d+)[^>]*>;\s*rel="last"')
 
 
 class GitHubError(RuntimeError):
-    """Rate limit, network failure or a 5xx from GitHub."""
+    """Rate limit, network failure or a 5xx from GitHub.
+
+    `str(exc)` is the technical message (logs, tests). `user_message` is what the UI shows: it never tells a
+    visitor to set a server variable. `kind` is rate_limit | network | unavailable | forbidden | failed.
+    """
+
+    def __init__(self, message: str, *, kind: str = "failed", retry_after_s: float | None = None) -> None:
+        super().__init__(message)
+        self.kind = kind
+        self.retry_after_s = retry_after_s
+
+    @property
+    def user_message(self) -> str:
+        skip = "You can run the check without GitHub: clear the username and add your LinkedIn export or portfolio files."
+        if self.kind == "rate_limit":
+            return f"GitHub is limiting requests from this server right now. Please try again {_wait_phrase(self.retry_after_s)}. {skip}"
+        if self.kind in ("network", "unavailable"):
+            return f"GitHub could not be reached right now. Please try again in a few minutes. {skip}"
+        if self.kind == "forbidden":
+            return f"GitHub refused the request, so your repositories could not be read. {skip}"
+        return f"GitHub returned an unexpected error. Please try again. {skip}"
+
+    @property
+    def http_status(self) -> int:
+        return {"rate_limit": 429, "network": 503, "unavailable": 503}.get(self.kind, 502)
+
+
+def _wait_phrase(seconds: float | None) -> str:
+    if seconds is None:
+        return "in a few minutes"
+    seconds = max(1, math.ceil(seconds))
+    if seconds < 90:
+        return f"in {seconds} seconds"
+    minutes = math.ceil(seconds / 60)
+    return f"in about {minutes} minutes" if minutes < 90 else f"in about {math.ceil(minutes / 60)} hours"
 
 
 class GitHubUserNotFound(LookupError):
@@ -84,9 +120,27 @@ def load_cached(username: str, path: str | Path | None = None) -> GitHubEvidence
     return None
 
 
+# A run costs 1 + 3 requests per repo (up to 91), and an unauthenticated server gets 60 an hour. Public GitHub data is
+# kept in memory for a while so re-running the check, or two people checking the same account, costs nothing.
+LIVE_TTL_S = float(os.getenv("GITHUB_CACHE_TTL_S", "1800"))
+_LIVE_MAX = 50
+_live: dict[str, tuple[float, GitHubEvidence]] = {}
+
+
 def get_github(username: str) -> GitHubEvidence:
-    """Cached evidence when the demo file has the user, otherwise a live fetch."""
-    return load_cached(username) or fetch_github(username)
+    """Cached evidence when the demo file has the user, then the in-memory copy, otherwise a live fetch."""
+    cached = load_cached(username)
+    if cached:
+        return cached
+    key = username.strip().lstrip("@").lower()
+    hit = _live.get(key)
+    if hit and time.time() - hit[0] < LIVE_TTL_S:
+        return hit[1]
+    evidence = fetch_github(username)
+    if len(_live) >= _LIVE_MAX:
+        _live.pop(min(_live, key=lambda k: _live[k][0]))  # drop the oldest
+    _live[key] = (time.time(), evidence)
+    return evidence
 
 
 # --------------------------------------------------------------------------- REST client
@@ -163,7 +217,7 @@ def _language_share(repos: list[GitHubRepo]) -> dict[str, float]:
 
 def _headers(accept: str) -> dict[str, str]:
     headers = {"Accept": accept, "X-GitHub-Api-Version": "2022-11-28"}
-    token = os.getenv("GITHUB_TOKEN")
+    token = os.getenv("GITHUB_TOKEN", "").strip()  # a pasted token often carries a trailing space or newline
     if token:
         headers["Authorization"] = f"Bearer {token}"
     return headers
@@ -173,7 +227,7 @@ def _get(http: Any, url: str, *, params: dict[str, Any] | None = None, accept: s
     try:
         return http.get(url, headers=_headers(accept), params=params, timeout=TIMEOUT)
     except requests.RequestException as exc:
-        raise GitHubError(f"Could not reach GitHub: {exc}") from exc
+        raise GitHubError(f"Could not reach GitHub: {exc}", kind="network") from exc
 
 
 def _check(response):
@@ -181,13 +235,30 @@ def _check(response):
     status = response.status_code
     if status in (403, 429):
         remaining = response.headers.get("X-RateLimit-Remaining")
-        detail = "rate limit reached; set GITHUB_TOKEN" if remaining == "0" or status == 429 else "access forbidden"
-        raise GitHubError(f"GitHub {detail} (HTTP {status}).")
+        if remaining == "0" or status == 429:
+            hint = "" if os.getenv("GITHUB_TOKEN", "").strip() else "; set GITHUB_TOKEN for 5000 requests/hour instead of 60"
+            raise GitHubError(
+                f"GitHub rate limit reached{hint} (HTTP {status}).", kind="rate_limit", retry_after_s=_reset_in(response)
+            )
+        raise GitHubError(f"GitHub access forbidden (HTTP {status}).", kind="forbidden")
     if status >= 500:
-        raise GitHubError(f"GitHub is unavailable (HTTP {status}).")
+        raise GitHubError(f"GitHub is unavailable (HTTP {status}).", kind="unavailable")
     if status >= 400 and status != 404:
         raise GitHubError(f"GitHub request failed (HTTP {status}).")
     return response
+
+
+def _reset_in(response) -> float | None:
+    """Seconds until the rate limit resets: Retry-After, else X-RateLimit-Reset (epoch seconds)."""
+    headers = response.headers
+    try:
+        if headers.get("Retry-After"):
+            return float(headers["Retry-After"])
+        if headers.get("X-RateLimit-Reset"):
+            return max(0.0, float(headers["X-RateLimit-Reset"]) - time.time())
+    except (TypeError, ValueError):
+        pass
+    return None
 
 
 # --------------------------------------------------------------------------- evidence -> profile objects

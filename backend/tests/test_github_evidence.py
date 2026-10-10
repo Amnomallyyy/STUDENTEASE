@@ -138,3 +138,76 @@ def test_cache_lookup_is_case_insensitive_and_get_github_prefers_it(tmp_path, mo
 
     monkeypatch.setattr(github, "fetch_github", no_network)
     assert github.get_github("DEMO") == evidence
+
+
+def test_rate_limit_error_is_friendly_and_carries_the_wait(monkeypatch):
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    reset = str(int(github.time.time()) + 600)
+
+    class Limited:
+        def get(self, *args, **kwargs):
+            return FakeResponse(403, {"message": "rate limit"}, headers={"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": reset})
+
+    with pytest.raises(GitHubError) as info:
+        github.fetch_github("demo", session=Limited())
+
+    err = info.value
+    assert err.kind == "rate_limit" and err.http_status == 429
+    assert 590 <= err.retry_after_s <= 600
+    assert "GITHUB_TOKEN" in str(err)  # the operator hint stays in the log message
+    assert "GITHUB_TOKEN" not in err.user_message and "HTTP" not in err.user_message
+    assert "in about 10 minutes" in err.user_message and "without GitHub" in err.user_message
+
+
+def test_other_github_failures_are_classified():
+    class Status:
+        def __init__(self, code):
+            self.code = code
+
+        def get(self, *args, **kwargs):
+            return FakeResponse(self.code, {})
+
+    assert _error(Status(503)).kind == "unavailable" and _error(Status(503)).http_status == 503
+    assert _error(Status(403)).kind == "forbidden" and _error(Status(403)).http_status == 502
+    assert _error(Status(418)).kind == "failed"
+
+
+def _error(http):
+    with pytest.raises(GitHubError) as info:
+        github.fetch_github("demo", session=http)
+    return info.value
+
+
+def test_live_results_are_cached_in_memory_so_reruns_cost_no_requests(monkeypatch):
+    github._live.clear()
+    monkeypatch.setattr(github, "load_cached", lambda username: None)
+    calls = []
+
+    def fake_fetch(username, **kwargs):
+        calls.append(username)
+        return github.GitHubEvidence(username=username.lstrip("@"))
+
+    monkeypatch.setattr(github, "fetch_github", fake_fetch)
+
+    first = github.get_github("Maheen")
+    again = github.get_github("@maheen ")  # same account, spelled differently
+
+    assert again is first and calls == ["Maheen"]
+
+    monkeypatch.setattr(github, "LIVE_TTL_S", 0)  # expired: fetched again
+    github.get_github("maheen")
+    assert len(calls) == 2
+
+
+def test_failed_fetches_are_not_cached(monkeypatch):
+    github._live.clear()
+    monkeypatch.setattr(github, "load_cached", lambda username: None)
+
+    def limited(username, **kwargs):
+        raise GitHubError("GitHub rate limit reached", kind="rate_limit")
+
+    monkeypatch.setattr(github, "fetch_github", limited)
+    with pytest.raises(GitHubError):
+        github.get_github("maheen")
+
+    assert github._live == {}

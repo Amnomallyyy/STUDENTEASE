@@ -35,8 +35,11 @@ There are no accounts: the server keeps one in-memory `Profile` for the session 
 | 409 | `/career/*` called before a CV was uploaded |
 | 413 | CV file larger than 5 MB |
 | 422 | Unsupported or unreadable CV file, missing `role`, or invalid parameters |
-| 502 | The LLM provider failed or returned something invalid |
-| 503 | A dataset file (`data/roles.json` etc.) is missing or malformed; the message names it |
+| 429 | The LLM provider's rate or daily token limit is used up (all fallback models too); `Retry-After` header in seconds when the provider named a wait |
+| 502 | The LLM returned something unreadable, or failed in some other way |
+| 503 | A dataset file (`data/roles.json` etc.) is missing or malformed (the message names it), or the LLM is unreachable or its API key is missing or rejected |
+
+LLM errors always carry a short, safe sentence in `detail` ("The AI service has reached its usage limit. Please try again in about 12 minutes."). The provider's raw reply (organisation id, model, billing link) is only written to the server log.
 
 ## `POST /chat` events
 

@@ -136,7 +136,8 @@ def test_llm_failure_becomes_an_error_event(monkeypatch):
 
     events = list(chat_service.stream_reply("hi", [], profile()))
 
-    assert events == [{"type": "error", "message": "provider down"}]
+    assert events == [{"type": "error", "message": LLMError("provider down").user_message}]
+    assert "provider down" not in events[0]["message"]  # the raw provider text never reaches the chat window
 
 
 def test_chunks_keep_all_text():

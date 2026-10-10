@@ -163,7 +163,7 @@ All optional; `.env.example` documents each one. The backend loads `<repo root>/
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | | Provider key |
 | `OPENAI_BASE_URL` | OpenAI | Any OpenAI-compatible host, e.g. Groq `https://api.groq.com/openai/v1` with `LLM_PROVIDER=openai` and `OPENAI_MODEL=openai/gpt-oss-120b` |
 | `ANTHROPIC_MODEL` / `OPENAI_MODEL` / `OLLAMA_MODEL` | `claude-sonnet-5-5` / `gpt-4o-mini` / `llama3.2` | Model ids |
-| `OPENAI_FALLBACK_MODEL` / `OPENAI_REASONING_EFFORT` | `openai/gpt-oss-20b` for gpt-oss-120b / `low` for gpt-oss | Second model tried on a 429 rate limit; reasoning budget for reasoning models |
+| `OPENAI_FALLBACK_MODEL` / `OPENAI_REASONING_EFFORT` | `gpt-oss-20b`, `qwen3.8-27b`, `llama-3.3-70b-versatile`, `llama-3.1-8b-instant` (in that order) for gpt-oss-120b / `low` for gpt-oss | Comma-separated chain of models tried on a 429 rate limit (Groq's daily cap is per model); reasoning budget for reasoning models |
 | `EMBED_PROVIDER` / `EMBED_MODEL` | `local` / `sentence-transformers/all-MiniLM-L6-v2` | Embeddings; `openai` uses `OPENAI_EMBED_MODEL` |
 | `RAPIDAPI_KEY` / `JOBS_SOURCE` | / `live` | Real job postings through JSearch (rapidapi.com, free plan) for the role and place the user enters; `JOBS_SOURCE=dataset` uses the synthetic sample (tests, offline demo) |
 | `GITHUB_TOKEN` | | Optional; 5000 req/h instead of 60 |

@@ -249,7 +249,7 @@ def stream_reply(message: str, history: list[ChatMessage], profile: Profile) -> 
         else:
             final = "I looked up what I could, but I need a more specific question to go further."
     except LLMError as exc:
-        yield {"type": "error", "message": str(exc)}
+        yield {"type": "error", "message": exc.user_message}
         return
 
     for piece in _chunks(final):
